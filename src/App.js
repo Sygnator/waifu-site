@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+
+import Main from "./components/Main.js";
+import User from "./components/User.js";
+import Cards from "./components/CardsDeck.js";
+import Profile from "./components/Profile.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>test...</p>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/" render={(props) => <Main {...props} />} />
+      <Route exact path="/user/:userID" render={(props) => <User {...props} />} />
+      <Route exact path="/user/:userID/Cards" render={(props) => <Cards {...props} />} />
+      <Route exact path="/user/:userID/Profile" render={(props) => <Profile {...props} />} />
+    </Switch>
   );
 }
 
