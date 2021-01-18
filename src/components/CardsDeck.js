@@ -5,11 +5,12 @@ import {
     CardMedia,
     CardContent,
     CircularProgress,
+    Link,
   } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
-import Toolbar from "./Module/Toolbar";
+import Toolbar from "./Module/BackToTop.js";
 
 import cardsA from "./testCard.js";
 
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
         backgroundColor: "#272a33",
     },
     cardContent: {
-        textAlign: "left",
+        textAlign: "center",
         color: "white"
     },
     cardMedia: {
@@ -41,25 +42,27 @@ const CardsDeck = (props) => {
     
     const classes = useStyles();
     
-    const [waifuCardsData, serWaifuCardsData] = useState()
+    const [waifuCardsData, setWaifuCardsData] = useState()
     
     useEffect(() => {
-        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`).then((res)=> {
+        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/100`).then((res)=> {
             const newWaifuCardsData = res.data;
-            serWaifuCardsData(newWaifuCardsData)
+            setWaifuCardsData(newWaifuCardsData)
         })
     }, []);
 
     const getWaifuCard = (waifuCard) => {
-        const { id, imageUrl, name, animeTitle } = waifuCard
+        const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage } = waifuCard
         return (
             <Grid item xs={2} sm={2} key={id}>
                 <Card className={classes.cardStyle}>
                     <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia>
                     <CardContent className={classes.cardContent}>
-                        {id} : {name}
+                        {`${id}: `}<Link href={characterUrl} target="_blank">{name}</Link> 
+                        {`${isTradable ? " " : "⛔"}`}
+                        {`${isInCage ? "🔒" : ""}`}
                         <br/>
-                        Anime: {animeTitle}
+                        {`Z tytułu: ${animeTitle}`}
                     </CardContent>
                 </Card>
             </Grid>
@@ -68,7 +71,7 @@ const CardsDeck = (props) => {
 
     return (
         <>
-            <Toolbar />
+            <Toolbar {...props} />
             {waifuCardsData ? (
             <Grid container spacing={2} className={classes.cardsContainer}>
                 {waifuCardsData.map((x)=>getWaifuCard(x))}

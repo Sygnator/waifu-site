@@ -7,6 +7,7 @@ const Main = () => {
         <>
             <Toolbar />
             {<div className="divWhite">/user/204697/cards</div>}
+            {<div className="divWhite">/user/204697/profile</div>}
         </>
     )
 }

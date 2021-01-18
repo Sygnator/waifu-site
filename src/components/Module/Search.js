@@ -1,26 +1,11 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import React, { useState } from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
   },
   search: {
     position: 'relative',
@@ -61,32 +46,41 @@ const useStyles = makeStyles((theme) => ({
     //   },
     // },
   },
+  searchRes: {
+    position: 'absolute',
+    backgroundColor: "green",
+    width: "300px",
+    height: "300px"
+  },
 }));
 
-export default function SearchAppBar() {
+function divGen(params) {
+    <div style="width: 300px; height: 300px; position: relative;"></div>
+}
+
+
+
+export default function SearchAppBar(props) {
   const classes = useStyles();
 
+  const { match, history } = props;
+  const { params } = match;
+  const { userID } = params;
+
+  const [searchData, setsearchData] = useState()
+
+  function test(searchData, setsearchData) {
+    console.log(`test...- ${searchData}`)
+  }
+
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-            href={`/`}
-          >
-            <HomeIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Pocket-Waifu
-          </Typography>
+      <>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
+              onChange={test({})}
               placeholder="Szukaj użytkownika..."
               classes={{
                 root: classes.inputRoot,
@@ -95,8 +89,6 @@ export default function SearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+        </>
   );
 }
