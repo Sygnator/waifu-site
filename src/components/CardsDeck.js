@@ -45,24 +45,31 @@ const CardsDeck = (props) => {
     const [waifuCardsData, setWaifuCardsData] = useState()
     
     useEffect(() => {
-        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/100`).then((res)=> {
+        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`).then((res)=> {
             const newWaifuCardsData = res.data;
             setWaifuCardsData(newWaifuCardsData)
         })
     }, []);
 
     const getWaifuCard = (waifuCard) => {
-        const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage } = waifuCard
+        const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
+        console.log(tags)
         return (
             <Grid item xs={2} sm={2} key={id}>
                 <Card className={classes.cardStyle}>
                     <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia>
                     <CardContent className={classes.cardContent}>
-                        {`${id}: `}<Link href={characterUrl} target="_blank">{name}</Link> 
+                        {`${id}: `}<Link href={characterUrl} target="_blank">{name}</Link>
+                        {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") ? "" : "🔃"}`}
+                        {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") ? "" : "💗"}`}
+                        {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") ? "" : "📝"}`}
+                        {`${isUnique ? "💠" : ""}`}
+                        {`${isUltimate ? "🎖️" : ""}`}
+                        {`${affection==="Pogarda" ? "💔" : ""}`}
                         {`${isTradable ? " " : "⛔"}`}
                         {`${isInCage ? "🔒" : ""}`}
                         <br/>
-                        {`Z tytułu: ${animeTitle}`}
+                        {`${animeTitle}`}
                     </CardContent>
                 </Card>
             </Grid>
