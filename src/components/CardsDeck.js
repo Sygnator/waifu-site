@@ -12,7 +12,8 @@ import axios from "axios";
 
 import Toolbar from "./Module/BackToTop.js";
 
-import cardsA from "./testCard.js";
+import testCards from "./testCard";
+import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 const useStyles = makeStyles((theme) => ({
     cardsContainer: {
@@ -61,20 +62,26 @@ const CardsDeck = (props) => {
     };
 
     useEffect(() => {
-        axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
-            const newWaifuCardsData = res.data;
-            setWaifuCardsData(newWaifuCardsData)
-        })
+        if(waifuCardsData===undefined) {
+            console.info("Pobieram dane z api.")
+            axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
+                const newWaifuCardsData = res.data;
+                setWaifuCardsData(newWaifuCardsData)
+            })
+
+            // setWaifuCardsData(testCards) 
+        }
     }, []);
 
     const getWaifuCard = (waifuCard) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
-        console.log(tags)
+        //console.log(tags)
         return (
             <Grid item key={id}>
 
                 <Card className={classes.cardStyle}>
-                    <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia>
+                    <LazyCardMedia image={imageUrl} alt={id} className={classes.cardMedia} {...props} ></LazyCardMedia>
+                    {/* <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia> */}
                     <CardContent className={classes.cardContent}>
                         <a className={classes.id}>{id}</a>: <Link className={classes.link} href={characterUrl} target="_blank">{name}</Link>
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") ? "" : "🔃"}`}
