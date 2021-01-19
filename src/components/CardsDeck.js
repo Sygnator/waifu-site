@@ -55,7 +55,7 @@ const CardsDeck = (props) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
         console.log(tags)
         return (
-            <Grid item xs={6} sm={4} lg="2" key={id}>
+            <Grid item xs={6} sm={4} lg={2} key={id}>
                 <Card className={classes.cardStyle}>
                     <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia>
                     <CardContent className={classes.cardContent}>
