@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
-      width: 'auto',
+      width: '220px',
     },
   },
   searchIcon: {
@@ -81,7 +81,7 @@ export default function SearchAppBar(props) {
             </div>
             <InputBase
               onChange={test({})}
-              placeholder="Szukaj użytkownika..."
+              placeholder="Szukaj użytkownika"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,

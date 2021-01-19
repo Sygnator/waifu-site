@@ -18,19 +18,22 @@ const useStyles = makeStyles((theme) => ({
     cardsContainer: {
         paddingTop: "20px",
         paddingLeft: "50px",
-        paddingRight: "50px",
+        paddingRight: "50px"
     },
     cardStyle: {
+        paddingTop: "20px",
         backgroundColor: "#272a33",
+        width: "240px",
+        height: "410px"
     },
     cardContent: {
         textAlign: "center",
         color: "white"
     },
     cardMedia: {
-        width: "190px", 
+        width: "190px",
         height: "276px",
-        margin: "auto",
+        margin: "auto"
     },
     id: {
         fontWeight: "bold",
@@ -45,13 +48,20 @@ const CardsDeck = (props) => {
     const { match, history } = props;
     const { params } = match;
     const { userID } = params;
-    
+
     const classes = useStyles();
-    
-    const [waifuCardsData, setWaifuCardsData] = useState()
-    
+
+    const [waifuCardsData, setWaifuCardsData] = useState();
+
+    const filter = {
+        orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
+        includeTags: [],
+        excludeTags: [],
+        searchText: null
+    };
+
     useEffect(() => {
-        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10`).then((res)=> {
+        axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
             const newWaifuCardsData = res.data;
             setWaifuCardsData(newWaifuCardsData)
         })
@@ -61,7 +71,8 @@ const CardsDeck = (props) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
         console.log(tags)
         return (
-            <Grid item xs={6} sm={4} lg={2} key={id}>
+            <Grid item key={id}>
+
                 <Card className={classes.cardStyle}>
                     <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia>
                     <CardContent className={classes.cardContent}>
