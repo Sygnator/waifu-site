@@ -17,8 +17,7 @@ import axios from "axios";
 
 import testProf from "./testProf";
 
-import profileGrid from "./Module/profileGrid";
-
+import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "50px",
     },
     cardStyle: {
-        backgroundColor: "#272a33",
+        backgroundColor: "rgb(0,0,0,0)",
     },
     cardContent: {
         textAlign: "center",
@@ -74,6 +73,26 @@ const useStyles = makeStyles((theme) => ({
           height: theme.spacing(16),
         },
       },
+      profileCards: {
+        paddingTop: "20px",
+        paddingLeft: "50px",
+        paddingRight: "50px",
+      },
+      img: {
+        width: "475px", 
+        height: "677px",
+        // margin: "auto",
+      },
+      details: {
+        textAlign: "left",
+        paddingTop: "30px",
+        fontSize: "40px",
+      },
+      exchangeConditions: {
+          paddingTop: "20px",
+          paddingBottom: "20px",
+          fontSize: "35px",
+      },
     
 }));
 
@@ -87,37 +106,68 @@ const Profile = (props) => {
     const [profilData, setProfilData] = useState()
 
     useEffect(() => {
-        // axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-        //     const newProfilData = res.data;
-        //     setProfilData(newProfilData)
-        // })
-        setProfilData(testProf)
+        if(profilData===undefined) {
+            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+                const newProfilData = res.data;
+                setProfilData(newProfilData)
+            })
+        }
     }, []);
+
+    function amount(prof) {
+        const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
+        return sssCount + ssCount + sCount + aCount + bCount + cCount + dCount + eCount;
+    }
+
+    const getWaifuCard = (waifuCard) => {
+        const { profileImageUrl, id } = waifuCard
+        //console.log(tags)
+        return (
+            <Grid item key={id}>
+                <Card className={classes.cardStyle}>
+                    <LazyCardMedia image={profileImageUrl} alt={id} className={classes.cardMedia} {...props} ></LazyCardMedia>
+                </Card>
+            </Grid>
+        )
+    }
 
     return (
         <>
             <Toolbar {...props} />
             <div className={classes.root}>
                 {profilData ? (
-                    // <Typography align="center">
-                    // <div className={classes.content}>
-                    // <div className={classes.details}>
-                    // <img src={profilData.waifu.imageUrl} alt={profilData.waifu.id} className={classes.img}/>
-                    // </div>
-                    // <div className={classes.details}>
-                    //     <div>{`${profilData.sssCount}`}</div>
-                    //     <div>{`${profilData.ssCount}`}</div>
-                    //     <div>{`${profilData.sCount}`}</div>
-                    //     <div>{`${profilData.aCount}`}</div>
-                    //     <div>{`${profilData.bCount}`}</div>
-                    //     <div>{`${profilData.cCount}`}</div>
-                    //     <div>{`${profilData.dCount}`}</div>
-                    // </div>
-                    // </div>
-                    // </Typography>
-                    <div><Paper elevation={0} >
-                        123
-                    </Paper></div>
+                    <div className={classes.root}>
+                        <div>
+                            <Grid container spacing={2} className={classes.profileCards}>
+                                <Grid item xs={6} key={profilData.waifu.profileImageUrl}><img src={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}/></Grid>
+                                <Grid item xs={6} key={profilData.waifu.id}>
+                                    <div className={classes.details}>
+                                        Posiadane karty:
+                                        <div>SSS: {`${profilData.sssCount}`}</div>
+                                        <div>SS: {`${profilData.ssCount}`}</div>
+                                        <div>S: {`${profilData.sCount}`}</div>
+                                        <div>A: {`${profilData.aCount}`}</div>
+                                        <div>B: {`${profilData.bCount}`}</div>
+                                        <div>C: {`${profilData.cCount}`}</div>
+                                        <div>D: {`${profilData.dCount}`}</div>
+                                        <div>E: {`${profilData.eCount}`}</div>
+                                        <div>SUMA: {`${amount(profilData)}`}</div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </div>
+                        <div className={classes.exchangeConditions}>{profilData.exchangeConditions}</div>
+                        <div>
+                            {profilData.gallery ? (
+                            <Grid container spacing={2} className={classes.cardsContainer}>
+                                {profilData.gallery.map((x)=>getWaifuCard(x))}
+                                {/* {console.log(profilData.gallery)} */}
+                            </Grid>
+                            ) : (
+                                ""
+                            )}
+                        </div>
+                    </div>
                 ) : (
                     <center><CircularProgress size={100}/></center>
                 )}
