@@ -33,12 +33,25 @@ const prof = {
         "profileImageUrl": "https://cdn2.shinden.eu/profile/161999.png",
         "ultimateQuality": "broken",
         "tags": [
-            "Ulubione",
-            "Noragami"
+        "Ulubione",
+        "Noragami"
         ]
     },
-    "gallery": []
-}
+    "gallery": [],
+    "tagList": [
+        "Ulubione",
+        "Fate",
+        "Wymiana",
+        "Slime",
+        "SNK",
+        "Charlotte",
+        "Noragami",
+        "Touhou",
+        "KNA",
+        "Skrzynka",
+        "z1Kpakietow"
+        ]
+    }
 
 
 export default prof

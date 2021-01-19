@@ -14,7 +14,7 @@ import Toolbar from "./Module/BackToTop.js";
 
 import cardsA from "./testCard.js";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     cardsContainer: {
         paddingTop: "20px",
         paddingLeft: "50px",
@@ -32,7 +32,13 @@ const useStyles = makeStyles({
         height: "276px",
         margin: "auto",
     },
-});
+    id: {
+        fontWeight: "bold",
+    },
+    link: {
+        color:"#495dcc",
+    },
+}));
 
 
 const CardsDeck = (props) => {
@@ -45,7 +51,7 @@ const CardsDeck = (props) => {
     const [waifuCardsData, setWaifuCardsData] = useState()
     
     useEffect(() => {
-        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`).then((res)=> {
+        axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10`).then((res)=> {
             const newWaifuCardsData = res.data;
             setWaifuCardsData(newWaifuCardsData)
         })
@@ -55,11 +61,11 @@ const CardsDeck = (props) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
         console.log(tags)
         return (
-            <Grid item xs={2} sm={2} key={id}>
+            <Grid item xs={6} sm={4} lg={2} key={id}>
                 <Card className={classes.cardStyle}>
                     <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia>
                     <CardContent className={classes.cardContent}>
-                        {`${id}: `}<Link href={characterUrl} target="_blank">{name}</Link>
+                        <a className={classes.id}>{id}</a>: <Link className={classes.link} href={characterUrl} target="_blank">{name}</Link>
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") ? "" : "🔃"}`}
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") ? "" : "💗"}`}
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") ? "" : "📝"}`}
