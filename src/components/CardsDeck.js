@@ -16,7 +16,11 @@ import testCards from "./testCard";
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        margin: "auto",
+    },
     cardsContainer: {
+        flexGrow: 1,
         paddingTop: "20px",
         paddingLeft: "50px",
         paddingRight: "50px"
@@ -73,12 +77,12 @@ const CardsDeck = (props) => {
         }
     }, []);
 
+    
     const getWaifuCard = (waifuCard) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
         //console.log(tags)
         return (
             <Grid item key={id}>
-
                 <Card className={classes.cardStyle}>
                     <LazyCardMedia image={imageUrl} alt={id} className={classes.cardMedia} {...props} ></LazyCardMedia>
                     {/* <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia> */}
@@ -103,13 +107,15 @@ const CardsDeck = (props) => {
     return (
         <>
             <Toolbar {...props} />
+            <div className={classes.root}>
             {waifuCardsData ? (
-            <Grid container spacing={2} className={classes.cardsContainer}>
+            <Grid container spacing={2} justify="center" className={classes.cardsContainer}>
                 {waifuCardsData.map((x)=>getWaifuCard(x))}
             </Grid>
             ) : (
                 <center><CircularProgress size={100}/></center>
             )}
+            </div>
         </>
     )
 }

@@ -21,6 +21,7 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        flexGrow: 1,
         color: "white",
         textAlign: "center",
     },
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: "50px",
     },
     cardStyle: {
+        border: "0px",
         backgroundColor: "rgb(0,0,0,0)",
     },
     cardContent: {
@@ -74,24 +76,27 @@ const useStyles = makeStyles((theme) => ({
         },
       },
       profileCards: {
+        alignItems: 'center',
+        margin: "auto",
         paddingTop: "20px",
         paddingLeft: "50px",
         paddingRight: "50px",
+        paddingBottom: "20px",
       },
       img: {
         width: "475px", 
         height: "677px",
-        // margin: "auto",
+        marginLeft: "auto",
       },
       details: {
         textAlign: "left",
-        paddingTop: "30px",
-        fontSize: "40px",
+        paddingTop: "50px",
+        fontSize: "32px",
       },
       exchangeConditions: {
-          paddingTop: "20px",
+          paddingTop: "25px",
           paddingBottom: "20px",
-          fontSize: "35px",
+          fontSize: "25px",
       },
     
 }));
@@ -124,7 +129,7 @@ const Profile = (props) => {
         //console.log(tags)
         return (
             <Grid item key={id}>
-                <Card className={classes.cardStyle}>
+                <Card variant="outlined" className={classes.cardStyle}>
                     <LazyCardMedia image={profileImageUrl} alt={id} className={classes.cardMedia} {...props} ></LazyCardMedia>
                 </Card>
             </Grid>
@@ -138,9 +143,12 @@ const Profile = (props) => {
                 {profilData ? (
                     <div className={classes.root}>
                         <div>
-                            <Grid container spacing={2} className={classes.profileCards}>
-                                <Grid item xs={6} key={profilData.waifu.profileImageUrl}><img src={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}/></Grid>
-                                <Grid item xs={6} key={profilData.waifu.id}>
+                            <Grid container spacing={3} className={classes.profileCards}>
+                                <Grid item xs={12} sm={6} key={profilData.waifu.profileImageUrl}>
+                                    <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}></CardMedia>
+                                    {/* <img src={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}/> */}
+                                </Grid>
+                                <Grid item xs={12} sm={6} key={profilData.waifu.id}>
                                     <div className={classes.details}>
                                         Posiadane karty:
                                         <div>SSS: {`${profilData.sssCount}`}</div>
@@ -159,7 +167,7 @@ const Profile = (props) => {
                         <div className={classes.exchangeConditions}>{profilData.exchangeConditions}</div>
                         <div>
                             {profilData.gallery ? (
-                            <Grid container spacing={2} className={classes.cardsContainer}>
+                            <Grid container justify="center" alignItems="baseline" spacing={2} className={classes.cardsContainer}>
                                 {profilData.gallery.map((x)=>getWaifuCard(x))}
                                 {/* {console.log(profilData.gallery)} */}
                             </Grid>
