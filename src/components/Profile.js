@@ -19,6 +19,8 @@ import testProf from "./testProf";
 
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 
+import useProfileData from "./profileHook";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     cardStyle: {
         border: "0px",
-        backgroundColor: "rgb(0,0,0,0)",
+        backgroundColor: "rgba(0,0,0,0)",
     },
     cardContent: {
         textAlign: "center",
@@ -108,16 +110,18 @@ const Profile = (props) => {
 
     const classes = useStyles();
     
-    const [profilData, setProfilData] = useState()
+    const [profilData, setProfilData] = useProfileData(userID);
 
-    useEffect(() => {
-        if(profilData===undefined) {
-            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-                const newProfilData = res.data;
-                setProfilData(newProfilData)
-            })
-        }
-    }, []);
+    // useEffect(() => {
+    //     // setProfilData(testProf)
+    //     if(profilData===undefined) {
+    //         console.log(`Pobieram dane z api`);
+    //         axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+    //             const newProfilData = res.data;
+    //             setProfilData(newProfilData)
+    //         })
+    //     }
+    // }, []);
 
     function amount(prof) {
         const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
@@ -145,6 +149,7 @@ const Profile = (props) => {
                         <div>
                             <Grid container spacing={3} className={classes.profileCards}>
                                 <Grid item xs={12} sm={6} key={profilData.waifu.profileImageUrl}>
+                                    {/* if waifu === null to nie ładować tych danych */}
                                     <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}></CardMedia>
                                     {/* <img src={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}/> */}
                                 </Grid>

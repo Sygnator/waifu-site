@@ -10,10 +10,14 @@ import {
 import { fade, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
-import Toolbar from "./Module/BackToTop.js";
+import Toolbar from "./Module/FilterToolbar/BackToTopCards.js";
 
 import testCards from "./testCard";
 import LazyCardMedia from "./Module/LazyCardMedia.js";
+
+import useFilterData from "./filterHook";
+import useWaifuCardsData from "./cardsHook";
+import useProfileData from "./profileHook";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,7 +50,9 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color:"#495dcc",
     },
+    
 }));
+
 
 
 const CardsDeck = (props) => {
@@ -56,26 +62,31 @@ const CardsDeck = (props) => {
 
     const classes = useStyles();
 
-    const [waifuCardsData, setWaifuCardsData] = useState();
+    // wszystkie moje grzechy :/
 
-    const filter = {
-        orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
-        includeTags: [],
-        excludeTags: [],
-        searchText: null
-    };
+    const [waifuCardsData, setWaifuCardsData] = useWaifuCardsData(userID);
+    const [profilData, setProfilData] = useProfileData(userID);
 
-    useEffect(() => {
-        if(waifuCardsData===undefined) {
-            console.info("Pobieram dane z api.")
-            axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
-                const newWaifuCardsData = res.data;
-                setWaifuCardsData(newWaifuCardsData)
-            })
+    // const filter = {
+    //     orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
+    //     includeTags: [],
+    //     excludeTags: [],
+    //     searchText: null
+    // };
 
-            // setWaifuCardsData(testCards) 
-        }
-    }, []);
+    const [filterData, setFilterData] = useFilterData();
+
+    // useEffect(() => {
+    //     if(waifuCardsData===undefined) {
+    //         console.info("Pobieram dane z api.")
+    //         // axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
+    //         //     const newWaifuCardsData = res.data;
+    //         //     setWaifuCardsData(newWaifuCardsData)
+    //         // })
+
+    //         setWaifuCardsData(testCards) 
+    //     }
+    // }, []);
 
     
     const getWaifuCard = (waifuCard) => {
@@ -104,9 +115,12 @@ const CardsDeck = (props) => {
         )
     }
 
+
     return (
         <>
+            <div>
             <Toolbar {...props} />
+            </div>
             <div className={classes.root}>
             {waifuCardsData ? (
             <Grid container spacing={2} justify="center" className={classes.cardsContainer}>
