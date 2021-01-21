@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/waifu-site/static/css/main.460c1d33.chunk.css",
-    "main.js": "/waifu-site/static/js/main.2109c4bc.chunk.js",
-    "main.js.map": "/waifu-site/static/js/main.2109c4bc.chunk.js.map",
-    "runtime-main.js": "/waifu-site/static/js/runtime-main.c84527bc.js",
-    "runtime-main.js.map": "/waifu-site/static/js/runtime-main.c84527bc.js.map",
-    "static/js/2.bf82f253.chunk.js": "/waifu-site/static/js/2.bf82f253.chunk.js",
-    "static/js/2.bf82f253.chunk.js.map": "/waifu-site/static/js/2.bf82f253.chunk.js.map",
-    "static/js/3.0c1998bf.chunk.js": "/waifu-site/static/js/3.0c1998bf.chunk.js",
-    "static/js/3.0c1998bf.chunk.js.map": "/waifu-site/static/js/3.0c1998bf.chunk.js.map",
+    "main.js": "/waifu-site/static/js/main.5b15993c.chunk.js",
+    "main.js.map": "/waifu-site/static/js/main.5b15993c.chunk.js.map",
+    "runtime-main.js": "/waifu-site/static/js/runtime-main.05272d4a.js",
+    "runtime-main.js.map": "/waifu-site/static/js/runtime-main.05272d4a.js.map",
+    "static/js/2.5aaabb48.chunk.js": "/waifu-site/static/js/2.5aaabb48.chunk.js",
+    "static/js/2.5aaabb48.chunk.js.map": "/waifu-site/static/js/2.5aaabb48.chunk.js.map",
+    "static/js/3.4f1ffa8d.chunk.js": "/waifu-site/static/js/3.4f1ffa8d.chunk.js",
+    "static/js/3.4f1ffa8d.chunk.js.map": "/waifu-site/static/js/3.4f1ffa8d.chunk.js.map",
     "index.html": "/waifu-site/index.html",
     "static/css/main.460c1d33.chunk.css.map": "/waifu-site/static/css/main.460c1d33.chunk.css.map",
-    "static/js/2.bf82f253.chunk.js.LICENSE.txt": "/waifu-site/static/js/2.bf82f253.chunk.js.LICENSE.txt"
+    "static/js/2.5aaabb48.chunk.js.LICENSE.txt": "/waifu-site/static/js/2.5aaabb48.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c84527bc.js",
-    "static/js/2.bf82f253.chunk.js",
+    "static/js/runtime-main.05272d4a.js",
+    "static/js/2.5aaabb48.chunk.js",
     "static/css/main.460c1d33.chunk.css",
-    "static/js/main.2109c4bc.chunk.js"
+    "static/js/main.5b15993c.chunk.js"
   ]
 }
