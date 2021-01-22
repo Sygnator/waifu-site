@@ -72,6 +72,7 @@ export default function SearchAppBar(props) {
             </div>
             <div className={classes.left}>
             <Button
+                onClick={()=>console.log(JSON.parse(localStorage.getItem('FData')))}
                 variant="contained"
                 color="primary"
                 size="small"

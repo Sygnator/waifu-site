@@ -110,18 +110,29 @@ const Profile = (props) => {
 
     const classes = useStyles();
     
-    const [profilData, setProfilData] = useProfileData(userID);
+    // const [profilData, setProfilData] = useProfileData(userID);
+
+    useEffect(() => {
+        // setProfilData(testProf)
+        if(profilData===undefined) {
+            console.log(`Pobieram dane z api`);
+            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+                const newProfilData = res.data;
+                setProfilData(newProfilData)
+            })
+        }
+    }, []);
 
     // useEffect(() => {
-    //     // setProfilData(testProf)
-    //     if(profilData===undefined) {
-    //         console.log(`Pobieram dane z api`);
-    //         axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-    //             const newProfilData = res.data;
-    //             setProfilData(newProfilData)
-    //         })
-    //     }
-    // }, []);
+    //     const value = {
+    //         orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
+    //         includeTags: [],
+    //         excludeTags: [],
+    //         searchText: null
+    //     };
+
+    //     localStorage.setItem('FData', JSON.stringify(value));
+    //   }, []);
 
     function amount(prof) {
         const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
