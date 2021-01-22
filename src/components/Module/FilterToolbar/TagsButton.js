@@ -13,7 +13,7 @@ import MenuList from '@material-ui/core/MenuList';
 import useFilterData from "./../../filterHook";
 import useProfileData from "./../../profileHook";
 
-export default function SplitButton(props) {
+export default function SplitButton({props, profileData}) {
 
   const { match, history } = props;
   const { params } = match;
@@ -23,12 +23,12 @@ export default function SplitButton(props) {
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
-  const [profilData, setProfilData] = useProfileData(userID);
-  const [filterData, setFilterData] = useFilterData();
+  // const [profilData, setProfilData] = useProfileData(userID);
+  // const [filterData, setFilterData] = useFilterData();
 
-  const options = ['filtr1', 'filtr2', 'filtr3'];
+  const options = profileData.waifu.tags;
 
-  console.log(profilData, "xx");
+  // console.log(profilData, "xx");
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);

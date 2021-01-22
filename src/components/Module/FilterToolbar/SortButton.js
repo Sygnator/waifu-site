@@ -14,7 +14,7 @@ import useFilterData from "./../../filterHook";
 
 const options = ['Tag1', 'Tag2', 'Tag3'];
 
-export default function SplitButton(props) {
+export default function SplitButton({props, profileData}) {
 
   const { match, history } = props;
   const { params } = match;

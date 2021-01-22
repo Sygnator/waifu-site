@@ -19,7 +19,7 @@ import testProf from "./testProf";
 
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 
-import useProfileData from "./profileHook";
+// import useProfileData from "./profileHook";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -110,18 +110,39 @@ const Profile = (props) => {
 
     const classes = useStyles();
     
-    // const [profilData, setProfilData] = useProfileData(userID);
+    const [profilData, setProfilData] = useState();
 
-    useEffect(() => {
-        // setProfilData(testProf)
-        if(profilData===undefined) {
-            console.log(`Pobieram dane z api`);
+    useEffect(()=> {
+        if((JSON.parse(localStorage.getItem(`u${userID}-Profile`)).lastupdate !== userID) ) {
             axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
                 const newProfilData = res.data;
                 setProfilData(newProfilData)
+                const uProfile = {
+                    lastupdate: "",
+                    data: newProfilData,
+                } 
+                localStorage.setItem(`u${userID}-Profile`, JSON.stringify(uProfile))
             })
+
+            // localStorage.setItem('userID', JSON.stringify(userID))
+        } else {
+            setProfilData(JSON.parse(localStorage.getItem(`u${userID}-Profile`)))
         }
-    }, []);
+
+        // localStorage.setItem('userID', JSON.stringify(userID))
+    }, [])
+
+
+    // useEffect(() => {
+    //     // setProfilData(testProf)
+    //     if(profilData===undefined) {
+    //         console.log(`Pobieram dane z api`);
+    //         axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+    //             const newProfilData = res.data;
+    //             setProfilData(newProfilData)
+    //         })
+    //     }
+    // }, []);
 
     // useEffect(() => {
     //     const value = {

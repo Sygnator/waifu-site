@@ -44,16 +44,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar(props) {
+export default function SearchAppBar({props, profileData}) {
   const classes = useStyles();
 
   const { match, history } = props;
   const { params } = match;
   const { userID } = params;
 
-  const [profilData, setProfilData] = useProfileData(userID);
-  const [waifuCardsData, setWaifuCardsData] = useWaifuCardsData(userID);
-  const [filterData, setFilterData] = useFilterData();
+  // const [profilData, setProfilData] = useProfileData(userID);
+  // const [waifuCardsData, setWaifuCardsData] = useWaifuCardsData(userID);
+  // const [filterData, setFilterData] = useFilterData();
 
   const filter = {
     orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
@@ -67,8 +67,8 @@ export default function SearchAppBar(props) {
       <AppBar position="static" className={classes.barColor}>
         <Toolbar variant='dense' className={classes.barColor}>
             <div className={classes.center}>
-              <FilterButton {...props} ></FilterButton>
-              <TagsButton {...props} ></TagsButton>
+              <FilterButton props={props} profileData={profileData} ></FilterButton>
+              <TagsButton props={props} profileData={profileData} ></TagsButton>
             </div>
             <div className={classes.left}>
             <Button
