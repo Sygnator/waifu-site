@@ -26,9 +26,12 @@ export default function SplitButton({props, profileData}) {
   // const [profilData, setProfilData] = useProfileData(userID);
   // const [filterData, setFilterData] = useFilterData();
 
-  const options = profileData.waifu.tags;
+  const options = profileData.tagList;
 
-  // console.log(profilData, "xx");
+  // const options = ['test1', 'test2'];
+
+
+  console.log(profileData, "xx");
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
@@ -36,7 +39,7 @@ export default function SplitButton({props, profileData}) {
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
-    setOpen(false);
+    // setOpen(false);
   };
 
   const handleToggle = () => {
@@ -84,7 +87,7 @@ export default function SplitButton({props, profileData}) {
                     {options.map((option, index) => (
                       <MenuItem
                         key={option}
-                        disabled={index === 2}
+                        // disabled={index === 2}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                       >
