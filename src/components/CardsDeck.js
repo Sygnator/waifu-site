@@ -106,21 +106,21 @@ const CardsDeck = (props) => {
     useEffect(() => {
         if(waifuCardsData===undefined) {
             console.info("Pobieram dane z api - karty")
-            axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
-                const newWaifuCardsData = res.data;
-                setWaifuCardsData(newWaifuCardsData)
-            })
+            // axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
+            //     const newWaifuCardsData = res.data;
+            //     setWaifuCardsData(newWaifuCardsData)
+            // })
 
-            // setWaifuCardsData(testCards) 
+            setWaifuCardsData(testCards) 
         }
         if(profileData===undefined) {
             console.info("Pobieram dane z api - profil")
-            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-                const newProfilData = res.data;
-                setProfileData(newProfilData)
-            })
+            // axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+            //     const newProfilData = res.data;
+            //     setProfileData(newProfilData)
+            // })
 
-            // setProfileData(testProf)
+            setProfileData(testProf)
         }
     }, []);
 

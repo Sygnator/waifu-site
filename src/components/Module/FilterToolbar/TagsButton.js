@@ -88,7 +88,7 @@ export default function SplitButton({props, profileData}) {
                       <MenuItem
                         key={option}
                         // disabled={index === 2}
-                        selected={index === selectedIndex}
+                        // selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                       >
                         {option}
