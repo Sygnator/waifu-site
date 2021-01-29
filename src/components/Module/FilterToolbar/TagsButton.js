@@ -26,19 +26,30 @@ export default function SplitButton({props, profileData}) {
   // const [profilData, setProfilData] = useProfileData(userID);
   // const [filterData, setFilterData] = useFilterData();
 
-  const options = profileData.tagList;
+  const [options, setOptions] = React.useState(profileData.tagList.map((o)=>{
+    return {value: o, choice: null}
+  }));
 
   // const options = ['test1', 'test2'];
 
 
-  console.log(profileData, "xx");
+  // console.log(profileData, "xx");
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
   };
 
+  const changeTag = (option) => {
+    if (option.choice===null) return {value: option.value, choice: "assign"}
+    if (option.choice==="assign") return {value: option.value, choice: "reject"}
+    if (option.choice==="reject") return {value: option.value, choice: null}
+    return {value: option.value, choice: null}
+  };
+
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
+    const newOption = changeTag(options[index])
+    options[index] = newOption;
     // setOpen(false);
   };
 
@@ -52,6 +63,11 @@ export default function SplitButton({props, profileData}) {
     }
 
     setOpen(false);
+  };
+  const getStyles = (option) => {
+    if(option.choice===null) return
+    if(option.choice==="assign") return {color: "green"}
+    if(option.choice==="reject") return {color: "red"}
   };
 
   return (
@@ -86,12 +102,13 @@ export default function SplitButton({props, profileData}) {
                   <MenuList id="split-button-menu">
                     {options.map((option, index) => (
                       <MenuItem
-                        key={option}
+                        key={option.value}
                         // disabled={index === 2}
                         // selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
+                        style={getStyles(option)}
                       >
-                        {option}
+                        {option.value}
                       </MenuItem>
                     ))}
                   </MenuList>

@@ -71,7 +71,7 @@ export default function SearchAppBar({props, profileData}) {
             <div className={classes.center}>
               <FilterButton props={props} profileData={profileData} ></FilterButton>
               <TagsButton props={props} profileData={profileData} ></TagsButton>
-              <TagsButtonTest props={props} profileData={profileData} ></TagsButtonTest>
+              {/* <TagsButtonTest props={props} profileData={profileData} ></TagsButtonTest> */}
             </div>
               <SearchInput {...props} ></SearchInput>
             <div className={classes.left}>
