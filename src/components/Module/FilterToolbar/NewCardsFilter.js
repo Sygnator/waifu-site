@@ -101,14 +101,21 @@ export default function FilterAppBar({props, profileData}) {
   const { params } = match;
   const { userID } = params;
 
+  
   // search  input
-  const [searchData, setsearchData] = useState()
+  const [searchData, setsearchData] = useState("")
 
-  function test(searchData, setsearchData) {
-    console.log(`test...- ${searchData}`)
+  function test(searchDataEvent) {
+    setsearchData(searchDataEvent.target.value);
   }
 
+  // *
+  // *
+  // * 
   // tag button
+  // *
+  // *
+  // * 
 
   const [openTag, setOpenTag] = React.useState(false);
   const anchorRefTag = React.useRef(null);
@@ -151,7 +158,13 @@ export default function FilterAppBar({props, profileData}) {
     if(option.choice==="reject") return {color: "red"}
   };
 
+  // *
+  // *
+  // * 
   // Sort button 
+  // *
+  // *
+  // * 
 
   const [openSort, setOpenSort] = React.useState(false);
   const anchorRefSort = React.useRef(null);
@@ -210,6 +223,26 @@ export default function FilterAppBar({props, profileData}) {
     if(option.choice===null) return
     if(option.choice==="assign") return {color: "green"}
     if(option.choice==="reject") return {color: "red"}
+  };
+
+  // *
+  // *
+  // * 
+  // Other
+  // *
+  // *
+  // * 
+
+  const clearData = () => {
+    setOptionsSort(sortList.map((o)=>{
+      return {value: o, choice: null}
+    }))
+
+    setSelectedIndexSort(0);
+
+    setOptionsTag(profileData.tagList.map((o)=>{
+      return {value: o, choice: null}
+    }))
   };
 
   return (
@@ -303,7 +336,7 @@ export default function FilterAppBar({props, profileData}) {
                   <SearchIcon />
                 </div>
                 <InputBase
-                  onChange={test({})}
+                  onChange={(event) => test(event)}
                   placeholder="Szukaj karty"
                   classes={{
                     root: classes.inputRoot,
@@ -323,7 +356,7 @@ export default function FilterAppBar({props, profileData}) {
             >
                 Zastosuj
             </Button>
-            <IconButton aria-label="delete" className={classes.delete}>
+            <IconButton aria-label="delete" onClick={()=>clearData()} className={classes.delete}>
                 <DeleteIcon />
             </IconButton>
             </div>
