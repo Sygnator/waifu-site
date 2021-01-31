@@ -1,7 +1,5 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -10,34 +8,20 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-import useFilterData from "./../../filterHook";
-import useProfileData from "./../../profileHook";
-
 export default function SplitButton({props, profileData}) {
 
   const { match, history } = props;
   const { params } = match;
   const { userID } = params;
 
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  // const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [openTag, setOpenTag] = React.useState(false);
+  const anchorRefTag = React.useRef(null);
 
-  // const [profilData, setProfilData] = useProfileData(userID);
-  // const [filterData, setFilterData] = useFilterData();
-
-  const [options, setOptions] = React.useState(profileData.tagList.map((o)=>{
+  const [optionsTag, setOptionsTag] = React.useState(profileData.tagList.map((o)=>{
     return {value: o, choice: null}
   }));
 
-  const [up, setUp] = React.useState(false);
-
-
-  // console.log(profileData, "xx");
-
-  const handleClick = () => {
-    // console.info(`You clicked ${options[selectedIndex]}`);
-  };
+  const [upTag, setUpTag] = React.useState(false);
 
   const changeTag = (option) => {
     if (option.choice===null) return {value: option.value, choice: "assign"}
@@ -46,26 +30,26 @@ export default function SplitButton({props, profileData}) {
     return {value: option.value, choice: null}
   };
 
-  const handleMenuItemClick = (event, index) => {
+  const handleMenuItemClickTag = (event, index) => {
     // setSelectedIndex(index);
-    const newOption = changeTag(options[index])
-    options[index] = newOption;
-    // setOpen(false);
-    setUp(!up);
+    const newOptionTag = changeTag(optionsTag[index])
+    optionsTag[index] = newOptionTag;
+    // setOpenTag(false);
+    setUpTag(!upTag);
   };
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggleTag = () => {
+    setOpenTag((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleCloseTag = (event) => {
+    if (anchorRefTag.current && anchorRefTag.current.contains(event.target)) {
       return;
     }
 
-    setOpen(false);
+    setOpenTag(false);
   };
-  const getStyles = (option) => {
+  const getTagStyles = (option) => {
     if(option.choice===null) return
     if(option.choice==="assign") return {color: "green"}
     if(option.choice==="reject") return {color: "red"}
@@ -73,24 +57,20 @@ export default function SplitButton({props, profileData}) {
 
   return (
     <>
-    {/* <Grid container direction="column" alignItems="center">
-    <Grid item xs={12}> */}
-        {/* <ButtonGroup variant="contained" color="primary"  aria-label="split button"> */}
           <Button
-            ref={anchorRef}
+            ref={anchorRefTag}
             variant="contained"
             color="primary"
             size="small"
-            aria-controls={open ? 'split-button-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
+            aria-controls={openTag ? 'split-button-menu' : undefined}
+            aria-expanded={openTag ? 'true' : undefined}
             aria-label="select merge strategy"
             aria-haspopup="menu"
-            onClick={handleToggle}
+            onClick={handleToggleTag}
           >
             Tagi<ArrowDropDownIcon />
           </Button>
-        {/* </ButtonGroup> */}
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        <Popper open={openTag} anchorEl={anchorRefTag.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
@@ -99,15 +79,13 @@ export default function SplitButton({props, profileData}) {
               }}
             >
               <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
+                <ClickAwayListener onClickAway={handleCloseTag}>
                   <MenuList id="split-button-menu">
-                    {options.map((option, index) => (
+                    {optionsTag.map((option, index) => (
                       <MenuItem
                         key={option.value}
-                        // disabled={index === 2}
-                        // selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}
-                        style={getStyles(option)}
+                        onClick={(event) => handleMenuItemClickTag(event, index)}
+                        style={getTagStyles(option)}
                       >
                         {option.value}
                       </MenuItem>
@@ -118,8 +96,6 @@ export default function SplitButton({props, profileData}) {
             </Grow>
           )}
         </Popper>
-    {/* </Grid>
-    </Grid> */}
     </>
   );
 }
