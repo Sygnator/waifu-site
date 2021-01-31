@@ -21,7 +21,7 @@ export default function SplitButton({props, profileData}) {
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  // const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   // const [profilData, setProfilData] = useProfileData(userID);
   // const [filterData, setFilterData] = useFilterData();
@@ -30,13 +30,13 @@ export default function SplitButton({props, profileData}) {
     return {value: o, choice: null}
   }));
 
-  // const options = ['test1', 'test2'];
+  const [up, setUp] = React.useState(false);
 
 
   // console.log(profileData, "xx");
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
+    // console.info(`You clicked ${options[selectedIndex]}`);
   };
 
   const changeTag = (option) => {
@@ -47,10 +47,11 @@ export default function SplitButton({props, profileData}) {
   };
 
   const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
+    // setSelectedIndex(index);
     const newOption = changeTag(options[index])
     options[index] = newOption;
     // setOpen(false);
+    setUp(!up);
   };
 
   const handleToggle = () => {

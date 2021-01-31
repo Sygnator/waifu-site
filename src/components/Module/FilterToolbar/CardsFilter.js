@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button';
 import FilterButton from "./SortButton.js";
 import TagsButton from "./TagsButton.js";
 import SearchInput from "./SearchCards.js";
-import TagsButtonTest from "./TagsButtonTest.js";
 
 import useFilterData from "./../../filterHook";
 import useWaifuCardsData from "./../../cardsHook";

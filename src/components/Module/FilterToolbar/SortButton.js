@@ -12,8 +12,6 @@ import MenuList from '@material-ui/core/MenuList';
 
 import useFilterData from "./../../filterHook";
 
-const options = ['Tag1', 'Tag2', 'Tag3'];
-
 export default function SplitButton({props, profileData}) {
 
   const { match, history } = props;
@@ -22,17 +20,60 @@ export default function SplitButton({props, profileData}) {
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  // const sortList = ["id", "idDes", "name", "nameDes", "rarity", "rarityDes", "title", "titleDes", "health", "healthDes", "atack", "atackDes", "defence"];
+  const sortList = ["id", "name", "rarity", "title", "health", "atack", "defence"];
+
+  const [options, setOptions] = React.useState(sortList.map((o)=>{
+    return {value: o, choice: null}
+  }));
 
   const [filterData, setFilterData] = useFilterData();
+
+  const [up, setUp] = React.useState(false);
 
   const handleClick = () => {
     console.info(`You clicked ${options[selectedIndex]}`);
   };
 
+  const changeTag = (choice) => {
+    switch (choice) {
+      case null:
+      case "reject":
+        return "assign";
+      case "assign":
+        return "reject";
+    
+      default:
+        return null;
+    }
+    // if (index===selectedIndex) {
+    //   if (option.choice===null) return {value: option.value, choice: "assign"}
+    //   if (option.choice==="assign") return {value: option.value, choice: "reject"}
+    //   if (option.choice==="reject") return {value: option.value, choice: "assign"}
+    // } else {
+    //   if (option.choice===null) return {value: option.value, choice: "assign"}
+    //   if (option.choice==="assign") return {value: option.value, choice: "reject"}
+    //   if (option.choice==="reject") return {value: option.value, choice: null}
+    // }
+    // return {value: option.value, choice: null}
+  };
+
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
-    setOpen(false);
+
+    for (let i = 0; i < options.length; i++) {
+      const element = options[i];
+      if (i===index) {
+        options[i].choice = changeTag(element.choice);
+        continue;
+      }
+      options[i].choice = null;
+    }
+
+    // setOpen(false);
+    setUp(!up);
   };
 
   const handleToggle = () => {
@@ -46,12 +87,17 @@ export default function SplitButton({props, profileData}) {
 
     setOpen(false);
   };
+  const getStyles = (option) => {
+    if(option.choice===null) return
+    if(option.choice==="assign") return {color: "green"}
+    if(option.choice==="reject") return {color: "red"}
+  };
 
   return (
     <>
     {/* <Grid container direction="column" alignItems="center">
-      <Grid item xs={12}> */}
-        {/* <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button"> */}
+    <Grid item xs={12}> */}
+        {/* <ButtonGroup variant="contained" color="primary"  aria-label="split button"> */}
           <Button
             ref={anchorRef}
             variant="contained"
@@ -63,7 +109,7 @@ export default function SplitButton({props, profileData}) {
             aria-haspopup="menu"
             onClick={handleToggle}
           >
-            Sortuj <ArrowDropDownIcon />
+            Sortuj<ArrowDropDownIcon />
           </Button>
         {/* </ButtonGroup> */}
         <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
@@ -79,12 +125,13 @@ export default function SplitButton({props, profileData}) {
                   <MenuList id="split-button-menu">
                     {options.map((option, index) => (
                       <MenuItem
-                        key={option}
-                        disabled={index === 2}
-                        selected={index === selectedIndex}
+                        key={option.value}
+                        // disabled={index === 2}
+                        selected={false}
                         onClick={(event) => handleMenuItemClick(event, index)}
+                        style={getStyles(option)}
                       >
-                        {option}
+                        {option.value}
                       </MenuItem>
                     ))}
                   </MenuList>
@@ -93,7 +140,7 @@ export default function SplitButton({props, profileData}) {
             </Grow>
           )}
         </Popper>
-      {/* </Grid>
+    {/* </Grid>
     </Grid> */}
     </>
   );

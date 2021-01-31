@@ -11,7 +11,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 
 import Search from "../Search";
-import Filter from "./CardsFilter.js";
+import Filter from "./NewCardsFilter.js";
 import BackToTop from "../BackToTop.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +75,7 @@ export default function SearchAppBar({props, profileData}) {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-            href={`/`}
+            href={`#/`}
           >
             <HomeIcon />
           </IconButton>
