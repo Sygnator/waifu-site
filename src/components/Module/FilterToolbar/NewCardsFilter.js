@@ -105,8 +105,8 @@ export default function FilterAppBar({props, profileData}) {
   // search  input
   const [searchData, setsearchData] = useState("")
 
-  function test(searchDataEvent) {
-    setsearchData(searchDataEvent.target.value);
+  function inputSearch(searchDataEvent) {
+    setsearchData(searchDataEvent);
   }
 
   // *
@@ -243,6 +243,8 @@ export default function FilterAppBar({props, profileData}) {
     setOptionsTag(profileData.tagList.map((o)=>{
       return {value: o, choice: null}
     }))
+
+    setsearchData("")
   };
 
   return (
@@ -336,7 +338,8 @@ export default function FilterAppBar({props, profileData}) {
                   <SearchIcon />
                 </div>
                 <InputBase
-                  onChange={(event) => test(event)}
+                  onChange={(event) => inputSearch(event.target.value)}
+                  value={searchData}
                   placeholder="Szukaj karty"
                   classes={{
                     root: classes.inputRoot,
