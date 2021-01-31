@@ -170,8 +170,7 @@ export default function FilterAppBar({props, profileData}) {
   const anchorRefSort = React.useRef(null);
   const [selectedIndexSort, setSelectedIndexSort] = React.useState(0);
 
-  // const sortList = ["id", "idDes", "name", "nameDes", "rarity", "rarityDes", "title", "titleDes", "health", "healthDes", "atack", "atackDes", "defence"];
-  const sortList = ["id", "name", "rarity", "title", "health", "atack", "defence"];
+  const sortList = ["Id", "Nazwa", "Ranga", "Tytuł anime", "Pkt. Zdrowia", "Atak", "Obrona"];
 
   const [optionsSort, setOptionsSort] = React.useState(sortList.map((o)=>{
     return {value: o, choice: null}
@@ -246,6 +245,65 @@ export default function FilterAppBar({props, profileData}) {
 
     setsearchData("")
   };
+
+  const sortBy = (sortOp) => {
+  // const sortList = ["id", "idDes", "name", "nameDes", "rarity", "rarityDes", "title", "titleDes", "health", "healthDes", "atack", "atackDes", "defence", "defenceDes"];
+
+    switch (sortOp.value) {
+      case "Id":
+        if(sortOp.choice==="assign") return "id";
+        if(sortOp.choice==="reject") return "idDes";
+      case "Nazwa":
+        if(sortOp.choice==="assign") return "name";
+        if(sortOp.choice==="reject") return "nameDes";
+      case "Ranga":
+        if(sortOp.choice==="assign") return "rarity";
+        if(sortOp.choice==="reject") return "rarityDes";
+      case "Tytuł anime":
+        if(sortOp.choice==="assign") return "title";
+        if(sortOp.choice==="reject") return "titleDes";
+      case "Pkt. Zdrowia":
+        if(sortOp.choice==="assign") return "health";
+        if(sortOp.choice==="reject") return "healthDes";
+      case "Atak":
+        if(sortOp.choice==="assign") return "atack";
+        if(sortOp.choice==="reject") return "atackDes";
+      case "Obrona":
+        if(sortOp.choice==="assign") return "defence";
+        if(sortOp.choice==="reject") return "defenceDes";
+      default:
+        return "id";
+    }
+  }
+
+  const apply = () => {
+    // sort data
+    const orderBy = sortBy(optionsSort[selectedIndexSort]);
+
+    // tag data
+    const includeTags = [];
+
+    const excludeTags = [];
+
+    optionsTag.map((e)=>{
+      if(e.choice==="assign") includeTags.push(e.value)
+      if(e.choice==="reject") excludeTags.push(e.value)
+    })
+
+    // input data
+    const searchText = searchData;
+
+    const filter = {
+      orderBy: orderBy, 
+      includeTags: includeTags,
+      excludeTags: excludeTags,
+      searchText: searchText,
+    };
+
+    console.log("filter", filter);
+    // a tutaj prawdopodobie do localhosta dodanie tego filtra
+
+  }
 
   return (
     <div className={classes.root}>
@@ -350,7 +408,7 @@ export default function FilterAppBar({props, profileData}) {
                 </div>
             <div className={classes.left}>
             <Button
-                onClick={()=>console.log(JSON.parse(localStorage.getItem('FData')))}
+                onClick={()=>{apply()}}
                 variant="contained"
                 color="primary"
                 size="small"
