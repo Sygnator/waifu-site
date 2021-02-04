@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -103,10 +103,10 @@ export default function FilterAppBar({props, profileData}) {
 
   
   // search  input
-  const [searchData, setsearchData] = useState("")
+  const [searchData, setSearchData] = useState("")
 
   function inputSearch(searchDataEvent) {
-    setsearchData(searchDataEvent);
+    setSearchData(searchDataEvent);
   }
 
   // *
@@ -232,6 +232,11 @@ export default function FilterAppBar({props, profileData}) {
   // *
   // * 
 
+  function refreshPage() { 
+    console.log(`reload`);
+    window.location.reload();
+  }
+
   const clearData = () => {
     setOptionsSort(sortList.map((o)=>{
       return {value: o, choice: null}
@@ -243,7 +248,24 @@ export default function FilterAppBar({props, profileData}) {
       return {value: o, choice: null}
     }))
 
-    setsearchData("")
+    setSearchData("")
+
+    const filter = {
+      orderBy: "id",
+      includeTags: [],
+      excludeTags: [],
+      searchText: null
+    };
+
+    const dataFilter = {
+      optionsTag: optionsTag,
+      optionsSort: optionsSort,
+      searchData: searchData,
+    }
+
+    localStorage.setItem(`u${userID}filter`, JSON.stringify(filter))
+    localStorage.setItem(`u${userID}dataFilter`, JSON.stringify(dataFilter))
+    // localStorage.setItem(`u${userID}test`, true)
   };
 
   const sortBy = (sortOp) => {
@@ -300,10 +322,61 @@ export default function FilterAppBar({props, profileData}) {
       searchText: searchText,
     };
 
-    console.log("filter", filter);
-    // a tutaj prawdopodobie do localhosta dodanie tego filtra
+    const dataFilter = {
+      optionsTag: optionsTag,
+      optionsSort: optionsSort,
+      searchData: searchData,
+    }
 
+    // console.log("filter", filter);
+    localStorage.setItem(`u${userID}filter`, JSON.stringify(filter))
+    localStorage.setItem(`u${userID}dataFilter`, JSON.stringify(dataFilter))
+    refreshPage()
   }
+
+
+  useEffect(() => {
+
+  //   const newFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
+
+  //   if(newFilter!==null) {
+
+  //     const newExcludeTags = newFilter.excludeTags;
+  //     const newIncludeTags = newFilter.includeTags;
+  //     const newOrderBy = newFilter.orderBy;
+  //     const newSearchText = newFilter.searchText;
+
+  //     const newTagOptios = optionsTag.map((tag)=>{
+  //       if(newExcludeTags.indexOf(tag.value)>-1) {
+  //         return {value: tag.value, choice: "reject"}
+  //       }
+  //       if(newIncludeTags.indexOf(tag.value)>-1) {
+  //         return {value: tag.value, choice: "assign"}
+  //       }
+  //        return {value: tag.value, choice: null}
+  //     });
+
+  //     // setOptionsSort(sortList.map((o)=>{
+  //     //   return {value: o, choice: null}
+  //     // }))
+  
+  //     // setSelectedIndexSort(0);
+  
+  //     setOptionsTag(newTagOptios);
+  
+  //     setSearchData(newSearchText);
+
+  // }
+
+  const newDataFilter = JSON.parse(localStorage.getItem(`u${userID}dataFilter`));
+
+  if(newDataFilter!==null) {
+    setOptionsTag(newDataFilter.optionsTag);
+    setOptionsSort(newDataFilter.optionsSort);
+    setSearchData(newDataFilter.searchData);
+  }
+
+  }, []);
 
   return (
     <div className={classes.root}>
