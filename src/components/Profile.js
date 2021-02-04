@@ -113,21 +113,16 @@ const Profile = (props) => {
     const [profilData, setProfilData] = useState();
 
     useEffect(()=> {
-        if((JSON.parse(localStorage.getItem(`u${userID}-Profile`)).lastupdate !== userID) ) {
+        // if((JSON.parse(localStorage.getItem(`u${userID}-Profile`)).lastupdate !== userID) ) {
             axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
                 const newProfilData = res.data;
                 setProfilData(newProfilData)
-                const uProfile = {
-                    lastupdate: "",
-                    data: newProfilData,
-                } 
-                localStorage.setItem(`u${userID}-Profile`, JSON.stringify(uProfile))
             })
 
             // localStorage.setItem('userID', JSON.stringify(userID))
-        } else {
-            setProfilData(JSON.parse(localStorage.getItem(`u${userID}-Profile`)))
-        }
+        // } else {
+        //     setProfilData(JSON.parse(localStorage.getItem(`u${userID}-Profile`)))
+        // }
 
         // localStorage.setItem('userID', JSON.stringify(userID))
     }, [])
