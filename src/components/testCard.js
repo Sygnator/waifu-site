@@ -117,7 +117,7 @@ const card = [
         ]
         },
         {
-        "id": 20452,
+        "id": 20532452,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -146,7 +146,7 @@ const card = [
         ]
         },
         {
-        "id": 28249,
+        "id": 282456249,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -175,7 +175,7 @@ const card = [
         ]
         },
         {
-        "id": 34180,
+        "id": 343453180,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -204,7 +204,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 3687231,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -233,7 +233,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 366456871,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -262,7 +262,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 32346871,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -291,7 +291,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 36534334871,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -320,7 +320,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 36852371,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -349,7 +349,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 36835271,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -378,7 +378,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 3643871,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -407,7 +407,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 36833371,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -436,7 +436,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 3682271,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -465,7 +465,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 36871111,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -494,7 +494,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 3687111,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,
@@ -523,7 +523,7 @@ const card = [
         ]
         },
         {
-        "id": 36871,
+        "id": 368711,
         "isActive": false,
         "isInCage": false,
         "isTradable": true,

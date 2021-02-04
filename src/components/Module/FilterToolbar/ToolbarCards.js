@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,7 +11,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 
 import Search from "../Search";
-import Filter from "./CardsFilter.js";
+import Filter from "./NewCardsFilter.js";
 import BackToTop from "../BackToTop.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,14 +47,19 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function SearchAppBar(props) {
+export default function SearchAppBar({props, profileData}) {
   const classes = useStyles();
 
   const { match, history } = props;
   const { params } = match;
   const { userID } = params;
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
+  // useEffect(()=>{
+  //   setProfile(profileData)
+  //   console.log(profile, "data - profile - useEffect");
+  // }, [])
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -70,7 +75,7 @@ export default function SearchAppBar(props) {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-            href={`/`}
+            href={`#/`}
           >
             <HomeIcon />
           </IconButton>
@@ -87,7 +92,7 @@ export default function SearchAppBar(props) {
           <Search {...props} />
         </Toolbar>
         <div >
-          {open ? <Filter {...props} ></Filter> : ""}
+          {open ? <Filter props={props} profileData={profileData} ></Filter> : ""}
         </div>
       </AppBar>
     </div>

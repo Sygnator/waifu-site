@@ -19,7 +19,7 @@ import testProf from "./testProf";
 
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 
-import useProfileData from "./profileHook";
+// import useProfileData from "./profileHook";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -110,7 +110,28 @@ const Profile = (props) => {
 
     const classes = useStyles();
     
-    const [profilData, setProfilData] = useProfileData(userID);
+    const [profilData, setProfilData] = useState();
+
+    useEffect(()=> {
+        if((JSON.parse(localStorage.getItem(`u${userID}-Profile`)).lastupdate !== userID) ) {
+            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+                const newProfilData = res.data;
+                setProfilData(newProfilData)
+                const uProfile = {
+                    lastupdate: "",
+                    data: newProfilData,
+                } 
+                localStorage.setItem(`u${userID}-Profile`, JSON.stringify(uProfile))
+            })
+
+            // localStorage.setItem('userID', JSON.stringify(userID))
+        } else {
+            setProfilData(JSON.parse(localStorage.getItem(`u${userID}-Profile`)))
+        }
+
+        // localStorage.setItem('userID', JSON.stringify(userID))
+    }, [])
+
 
     // useEffect(() => {
     //     // setProfilData(testProf)
@@ -122,6 +143,17 @@ const Profile = (props) => {
     //         })
     //     }
     // }, []);
+
+    // useEffect(() => {
+    //     const value = {
+    //         orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
+    //         includeTags: [],
+    //         excludeTags: [],
+    //         searchText: null
+    //     };
+
+    //     localStorage.setItem('FData', JSON.stringify(value));
+    //   }, []);
 
     function amount(prof) {
         const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;

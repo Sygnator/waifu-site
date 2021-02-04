@@ -13,6 +13,7 @@ import axios from "axios";
 import Toolbar from "./Module/FilterToolbar/BackToTopCards.js";
 
 import testCards from "./testCard";
+import testProf from "./testProf";
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 import useFilterData from "./filterHook";
@@ -62,10 +63,12 @@ const CardsDeck = (props) => {
 
     const classes = useStyles();
 
+    // ==============================================================
+
     // wszystkie moje grzechy :/
 
-    const [waifuCardsData, setWaifuCardsData] = useWaifuCardsData(userID);
-    const [profilData, setProfilData] = useProfileData(userID);
+    // const [waifuCardsData, setWaifuCardsData] = useWaifuCardsData(userID);
+    // const [profilData, setProfilData] = useProfileData(userID);
 
     // const filter = {
     //     orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
@@ -74,7 +77,7 @@ const CardsDeck = (props) => {
     //     searchText: null
     // };
 
-    const [filterData, setFilterData] = useFilterData();
+    // const [filterData, setFilterData] = useFilterData();
 
     // useEffect(() => {
     //     if(waifuCardsData===undefined) {
@@ -88,7 +91,78 @@ const CardsDeck = (props) => {
     //     }
     // }, []);
 
+    // ==============================================================
     
+    const [waifuCardsData, setWaifuCardsData] = useState();
+    const [profileData, setProfileData] = useState();
+
+    const emptyFilter = {
+        orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
+        includeTags: [],
+        excludeTags: [],
+        searchText: null
+    };
+
+    const filterUpdate = (filterData) => {
+      
+        localStorage.setItem(`u${userID}filter`, JSON.stringify(filterData))
+
+        return JSON.parse(localStorage.getItem(`u${userID}filter`));
+      };
+
+    const [filter, setFilter] = useState(emptyFilter);
+
+    const [change, setChange] = useState(JSON.parse(localStorage.getItem(`u${userID}test`)))
+
+
+
+    const newFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
+
+    useEffect(() => {
+        console.log(`useEffect - test`);
+
+        if(newFilter===null) {
+            filterUpdate(emptyFilter)
+        } 
+
+        const localFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
+
+        console.log(`localFilter`, localFilter);
+        
+        if(waifuCardsData===undefined) {
+            console.info("Pobieram dane z api - karty")
+            axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, localFilter).then((res)=> {
+                const newWaifuCardsData = res.data;
+                setWaifuCardsData(newWaifuCardsData)
+            })
+
+            // setWaifuCardsData(testCards) 
+        }
+        if(profileData===undefined) {
+            console.info("Pobieram dane z api - profil")
+            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+                const newProfilData = res.data;
+                setProfileData(newProfilData)
+            })
+
+            // setProfileData(testProf)
+        }
+    }, [filter]);
+
+    
+    
+
+    // useEffect(() => {
+
+    //     const newFilter = JSON.parse(localStorage.getItem(`u${userID}filter`))
+
+    //     if (filter!==newFilter) {
+    //         console.log(newFilter, filter, "nowy - stary :::: filter");
+    //         // setFilter(newFilter)
+    //     }
+       
+    // }, []);
+
     const getWaifuCard = (waifuCard) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
         //console.log(tags)
@@ -118,18 +192,21 @@ const CardsDeck = (props) => {
 
     return (
         <>
-            <div>
-            <Toolbar {...props} />
+            {/* <div>
+            <Toolbar props={props} profileData={profileData}/>
             </div>
-            <div className={classes.root}>
+            <div className={classes.root}> */}
             {waifuCardsData ? (
+            <>
+            <Toolbar props={props} profileData={profileData} />
             <Grid container spacing={2} justify="center" className={classes.cardsContainer}>
                 {waifuCardsData.map((x)=>getWaifuCard(x))}
             </Grid>
+            </>
             ) : (
                 <center><CircularProgress size={100}/></center>
             )}
-            </div>
+            {/* </div> */}
         </>
     )
 }

@@ -57,7 +57,7 @@ export default function SearchAppBar(props) {
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
-            href={`/`}
+            href={`#/`}
           >
             <HomeIcon />
           </IconButton>
