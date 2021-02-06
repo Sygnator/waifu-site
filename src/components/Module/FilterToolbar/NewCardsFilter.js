@@ -335,36 +335,7 @@ export default function FilterAppBar({props, profileData}) {
 
   useEffect(() => {
 
-  //   const newFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
-
-  //   if(newFilter!==null) {
-
-  //     const newExcludeTags = newFilter.excludeTags;
-  //     const newIncludeTags = newFilter.includeTags;
-  //     const newOrderBy = newFilter.orderBy;
-  //     const newSearchText = newFilter.searchText;
-
-  //     const newTagOptios = optionsTag.map((tag)=>{
-  //       if(newExcludeTags.indexOf(tag.value)>-1) {
-  //         return {value: tag.value, choice: "reject"}
-  //       }
-  //       if(newIncludeTags.indexOf(tag.value)>-1) {
-  //         return {value: tag.value, choice: "assign"}
-  //       }
-  //        return {value: tag.value, choice: null}
-  //     });
-
-  //     // setOptionsSort(sortList.map((o)=>{
-  //     //   return {value: o, choice: null}
-  //     // }))
   
-  //     // setSelectedIndexSort(0);
-  
-  //     setOptionsTag(newTagOptios);
-  
-  //     setSearchData(newSearchText);
-
-  // }
 
   const newDataFilter = JSON.parse(localStorage.getItem(`u${userID}dataFilter`));
 
