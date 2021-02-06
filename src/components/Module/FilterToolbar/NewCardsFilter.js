@@ -20,10 +20,6 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-// import FilterButton from "./SortButton.js";
-// import TagsButton from "./TagsButton.js";
-// import SearchInput from "./SearchCards.js";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

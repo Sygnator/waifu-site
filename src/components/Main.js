@@ -6,8 +6,8 @@ const Main = () => {
     return (
         <>
             <Toolbar />
-            {<div className="divWhite">/user/204697/cards</div>}
-            {<div className="divWhite">/user/204697/profile</div>}
+            {<div className="divWhite">/user/85/cards</div>}
+            {<div className="divWhite">/user/85/profile</div>}
         </>
     )
 }

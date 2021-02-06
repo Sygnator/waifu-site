@@ -16,10 +16,6 @@ import testCards from "./testCard";
 import testProf from "./testProf";
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 
-import useFilterData from "./filterHook";
-import useWaifuCardsData from "./cardsHook";
-import useProfileData from "./profileHook";
-
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: "auto",

@@ -12,7 +12,6 @@ import Button from '@material-ui/core/Button';
 
 import Search from "../Search";
 import Filter from "./NewCardsFilter.js";
-import BackToTop from "../BackToTop.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
