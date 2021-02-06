@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/waifu-site/static/css/main.460c1d33.chunk.css",
-    "main.js": "/waifu-site/static/js/main.ba0d3d5b.chunk.js",
-    "main.js.map": "/waifu-site/static/js/main.ba0d3d5b.chunk.js.map",
+    "main.js": "/waifu-site/static/js/main.05a1e5cb.chunk.js",
+    "main.js.map": "/waifu-site/static/js/main.05a1e5cb.chunk.js.map",
     "runtime-main.js": "/waifu-site/static/js/runtime-main.8550ebbf.js",
     "runtime-main.js.map": "/waifu-site/static/js/runtime-main.8550ebbf.js.map",
     "static/js/2.acb65747.chunk.js": "/waifu-site/static/js/2.acb65747.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.8550ebbf.js",
     "static/js/2.acb65747.chunk.js",
     "static/css/main.460c1d33.chunk.css",
-    "static/js/main.ba0d3d5b.chunk.js"
+    "static/js/main.05a1e5cb.chunk.js"
   ]
 }
