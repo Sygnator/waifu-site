@@ -257,6 +257,7 @@ export default function FilterAppBar({props, profileData}) {
       optionsTag: optionsTag,
       optionsSort: optionsSort,
       searchData: searchData,
+      index: selectedIndexSort,
     }
 
     localStorage.setItem(`u${userID}filter`, JSON.stringify(filter))
@@ -297,7 +298,7 @@ export default function FilterAppBar({props, profileData}) {
   const apply = () => {
     // sort data
     const orderBy = sortBy(optionsSort[selectedIndexSort]);
-
+    console.log((optionsSort[selectedIndexSort]));
     // tag data
     const includeTags = [];
 
@@ -322,6 +323,7 @@ export default function FilterAppBar({props, profileData}) {
       optionsTag: optionsTag,
       optionsSort: optionsSort,
       searchData: searchData,
+      index: selectedIndexSort,
     }
 
     // console.log("filter", filter);
@@ -370,6 +372,7 @@ export default function FilterAppBar({props, profileData}) {
     setOptionsTag(newDataFilter.optionsTag);
     setOptionsSort(newDataFilter.optionsSort);
     setSearchData(newDataFilter.searchData);
+    setSelectedIndexSort(newDataFilter.index);
   }
 
   }, []);

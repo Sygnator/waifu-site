@@ -112,16 +112,14 @@ const CardsDeck = (props) => {
 
 
 
-    const newFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
+    const localFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
 
     useEffect(() => {
         console.log(`useEffect - test`);
 
-        if(newFilter===null) {
+        if(localFilter===null) {
             filterUpdate(emptyFilter)
         } 
-
-        const localFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
 
         console.log(`localFilter`, localFilter);
         
