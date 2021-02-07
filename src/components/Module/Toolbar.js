@@ -8,6 +8,8 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 
+import Search from "./Search";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -63,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar() {
+export default function SearchAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -82,7 +84,7 @@ export default function SearchAppBar() {
           <Typography className={classes.title} variant="h6" noWrap>
             Pocket-Waifu
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -94,7 +96,8 @@ export default function SearchAppBar() {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
+          <Search {...props} />
         </Toolbar>
       </AppBar>
     </div>
