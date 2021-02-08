@@ -1,94 +1,140 @@
-import React, { useState } from 'react';
-import InputBase from '@material-ui/core/InputBase';
+import React, { useEffect, useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import axios from "axios";
 import { fade, makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    textDecoration: "none",
   },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: '220px',
-    },
+  img: {
+    width: "35px",
+    height: "35px",
+    borderRadius: "50%",
+    border: "3px solid #3f51b5",
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  text: {
+    textDecoration: "none",
+    color: "black",
+    fontSize: "20px",
+    marginLeft: "10px",
   },
-  inputRoot: {
-    color: 'inherit',
+  name: {
+    textDecoration: "none",
+    fontSize: "20px",
+    color: "black",
+    marginLeft: "10px",
   },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    //transition: theme.transitions.create('width'),
-    width: '100%',
-    // [theme.breakpoints.up('sm')]: {
-    //   width: '12ch',
-    //   '&:focus': {
-    //     width: '20ch',
-    //   },
-    // },
-  },
-  searchRes: {
-    position: 'absolute',
-    backgroundColor: "green",
-    width: "300px",
-    height: "300px"
+  rank: {
+    fontSize: "10px",
   },
 }));
 
-function divGen(params) {
-    <div style="width: 300px; height: 300px; position: relative;"></div>
+function sleep(delay = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
 }
 
-
-
-export default function SearchAppBar(props) {
+export default function Asynchronous() {
   const classes = useStyles();
 
-  const { match, history } = props;
-  const { params } = match;
-  const { userID } = params;
+  const [searchData, setSearchData] = useState("");
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
+  const loading = open && options.length === 0;
 
-  const [searchData, setsearchData] = useState()
+  useEffect(() => {
+    let active = true;
 
-  function test(searchData, setsearchData) {
-    console.log(`test...- ${searchData}`)
-  }
+    if (!loading) {
+      return undefined;
+    }
+
+    if (searchData.length>3) {
+        (async () => {
+    
+        const data = await axios({
+            method: 'post',
+            url: 'https://api.sanakan.pl/api/User/find',
+            headers: {"Content-Type": "application/json", "Accept": "*/*"},
+            data: JSON.stringify(searchData)
+          }).then((res)=> {
+              sleep(5000)
+              return res.data;
+        }) ;
+    
+        console.log(data);
+    
+        setOptions(data)
+    
+        })();
+    } 
+
+    return () => {
+      active = false;
+    };
+  }, [loading, searchData]);
+
+  useEffect(() => {
+    if (!open) {
+      // setSearchData("")
+      setOptions([]);
+    }
+    setSearchData("")
+  }, [open]);
+
+  useEffect(() => {
+    setOptions([]);
+  }, [searchData]);
 
   return (
-      <>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              onChange={test({})}
-              placeholder="Szukaj użytkownika"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-        </>
+    <Autocomplete
+      id="search"
+      style={{ width: 300 }}
+      open={open}
+      onOpen={() => {
+        setOpen(true);
+      }}
+      onClose={() => {
+        setOpen(false);
+      }}
+      options={options}
+      getOptionSelected={(option, value) => option.name === value.name}
+      getOptionLabel={(option) => {return option.name}}
+      renderOption={(option, { selected }) => (
+        <span className={classes.root}>
+        <a href={`#/user/${option.id}/profile`} className={classes.text}>
+          <img src={option.avatarUrl} alt={option.id} className={classes.img}/>
+            </a>
+            <a href={`#/user/${option.id}/profile`} className={classes.name} >{option.name}</a>
+            {/* <a className={classes.rank} >{option.rank}</a> */}
+          {/* <div className={classes.name} >{option.name}</div>
+          <div className={classes.rank} >{option.rank}</div> */}
+        </span>
+      )}
+      loading={loading}
+      // onInputChange={(event)=>setSearchData(event.target.value)}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Szukaj użytkownika"
+          variant="standard"
+          onChange={(event)=>setSearchData(event.target.value)}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
+          }}
+        />
+      )}
+    />
   );
 }

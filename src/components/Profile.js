@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
     cardMedia: {
         width: "190px", 
-        height: "276px",
+        // height: "276px",
         // margin: "auto",
     },
     details: {
