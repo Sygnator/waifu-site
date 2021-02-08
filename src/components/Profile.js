@@ -191,7 +191,8 @@ const Profile = (props) => {
                                         <div>C: {`${profilData.cCount}`}</div>
                                         <div>D: {`${profilData.dCount}`}</div>
                                         <div>E: {`${profilData.eCount}`}</div>
-                                        <div>SUMA: {`${amount(profilData)}`}</div>
+                                        <div>SUMA: {`${amount(profilData)}`}</div><br />
+                                        <div>Limit kart: {`${profilData.maxCardCount}`}</div>
                                     </div>
                                 </Grid>
                             </Grid>

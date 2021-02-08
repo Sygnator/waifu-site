@@ -97,7 +97,7 @@ export default function Asynchronous() {
       style={{ width: 300 }}
       open={open}
       onOpen={() => {
-        setOpen(true);
+        if(searchData.length>1) setOpen(true);
       }}
       onClose={() => {
         setOpen(false);
