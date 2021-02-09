@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/components/Main.css"],"names":[],"mappings":"AAAA,UACI,UAAY,CACZ,cAAe,CACf,iBAAkB,CAClB,gBACJ","file":"main.460c1d33.chunk.css","sourcesContent":[".divWhite {\r\n    color: white;\r\n    font-size: 30px;\r\n    padding-left: 20px;\r\n    padding-top: 10px;\r\n}"]}
