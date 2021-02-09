@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
     cardMedia: {
         width: "190px", 
-        // height: "276px",
+        height: "276px",
         // margin: "auto",
     },
     details: {
@@ -191,8 +191,7 @@ const Profile = (props) => {
                                         <div>C: {`${profilData.cCount}`}</div>
                                         <div>D: {`${profilData.dCount}`}</div>
                                         <div>E: {`${profilData.eCount}`}</div>
-                                        <div>SUMA: {`${amount(profilData)}`}</div><br />
-                                        <div>Limit kart: {`${profilData.maxCardCount}`}</div>
+                                        <div>Wszystkie: {`${amount(profilData)}/${profilData.maxCardCount}`}</div>
                                     </div>
                                 </Grid>
                             </Grid>
