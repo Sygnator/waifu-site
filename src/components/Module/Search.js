@@ -51,11 +51,12 @@ function sleep(delay = 0) {
 }
 
 function localAdd(selectUser) {
+  if(selectUser!==undefined) {
   // console.log(selectUser, "sss");
   // const lastUserList = JSON.parse(localStorage.getItem(`lastUserList`));
 
   // if (lastUserList===null) {
-  //   console.log('x1');
+    console.log('x1', selectUser);
   //   const userList = [];
 
   //   userList.unshift(selectUser);
@@ -75,8 +76,11 @@ function localAdd(selectUser) {
   // }
   
   // console.log(JSON.parse(localStorage.getItem(`lastUserList`)))
-  window.location.href=`#/user/${selectUser.id}/profile`;
-  window.location.reload();
+  
+    window.location.href=`#/user/${selectUser.id}/profile`;
+    window.location.reload();
+  }
+  
 }
 
 export default function Asynchronous() {
@@ -86,6 +90,8 @@ export default function Asynchronous() {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
+
+  const [selected, setSelected] = useState();
 
   useEffect(() => {
     let active = true;
@@ -131,12 +137,17 @@ export default function Asynchronous() {
     setOptions([]);
   }, [searchData]);
 
+  useEffect(() => {
+    localAdd(selected);
+  }, [selected]);
+
   return (
     <Autocomplete
       id="search"
       disabledItemsFocusable={true}
       style={{ width: 300 }}
       open={open}
+      disableCloseOnSelect={true}
       onOpen={() => {
         if(searchData.length>1) setOpen(true);
       }}
@@ -146,9 +157,9 @@ export default function Asynchronous() {
       options={options}
       selectOnFocus={false}
       getOptionSelected={(option, value) => {
-        if(option.name === value.name) {
-          console.log(`xxxx`,option);
-          localAdd(value)
+        if(option.id === value.id) {
+          console.log(`xxxx`,option, value);
+          setSelected(value)
         }
         return option.name === value.name}}
       getOptionLabel={(option) => {return option.name}}
