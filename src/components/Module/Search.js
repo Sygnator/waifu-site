@@ -52,30 +52,25 @@ function sleep(delay = 0) {
 
 function localAdd(selectUser) {
   if(selectUser!==undefined) {
-  // console.log(selectUser, "sss");
-  // const lastUserList = JSON.parse(localStorage.getItem(`lastUserList`));
+  const lastUserList = JSON.parse(localStorage.getItem(`lastVisited`));
 
-  // if (lastUserList===null) {
-    console.log('x1', selectUser);
-  //   const userList = [];
+  if (lastUserList===null) {
+    const userList = [];
 
-  //   userList.unshift(selectUser);
-  //   for (let index = 0; index < 9; index++) {
-  //       userList.push(null);
-  //   }
+    userList.unshift(selectUser);
+    for (let index = 0; index < 9; index++) {
+        userList.push(null);
+    }
 
-  //   console.log(userList)
-  //   localStorage.setItem(`lastUserList`, JSON.stringify(userList));
-  // } else {
-  //   console.log('x2');
-  //   console.log(Date.now());
-  //   lastUserList.pop();
-  //   lastUserList.unshift(selectUser);
-  //   // localStorage.removeItem(`lastUserList`)
-  //   localStorage.setItem(`lastUserList`, JSON.stringify(lastUserList));
-  // }
+    localStorage.setItem(`lastVisited`, JSON.stringify(userList));
+  } else {
+    lastUserList.pop();
+    lastUserList.unshift(selectUser);
+    // localStorage.removeItem(`lastVisited`)
+    localStorage.setItem(`lastVisited`, JSON.stringify(lastUserList));
+  }
   
-  // console.log(JSON.parse(localStorage.getItem(`lastUserList`)))
+  
   
     window.location.href=`#/user/${selectUser.id}/profile`;
     window.location.reload();

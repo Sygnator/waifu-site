@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         color: "white",
         textAlign: "center",
+        maxWidth: "98%",
     },
     cardsContainer: {
         paddingTop: "20px",
