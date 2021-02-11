@@ -64,13 +64,24 @@ function localAdd(selectUser) {
 
     localStorage.setItem(`lastVisited`, JSON.stringify(userList));
   } else {
-    lastUserList.pop();
-    lastUserList.unshift(selectUser);
-    // localStorage.removeItem(`lastVisited`)
+    const userIdList = lastUserList.map((x)=>{
+      if (x!==null) {
+        return x.id;
+      } 
+      return x;
+    })
+
+    if(userIdList.includes(selectUser.id)) {
+      lastUserList.unshift(selectUser);
+      lastUserList.splice(userIdList.indexOf(selectUser.id)+1, 1);
+    } else {
+      lastUserList.pop();
+      lastUserList.unshift(selectUser);
+      // localStorage.removeItem(`lastVisited`)
+    }
+    
     localStorage.setItem(`lastVisited`, JSON.stringify(lastUserList));
   }
-  
-  
   
     window.location.href=`#/user/${selectUser.id}/profile`;
     window.location.reload();
