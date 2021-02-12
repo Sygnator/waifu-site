@@ -6,6 +6,7 @@ import Test from "./components/test.js";
 import User from "./components/User.js";
 import Cards from "./components/CardsDeck.js";
 import Profile from "./components/Profile.js";
+import Wishlist from "./components/Wishlist.js";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/user/:userID" render={(props) => <User {...props} />} />
       <Route exact path="/user/:userID/Cards" render={(props) => <Cards {...props} />} />
       <Route exact path="/user/:userID/Profile" render={(props) => <Profile {...props} />} />
+      <Route exact path="/user/:userID/Wishlist" render={(props) => <Wishlist {...props} />} />
     </Switch>
   );
 }
