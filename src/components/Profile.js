@@ -87,8 +87,8 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: "20px",
       },
       img: {
-        width: "475px", 
-        height: "677px",
+        width: "350px", 
+        height: "508px",
         marginLeft: "auto",
       },
       details: {

@@ -11,6 +11,7 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 import Toolbar from "./Module/FilterToolbar/BackToTopCards.js";
+import ToolbarP from "./Module/BackToTop";
 
 import testCards from "./testCard";
 import testProf from "./testProf";
@@ -19,18 +20,23 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: "auto",
+        maxWidth: "98%",
     },
     cardsContainer: {
         flexGrow: 1,
         paddingTop: "20px",
         paddingLeft: "50px",
-        paddingRight: "50px"
+        paddingRight: "50px",
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: "0px",
+            paddingRight: "0px",
+          },
     },
     cardStyle: {
         paddingTop: "20px",
         backgroundColor: "#272a33",
         width: "240px",
-        height: "410px"
+        height: "410px",
     },
     cardContent: {
         textAlign: "center",
@@ -58,36 +64,6 @@ const CardsDeck = (props) => {
     const { userID } = params;
 
     const classes = useStyles();
-
-    // ==============================================================
-
-    // wszystkie moje grzechy :/
-
-    // const [waifuCardsData, setWaifuCardsData] = useWaifuCardsData(userID);
-    // const [profilData, setProfilData] = useProfileData(userID);
-
-    // const filter = {
-    //     orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
-    //     includeTags: [],
-    //     excludeTags: [],
-    //     searchText: null
-    // };
-
-    // const [filterData, setFilterData] = useFilterData();
-
-    // useEffect(() => {
-    //     if(waifuCardsData===undefined) {
-    //         console.info("Pobieram dane z api.")
-    //         // axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, filter).then((res)=> {
-    //         //     const newWaifuCardsData = res.data;
-    //         //     setWaifuCardsData(newWaifuCardsData)
-    //         // })
-
-    //         setWaifuCardsData(testCards) 
-    //     }
-    // }, []);
-
-    // ==============================================================
     
     const [waifuCardsData, setWaifuCardsData] = useState();
     const [profileData, setProfileData] = useState();
@@ -143,19 +119,6 @@ const CardsDeck = (props) => {
         }
     }, [filter]);
 
-    
-    
-
-    // useEffect(() => {
-
-    //     const newFilter = JSON.parse(localStorage.getItem(`u${userID}filter`))
-
-    //     if (filter!==newFilter) {
-    //         console.log(newFilter, filter, "nowy - stary :::: filter");
-    //         // setFilter(newFilter)
-    //     }
-       
-    // }, []);
 
     const getWaifuCard = (waifuCard) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
@@ -167,9 +130,9 @@ const CardsDeck = (props) => {
                     {/* <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia> */}
                     <CardContent className={classes.cardContent}>
                         <a className={classes.id}>{id}</a>: <Link className={classes.link} href={characterUrl} target="_blank">{name}</Link>
-                        {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") ? "" : "🔃"}`}
-                        {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") ? "" : "💗"}`}
-                        {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") ? "" : "📝"}`}
+                        {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ("")}`}
+                        {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}
+                        {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}
                         {`${isUnique ? "💠" : ""}`}
                         {`${isUltimate ? "🎖️" : ""}`}
                         {`${affection==="Pogarda" ? "💔" : ""}`}
@@ -186,10 +149,7 @@ const CardsDeck = (props) => {
 
     return (
         <>
-            {/* <div>
-            <Toolbar props={props} profileData={profileData}/>
-            </div>
-            <div className={classes.root}> */}
+            <div className={classes.root}>
             {waifuCardsData ? (
             <>
             <Toolbar props={props} profileData={profileData} />
@@ -198,9 +158,12 @@ const CardsDeck = (props) => {
             </Grid>
             </>
             ) : (
+                <>
+                <ToolbarP {...props} />
                 <center><CircularProgress size={100}/></center>
+                </>
             )}
-            {/* </div> */}
+            </div>
         </>
     )
 }

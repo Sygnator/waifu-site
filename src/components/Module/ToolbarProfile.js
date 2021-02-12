@@ -4,7 +4,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core/styles';
+
 import HomeIcon from '@material-ui/icons/Home';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AppsRoundedIcon from '@material-ui/icons/AppsRounded';
+import ListIcon from '@material-ui/icons/List';
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
@@ -65,9 +69,9 @@ export default function SearchAppBar(props) {
             Pocket-Waifu
           </Typography>
           <ButtonGroup disableElevation variant="contained" color="primary" className={classes.card}>
-            <Button href={`#/user/${userID}/profile`}>Profil</Button>
-            <Button href={`#/user/${userID}/cards`}>Karty</Button>
-            <Button href={`#/user/${userID}/wishlist`}>Lista życzeń</Button>
+            <Button href={`#/user/${userID}/profile`}><AccountCircleIcon /><a className={classes.title}> Profil</a></Button>
+            <Button href={`#/user/${userID}/cards`}><AppsRoundedIcon /><a className={classes.title}> Karty</a></Button>
+            <Button href={`#/user/${userID}/wishlist`}><ListIcon /><a className={classes.title}> Lista życzeń</a></Button>
           </ButtonGroup>
           <Search {...props} />
         </Toolbar>

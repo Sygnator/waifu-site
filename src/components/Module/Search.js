@@ -170,16 +170,6 @@ export default function Asynchronous() {
         return option.name === value.name}}
       getOptionLabel={(option) => {return option.name}}
       renderOption={(option, { selected }) => (
-        // <span className={classes.root} >
-        // <a  className={classes.text}>
-        //   <img src={option.avatarUrl} alt={option.id} className={classes.img}/>
-        //     </a>
-        //     <a  className={classes.name} >{option.name}</a>
-        //     {/* <a className={classes.rank} >{option.rank}</a> */}
-        //   {/* <div className={classes.name} >{option.name}</div>
-        //   <div className={classes.rank} >{option.rank}</div> */}
-        // </span>
-        // onClick={localAdd((event)=>event.target.value)} value={option}
               <ListItem key={option.id} >
                 <ListItemAvatar>
                   <Avatar
