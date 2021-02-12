@@ -84,9 +84,9 @@ export default function BasicTable(props) {
         <TableHead>
         <div className={classes.wl} >Lista życzeń:</div>
           <TableRow >
-            <TableCell className={classes.textColor} >Nazwa Postaci</TableCell>
+            <TableCell className={classes.textColor} >Nazwa</TableCell>
             <TableCell className={classes.textColor} align="right">Typ</TableCell>
-            <TableCell className={classes.textColor} align="right">ID Postaci</TableCell>
+            <TableCell className={classes.textColor} align="right">ID</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

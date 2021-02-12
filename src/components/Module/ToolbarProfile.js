@@ -67,6 +67,7 @@ export default function SearchAppBar(props) {
           <ButtonGroup disableElevation variant="contained" color="primary" className={classes.card}>
             <Button href={`#/user/${userID}/profile`}>Profil</Button>
             <Button href={`#/user/${userID}/cards`}>Karty</Button>
+            <Button href={`#/user/${userID}/wishlist`}>Lista życzeń</Button>
           </ButtonGroup>
           <Search {...props} />
         </Toolbar>
