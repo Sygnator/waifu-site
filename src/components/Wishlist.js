@@ -47,6 +47,12 @@ function type(cardType) {
     if(cardType==="card") return "Karta";
     return "Inny";
   }
+function name(type, name, id, classes) {
+    if(type==="title") return <a href={`https://shinden.pl/t/${id}`} target="_blank" className={classes.textColor}>{name}</a>;
+    if(type==="character") return  <a href={`https://shinden.pl/character/${id}`} target="_blank" className={classes.textColor}>{name}</a>;
+    if(type==="card") return {name};
+    return {name};
+  }
 
 export default function BasicTable(props) {
   const { match, history } = props;
@@ -93,9 +99,9 @@ export default function BasicTable(props) {
           {wlList.map((row) => (
             <TableRow key={row.name}>
               <TableCell className={classes.textColor} component="th" scope="row">
-              <a href={`https://shinden.pl/character/${row.objectId}`} target="_blank" className={classes.textColor}>
-                  {row.objectName}
-                </a>
+              {/* <a href={`https://shinden.pl/character/${row.objectId}`} target="_blank" className={classes.textColor}> */}
+                  {name(row.type, row.objectName, row.objectId, classes)}
+                {/* </a> */}
               </TableCell>
               <TableCell className={classes.textColor}  align="right">{type(row.type)}</TableCell>
               <TableCell className={classes.textColor}  align="right">{row.objectId}</TableCell>
