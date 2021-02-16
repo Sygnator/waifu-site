@@ -33,6 +33,13 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+  },
+  button: {
+    flexGrow: 1,
+    display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -86,12 +93,12 @@ export default function SearchAppBar({props, profileData}) {
             Pocket-Waifu
           </Typography>
           <ButtonGroup disableElevation variant="contained" color="primary" className={classes.card}>
-            <Button href={`#/user/${userID}/profile`}><AccountCircleIcon /><a className={classes.title}> Profil</a></Button>
-            <Button href={`#/user/${userID}/cards`}><AppsRoundedIcon /><a className={classes.title}> Karty</a></Button>
-            <Button href={`#/user/${userID}/wishlist`}><ListIcon /><a className={classes.title}> Lista życzeń</a></Button>
+            <Button href={`#/user/${userID}/profile`}><AccountCircleIcon /><a className={classes.button}> Profil</a></Button>
+            <Button href={`#/user/${userID}/cards`}><AppsRoundedIcon /><a className={classes.button}> Karty</a></Button>
+            <Button href={`#/user/${userID}/wishlist`}><ListIcon /><a className={classes.button}> Lista życzeń</a></Button>
           </ButtonGroup>
           <Button className={classes.icon} onClick={handleToggle}>
-                <SettingsIcon /> <a className={classes.title}> Filtry</a>
+          <SettingsIcon /> <a className={classes.button}> Filtry</a>
             </Button>
           <Search {...props} />
         </Toolbar>
