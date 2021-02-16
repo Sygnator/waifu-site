@@ -1,52 +1,41 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    maxWidth: 300,
-    backgroundColor: theme.palette.background.paper,
+  pagination: {
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
   },
+  ul: {
+    justifyContent: 'center',
+    '& li': {
+      '& button, div': {
+      color: "#fff",
+      },
+      textDecoration: "none",
+    },
+  }
 }));
 
-export default function CheckboxListSecondary(options) {
+export default function PaginationControlled() {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([1]);
+  const [page, setPage] = React.useState(1);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
+  const pageChange = (event, value) => {
+    setPage(value);
   };
 
   return (
-    <List dense className={classes.root}>
-      {[0, 1, 2, 3].map((value) => {
-        const labelId = `checkbox-list-secondary-label-${value}`;
-        return (
-          <ListItem key={value} button>
-            <ListItemAvatar>
-              <Avatar
-                alt={`Avatar n°${value + 1}`}
-                src={`http://cdn.shinden.eu/cdn1/avatars/225x350/85.jpg?v14`}
-              />
-            </ListItemAvatar>
-            <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-          </ListItem>
-        );
-      })}
-    </List>
+    <div className={classes.pagination}>
+      <Pagination 
+        count={15}
+        page={page}
+        onChange={pageChange}
+        boundaryCount={2}
+        classes={{ul: classes.ul}}
+      />
+    </div>
   );
 }
