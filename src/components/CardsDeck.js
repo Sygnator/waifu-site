@@ -16,6 +16,7 @@ import ToolbarP from "./Module/BackToTop";
 import testCards from "./testCard";
 import testProf from "./testProf";
 import LazyCardMedia from "./Module/LazyCardMedia.js";
+import Pagination from '@material-ui/lab/Pagination';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
     },
     cardContent: {
         textAlign: "center",
-        color: "white"
+        color: "white",
     },
     cardMedia: {
         width: "190px",
         height: "276px",
-        margin: "auto"
+        margin: "auto",
     },
     id: {
         fontWeight: "bold",
@@ -53,7 +54,24 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color:"#495dcc",
     },
-    
+    p: {
+        textDecoration: "none",
+        padding: "0px",
+        margin: "0px",
+    },
+    pagination: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
+    ul: {
+        justifyContent: 'center',
+        '& li': {
+          '& button, div': {
+          color: "#fff",
+          },
+          textDecoration: "none",
+        },
+    },
 }));
 
 
@@ -84,41 +102,63 @@ const CardsDeck = (props) => {
 
     const [filter, setFilter] = useState(emptyFilter);
 
-    const [change, setChange] = useState(JSON.parse(localStorage.getItem(`u${userID}test`)))
+    const [page, setPage] = useState(1);
 
+    const [pageCount, setPageCount] = useState(1);
 
+    const [cardsOnPage, setCardsOnPage] = useState(1);
 
     const localFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
+    const localCardsOnPage = JSON.parse(localStorage.getItem(`u${userID}cardsOnPage`));
 
     useEffect(() => {
+
+        if(profileData!=undefined) {
+            const cardsAmount = cardAmount(profileData);
+
+            if(localCardsOnPage===null) {
+                setCardsOnPage(cardsAmount)
+            } else {
+                setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
+            }
+
+        }
+
+    }, [profileData]);
+
+    useEffect(async () => {
         console.log(`useEffect - test`);
+
+        if(profileData===undefined) {
+            console.info("Pobieram dane z api - profil")
+            await axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+                const newProfilData = res.data;
+                setProfileData(newProfilData);
+            })
+
+            // setProfileData(testProf)
+        }
+
+    }, []);
+
+    useEffect(async () => {
+        console.log(`useEffect3 - test`,page);
 
         if(localFilter===null) {
             filterUpdate(emptyFilter)
         } 
 
-        console.log(`localFilter`, localFilter);
-        
-        if(profileData===undefined) {
-            console.info("Pobieram dane z api - profil")
-            axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-                const newProfilData = res.data;
-                setProfileData(newProfilData)
-        })
-        if(waifuCardsData===undefined) {
-            console.info("Pobieram dane z api - karty")
-            axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/0/10000`, localFilter).then((res)=> {
-                const newWaifuCardsData = res.data;
-                setWaifuCardsData(newWaifuCardsData)
-        })
+        setWaifuCardsData(undefined)
 
-            // setWaifuCardsData(testCards) 
+        if(profileData!=undefined) {
+            await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
+                    const newWaifuCardsData = res.data;
+                    setWaifuCardsData(newWaifuCardsData);
+            })
+
+            // setWaifuCardsData(testCards); 
         }
-
-            // setProfileData(testProf)
-        }
-    }, [filter]);
-
+    }, [page, cardsOnPage]);
 
     const getWaifuCard = (waifuCard) => {
         const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, affection, tags } = waifuCard
@@ -130,6 +170,7 @@ const CardsDeck = (props) => {
                     {/* <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia> */}
                     <CardContent className={classes.cardContent}>
                         <a className={classes.id}>{id}</a>: <Link className={classes.link} href={characterUrl} target="_blank">{name}</Link>
+                        <p className={classes.p}>
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ("")}`}
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}
                         {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}
@@ -138,7 +179,7 @@ const CardsDeck = (props) => {
                         {`${affection==="Pogarda" ? "💔" : ""}`}
                         {`${isTradable ? " " : "⛔"}`}
                         {`${isInCage ? "🔒" : ""}`}
-                        <br/>
+                        </p>
                         {`${animeTitle}`}
                     </CardContent>
                 </Card>
@@ -146,16 +187,40 @@ const CardsDeck = (props) => {
         )
     }
 
+    function cardAmount(prof) {
+        const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
+        return sssCount + ssCount + sCount + aCount + bCount + cCount + dCount + eCount;
+    }
+
+    const pageChange = (event, value) => {
+        setPage(value);
+      };
+
+    const renderPagination = (page, pageCount) => {
+        return (
+            <div className={classes.pagination}>
+            <Pagination 
+                count={pageCount}
+                page={page}
+                onChange={pageChange}
+                boundaryCount={2}
+                classes={{ul: classes.ul}}
+            />
+            </div>
+        )
+    }
+
 
     return (
         <>
             <div className={classes.root}>
-            {waifuCardsData ? (
+            {waifuCardsData&&profileData ? (
             <>
             <Toolbar props={props} profileData={profileData} />
             <Grid container spacing={2} justify="center" className={classes.cardsContainer}>
                 {waifuCardsData.map((x)=>getWaifuCard(x))}
             </Grid>
+            {pageCount>1 ? renderPagination(page, pageCount) : ""}
             </>
             ) : (
                 <>
