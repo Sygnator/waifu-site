@@ -6,8 +6,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { PlayCircleFilledWhite } from '@material-ui/icons';
+// import Paper from '@material-ui/core/Paper';
+// import { PlayCircleFilledWhite } from '@material-ui/icons';
 // import TablePagination from '@material-ui/core/TablePagination';
 import Toolbar from "./Module/BackToTop";
 import axios from "axios";
@@ -37,10 +37,6 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 function type(cardType) {
     if(cardType==="title") return "Tytuł";
     if(cardType==="character") return "Postać";
@@ -50,7 +46,7 @@ function type(cardType) {
 function name(type, name, id, classes) {
     if(type==="title") return <a href={`https://shinden.pl/t/${id}`} target="_blank" className={classes.textColor}>{name}</a>;
     if(type==="character") return  <a href={`https://shinden.pl/character/${id}`} target="_blank" className={classes.textColor}>{name}</a>;
-    if(type==="card") return {name};
+    if(type==="card") return name;
     return {name};
   }
 
@@ -74,7 +70,7 @@ export default function BasicTable(props) {
                 setWlList(newWlList);
                 setStatus(-1);
             }
-            console.log(res.data.length);
+            // console.log(res.data.length);
             
         }).catch((err)=>{
             setStatus(err.response.status);
@@ -99,9 +95,7 @@ export default function BasicTable(props) {
           {wlList.map((row) => (
             <TableRow key={row.name}>
               <TableCell className={classes.textColor} component="th" scope="row">
-              {/* <a href={`https://shinden.pl/character/${row.objectId}`} target="_blank" className={classes.textColor}> */}
                   {name(row.type, row.objectName, row.objectId, classes)}
-                {/* </a> */}
               </TableCell>
               <TableCell className={classes.textColor}  align="right">{type(row.type)}</TableCell>
               <TableCell className={classes.textColor}  align="right">{row.objectId}</TableCell>
@@ -112,6 +106,7 @@ export default function BasicTable(props) {
     </TableContainer>
     ) : (
         status===401 ? <p className={classes.blankWl}>Lista życzeń jest prywatna.</p> : 
+        status===404 ? <p className={classes.blankWl}>Nie odnaleziono użytkownika.</p> :
         status===-1 ? <p className={classes.blankWl}>Nie odnaleziono listy życzeń użytkownika.</p> :
         <center><CircularProgress size={100}/></center>
     )}
