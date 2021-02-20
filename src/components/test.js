@@ -1,39 +1,48 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState, useRef } from 'react';
 import clsx from "clsx";
+import { fade, makeStyles } from '@material-ui/core/styles';
+
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  BottomNavigation,
+  BottomNavigationAction,
+  SwipeableDrawer,
+  List,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Input,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Tooltip,
+  CircularProgress,
+  Snackbar
+} from '@material-ui/core';
+
+import MuiAlert from '@material-ui/lab/Alert';
+
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
-
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Input from '@material-ui/core/Input';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormLabel from '@material-ui/core/FormLabel';
-
-
 import Search from "./Module/Search.js";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,29 +130,80 @@ const useStyles = makeStyles((theme) => ({
   fullList: {
     width: "auto"
   },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
+  buttonProgress: {
+    color: "#3f51b5",
+    position: 'absolute',
+    top: '40%',
+    left: '40%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
 export default function SearchAppBar({props, pageValue}) {
   /*
     pageValue:
+    -1 - null
     0 - profile
     1 - cards
     2 - wishlist
   */
 
   const classes = useStyles();
+  const timer = useRef();
 
   const { match, history } = props;
   const { params } = match;
   const { userID } = params;
 
-  const [openSettings, setOpenSettings] = React.useState(false);
-  const [cardOnPage, setCardOnPage] = React.useState(200);
+  const [openSettings, setOpenSettings] = useState(false);
+  const [cardOnPage, setCardOnPage] = useState(200);
 
-  const [state, setState] = React.useState(false);
+  const [state, setState] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const [openSnackbarSuccess, setOpenSnackbarSuccess] = useState(false);
+  const [openSnackbarError, setOpenSnackbarError] = useState(false);
 
   const handleChangeSettings = () => {
-    console.log(`Tutaj będzie funkcja zatwierdzająca`);
+    if (!loading) {
+      // setSuccess(false);
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        // setSuccess(true);
+        setLoading(false);
+
+        if (!(cardOnPage<100||cardOnPage>4000)) {
+          localStorage.setItem(`cardsOnPage`, JSON.stringify(cardOnPage))
+          setOpenSnackbarSuccess(true);
+          setOpenSettings(false);
+        } else {
+          setOpenSnackbarError(true);
+        }
+
+      }, 350);
+    }
+  };
+
+  const handleCloseSnackbarSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbarSuccess(false);
+  };
+
+  const handleCloseSnackbarError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbarError(false);
   };
 
   const menuRoute = (key) => {
@@ -181,6 +241,16 @@ export default function SearchAppBar({props, pageValue}) {
 
     setState(open);
   };
+
+  useEffect(() => {
+
+    const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
+
+    if(localCardsOnPage!=null) {
+      setCardOnPage(localCardsOnPage);
+    }
+    
+  }, []);
 
   const list = () => (
     <div
@@ -229,10 +299,11 @@ export default function SearchAppBar({props, pageValue}) {
     </div>
   );
 
-  const errorSettings = cardOnPage<100;
+  const errorSettings = cardOnPage<100||cardOnPage>4000||openSnackbarError===true;
 
   const dialogSettings = () => (
     <Dialog disableBackdropClick disableEscapeKeyDown open={openSettings} onClose={()=>setOpenSettings(false)}>
+      <div className={classes.wrapper}>
     <DialogTitle>Ustawienia</DialogTitle>
     <DialogContent>
       <form className={classes.container}>
@@ -241,33 +312,51 @@ export default function SearchAppBar({props, pageValue}) {
           <Input
           className={classes.input}
           value={cardOnPage}
+          disabled={loading}
           margin="dense"
           onChange={(event)=>setCardOnPage(event.target.value)}
           inputProps={{
             step: 10,
-            min: 0,
-            max: 300,
+            min: 100,
+            max: 4000,
             type: 'number',
             'aria-labelledby': 'input-slider',
           }}
         />
-        <FormHelperText>Kart nie może być mniej niż 100.</FormHelperText>
+        <FormHelperText component="p" variant="standard">Kart nie może być mniej niż 100 <br />oraz więcej niż 4000.</FormHelperText>
         </FormControl>
       </form>
     </DialogContent>
     <DialogActions>
-      <Button onClick={()=>setOpenSettings(false)} color="primary">
+      <Button onClick={()=>setOpenSettings(false)} color="primary" disabled={loading}>
         Anuluj
       </Button>
-      <Button onClick={()=>handleChangeSettings()} color="primary">
+      
+      <Button onClick={()=>handleChangeSettings()} color="primary" disabled={loading}>
         Zatwierdź
       </Button>
+      {loading && <CircularProgress size={44} className={classes.buttonProgress} />}
+      
     </DialogActions>
+  </div>
   </Dialog>
   );
 
   return (
     <div className={classes.root}>
+
+      <Snackbar open={openSnackbarSuccess} autoHideDuration={4000} onClose={handleCloseSnackbarSuccess} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
+          <Alert onClose={handleCloseSnackbarSuccess} severity="success">
+            Poprawnie ustawiono karty na stronie.
+          </Alert>
+      </Snackbar>
+
+      <Snackbar open={openSnackbarError} autoHideDuration={4000} onClose={handleCloseSnackbarError} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
+          <Alert onClose={handleCloseSnackbarError} severity="error">
+            Błąd! Nie ustawiono poprawnie kart na stronie.
+          </Alert>
+      </Snackbar>
+
       <AppBar position="fixed">
         <Toolbar>
 
@@ -285,20 +374,30 @@ export default function SearchAppBar({props, pageValue}) {
             Pocket-Waifu
           </Typography>
 
+          
           <div className={classes.a}>
-          <BottomNavigation
-            value={pageValue}
-            showLabels
-            className={classes.b}
-          >
-            <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} href={`#/user/${userID}/profile`} />
-            <BottomNavigationAction label="Karty" icon={<ViewCarouselIcon />}  href={`#/user/${userID}/cards`} />
-            <BottomNavigationAction label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} />
-          </BottomNavigation>
+
+            {pageValue>-1 ? (
+
+              <BottomNavigation
+                value={pageValue}
+                showLabels
+                className={classes.b}
+              >
+                <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} href={`#/user/${userID}/profile`} />
+                <BottomNavigationAction label="Karty" icon={<ViewCarouselIcon />}  href={`#/user/${userID}/cards`} />
+                <BottomNavigationAction label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} />
+              </BottomNavigation>
+
+            ) : ("")}
+
           </div>
+          
+          
 
           <Search {...props} />
 
+          <Tooltip title="Ustawienia strony" arrow>
           <IconButton
             edge="start"
             className={classes.settingsButton}
@@ -308,6 +407,7 @@ export default function SearchAppBar({props, pageValue}) {
           >
             <SettingsIcon />
           </IconButton>
+          </Tooltip>
 
           <IconButton
             edge="menu"
@@ -331,7 +431,6 @@ export default function SearchAppBar({props, pageValue}) {
       </AppBar>
 
       {dialogSettings()}
-      
     </div>
   );
 }

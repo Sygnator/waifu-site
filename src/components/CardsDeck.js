@@ -109,7 +109,7 @@ const CardsDeck = (props) => {
     const [cardsOnPage, setCardsOnPage] = useState(1);
 
     const localFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
-    const localCardsOnPage = JSON.parse(localStorage.getItem(`u${userID}cardsOnPage`));
+    const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
 
     useEffect(() => {
 
@@ -119,6 +119,8 @@ const CardsDeck = (props) => {
             if(localCardsOnPage===null) {
                 setCardsOnPage(cardsAmount)
             } else {
+                console.log(localCardsOnPage);
+                setCardsOnPage(localCardsOnPage)
                 setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
             }
 
@@ -154,6 +156,9 @@ const CardsDeck = (props) => {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
                     const newWaifuCardsData = res.data;
                     setWaifuCardsData(newWaifuCardsData);
+                    if(newWaifuCardsData.length<100) {
+                        setPageCount(1);
+                    };
             })
 
             // setWaifuCardsData(testCards); 
