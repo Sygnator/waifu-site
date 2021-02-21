@@ -300,25 +300,48 @@ export default function SearchAppBar({props, pageValue, showFilter=false, profil
           </ListItemIcon>
           <ListItemText primary={"Strona Główna"} />
         </ListItem>
-        <ListItem button key={"profile"} onClick={() => {menuRoute("profile")}} >
+        
+        {pageValue>-1 ? (
+        <div>
+            <ListItem button key={"profile"} onClick={() => {menuRoute("profile")}} >
+            <ListItemIcon>
+                <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Profil"} />
+            </ListItem>
+            <ListItem button key={"cards"} onClick={() => {menuRoute("cards")}} >
+            <ListItemIcon>
+                <ViewCarouselIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Karty"} />
+            </ListItem>
+            <ListItem button key={"wishlist"} onClick={() => {menuRoute("wishlist")}} >
+            <ListItemIcon>
+                <FavoriteIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Lista życzeń"} />
+            </ListItem>
+        </div>
+        ) : ""}
+
+      </List>
+
+      {showFilter ? (
+        <div>
+      <Divider />
+      <List>
+        <ListItem button key={"filter"} onClick={handleToggleFilter} >
           <ListItemIcon>
-            <AccountCircleIcon />
+            <FilterListIcon />
           </ListItemIcon>
-          <ListItemText primary={"Profil"} />
-        </ListItem>
-        <ListItem button key={"cards"} onClick={() => {menuRoute("cards")}} >
-          <ListItemIcon>
-            <ViewCarouselIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Karty"} />
-        </ListItem>
-        <ListItem button key={"wishlist"} onClick={() => {menuRoute("wishlist")}} >
-          <ListItemIcon>
-            <FavoriteIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Lista życzeń"} />
+          <ListItemText primary={"Filtry kart"} />
         </ListItem>
       </List>
+      </div>
+      ) : ""}
+      
+
+
       <Divider />
       <List>
         <ListItem button key={"settings"} onClick={()=>setOpenSettings(true)} >
