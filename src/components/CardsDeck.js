@@ -156,7 +156,7 @@ const CardsDeck = (props) => {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
                     const newWaifuCardsData = res.data.cards;
                     setWaifuCardsData(newWaifuCardsData);
-                    if(newWaifuCardsData.length<100) {
+                    if(res.data.totalCards<localCardsOnPage) {
                         setPageCount(1);
                     } else {
                         setPageCount(Math.ceil(res.data.totalCards/localCardsOnPage));
