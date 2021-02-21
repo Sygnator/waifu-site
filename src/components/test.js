@@ -144,7 +144,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar({props, pageValue}) {
+export default function SearchAppBar({props, pageValue, showFilter=false}) {
   /*
     pageValue:
     -1 - null
@@ -244,6 +244,7 @@ export default function SearchAppBar({props, pageValue}) {
 
   useEffect(() => {
 
+    console.log(showFilter, "filter - p");
     const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
 
     if(localCardsOnPage!=null) {
