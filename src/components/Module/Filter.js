@@ -166,7 +166,7 @@ export default function FilterAppBar({props, profileData}) {
   const anchorRefSort = React.useRef(null);
   const [selectedIndexSort, setSelectedIndexSort] = React.useState(0);
 
-  const sortList = ["Id", "Nazwa", "Ranga", "Tytuł anime", "Życie", "Bazowe życie", "Atak", "Obrona", "Doświadczenie", "Dere", "Obrazek",];
+  const sortList = ["Id", "Nazwa", "Ranga", "Tytuł anime", "Życie", "Bazowe życie", "Atak", "Obrona", "Doświadczenie", "Dere", "Obrazek", "Relacja",];
 
   const [optionsSort, setOptionsSort] = React.useState(sortList.map((o)=>{
     return {value: o, choice: null}
@@ -266,7 +266,7 @@ export default function FilterAppBar({props, profileData}) {
   };
 
   const sortBy = (sortOp) => {
-  // Id, IdDes, Name, NameDes, Rarity, RarityDes, Title, TitleDes, Health, HealthDes, HealthBase, HealthBaseDes, Atack, AtackDes, Defence, DefenceDes, Exp, ExpDes, Dere, DereDes, Picture, PictureDes
+  // Id, IdDes, Name, NameDes, Rarity, RarityDes, Title, TitleDes, Health, HealthDes, HealthBase, HealthBaseDes, Atack, AtackDes, Defence, DefenceDes, Exp, ExpDes, Dere, DereDes, Picture, PictureDes, relation, relationDes
 
     switch (sortOp.value) {
       case "Id":
@@ -302,6 +302,9 @@ export default function FilterAppBar({props, profileData}) {
       case "Obrazek":
         if(sortOp.choice==="assign") return "picture";
         if(sortOp.choice==="reject") return "pictureDes";
+    case "Relacja":
+        if(sortOp.choice==="assign") return "relation";
+        if(sortOp.choice==="reject") return "relationDes";
       default:
         return "id";
     }

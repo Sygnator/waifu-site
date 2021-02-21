@@ -12,8 +12,8 @@ import axios from "axios";
 
 import Toolbar from "./Module/BackToTop";
 
-import testCards from "./TestData/testCard";
-import testProf from "./TestData/testProf";
+// import testCards from "./TestData/testCard";
+// import testProf from "./TestData/testProf";
 
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 import Pagination from '@material-ui/lab/Pagination';
@@ -87,7 +87,7 @@ const CardsDeck = (props) => {
     const [profileData, setProfileData] = useState();
 
     const emptyFilter = {
-        orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
+        orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes, relation, relationDes
         includeTags: [],
         excludeTags: [],
         searchText: null
@@ -154,12 +154,12 @@ const CardsDeck = (props) => {
 
         if(profileData!=undefined) {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
-                    const newWaifuCardsData = res.data;
+                    const newWaifuCardsData = res.data.cards;
                     setWaifuCardsData(newWaifuCardsData);
                     if(newWaifuCardsData.length<100) {
                         setPageCount(1);
-                    } else if (newWaifuCardsData.length<cardsOnPage) {
-                        setPageCount(1);
+                    } else {
+                        setPageCount(Math.ceil(res.data.totalCards/localCardsOnPage));
                     }
 
                     console.log(newWaifuCardsData.length);
