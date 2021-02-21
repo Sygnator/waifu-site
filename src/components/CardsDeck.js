@@ -10,8 +10,8 @@ import {
 import { fade, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
-import Toolbar from "./Module/FilterToolbar/BackToTopCards.js";
-import ToolbarP from "./Module/BackToTop";
+// import Toolbar from "./Module/FilterToolbar/BackToTopCards.js";
+import Toolbar from "./Module/BackToTop";
 
 import testCards from "./testCard";
 import testProf from "./testProf";
@@ -158,7 +158,12 @@ const CardsDeck = (props) => {
                     setWaifuCardsData(newWaifuCardsData);
                     if(newWaifuCardsData.length<100) {
                         setPageCount(1);
-                    };
+                    } else if (newWaifuCardsData.length<cardsOnPage) {
+                        setPageCount(1);
+                    }
+
+                    console.log(newWaifuCardsData.length);
+                       
             })
 
             // setWaifuCardsData(testCards); 
@@ -175,16 +180,16 @@ const CardsDeck = (props) => {
                     {/* <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia> */}
                     <CardContent className={classes.cardContent}>
                         <a className={classes.id}>{id}</a>: <Link className={classes.link} href={characterUrl} target="_blank">{name}</Link>
-                        <p className={classes.p}>
-                        {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ("")}`}
-                        {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}
-                        {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}
-                        {`${isUnique ? "💠" : ""}`}
-                        {`${isUltimate ? "🎖️" : ""}`}
-                        {`${affection==="Pogarda" ? "💔" : ""}`}
-                        {`${isTradable ? " " : "⛔"}`}
-                        {`${isInCage ? "🔒" : ""}`}
-                        </p>
+                            <p className={classes.p}>
+                                {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ("")}`}
+                                {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}
+                                {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}
+                                {`${isUnique ? "💠" : ""}`}
+                                {`${isUltimate ? "🎖️" : ""}`}
+                                {`${affection==="Pogarda" ? "💔" : ""}`}
+                                {`${isTradable ? " " : "⛔"}`}
+                                {`${isInCage ? "🔒" : ""}`}
+                            </p>
                         {`${animeTitle}`}
                     </CardContent>
                 </Card>
@@ -221,7 +226,7 @@ const CardsDeck = (props) => {
             <div className={classes.root}>
             {waifuCardsData&&profileData ? (
             <>
-            <Toolbar props={props} profileData={profileData} />
+            <Toolbar props={props} pageValue={1} showFilter={true} profileData={profileData} />
             <Grid container spacing={2} justify="center" className={classes.cardsContainer}>
                 {waifuCardsData.map((x)=>getWaifuCard(x))}
             </Grid>
@@ -229,7 +234,7 @@ const CardsDeck = (props) => {
             </>
             ) : (
                 <>
-                <ToolbarP {...props} />
+                <Toolbar props={props} pageValue={1} />
                 <center><CircularProgress size={100}/></center>
                 </>
             )}

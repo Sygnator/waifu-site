@@ -12,7 +12,7 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" render={(props) => <Main {...props} />} />
-      <Route exact path="/test" render={(props) => <Test props={props} pageValue={-1} showFilter={true} />} />
+      <Route exact path="/test" render={(props) => <Test props={props} pageValue={1} showFilter={true} />} />
       <Route exact path="/user/:userID" render={(props) => <User {...props} />} />
       <Route exact path="/user/:userID/Cards" render={(props) => <Cards {...props} />} />
       <Route exact path="/user/:userID/Profile" render={(props) => <Profile {...props} />} />

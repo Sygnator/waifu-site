@@ -79,7 +79,7 @@ export default function BasicTable(props) {
 
   return (
     <>
-    <Toolbar {...props} />
+    <Toolbar props={props} pageValue={2} />
     {status===200 ? (
     <TableContainer className={classes.table}>
       <Table aria-label="simple table">

@@ -39,10 +39,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-import Search from "./Module/Search.js";
-import Filter from "./Module/Filter.js";
-
-import testProf from "./testProf";
+import Search from "./Search.js";
+import Filter from "./Filter.js";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -155,6 +153,16 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(100, 0, 0, 0)",
       color: "#fff",
     },
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'block',
+    },
+  },
+
+  filterHidden: {
+    minWidth: 80,
+    marginRight: 15,
+    visibility: "hidden",
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'block',
@@ -416,16 +424,14 @@ export default function SearchAppBar({props, pageValue, showFilter=false, profil
 
           </div>
           
-          {showFilter ? (
-                <BottomNavigation
-                    value={0}
-                    showLabels
-                    className={classes.filter}
-                    onClick={handleToggleFilter}
-                  >
-                    <BottomNavigationAction label="Filtry" icon={<FilterListIcon />} />
-                </BottomNavigation>
-              ) : ("")}
+            <BottomNavigation
+                value={0}
+                showLabels
+                className={showFilter ? classes.filter : classes.filterHidden}
+                onClick={handleToggleFilter}
+            >
+                <BottomNavigationAction label="Filtry" icon={<FilterListIcon />} />
+            </BottomNavigation>
             
 
           <Search {...props} />
@@ -461,7 +467,7 @@ export default function SearchAppBar({props, pageValue, showFilter=false, profil
           {list()}
         </SwipeableDrawer>
         </Toolbar>
-        {openFilter ? <Filter props={props} profileData={testProf} ></Filter> : ""}
+        {openFilter ? <Filter props={props} profileData={profileData} ></Filter> : ""}
       </AppBar>
 
       {dialogSettings()}

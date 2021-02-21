@@ -10,7 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
 
-import ToolbarProfile from "./ToolbarProfile";
+import ToolbarTrue from "./Toolbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,11 +58,11 @@ ScrollTop.propTypes = {
   window: PropTypes.func,
 };
 
-export default function BackToTop(props) {
+export default function BackToTop({props, pageValue, showFilter, profileData}) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ToolbarProfile {...props} />
+      <ToolbarTrue props={props} pageValue={pageValue} showFilter={showFilter} profileData={profileData} />
       <Toolbar id="back-to-top-anchor" />
       <Container>
         <Box my={2}>

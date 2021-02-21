@@ -170,7 +170,7 @@ const Profile = (props) => {
 
     return (
         <>
-            <Toolbar {...props} />
+            <Toolbar props={props} pageValue={0} />
             <div className={classes.root}>
                 {profilData ? (
                     <div className={classes.root}>

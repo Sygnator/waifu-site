@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Toolbar from "./Module/ToolbarS";
+// import Toolbar from "./Module/ToolbarS";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
+import Toolbar from "./Module/Toolbar";
+
 const useStyles = makeStyles((theme) => ({
     root: {
+      marginTop: 65,
+    },
+    list: {
       paddingLeft: "10px",
       width: '100%',
       maxWidth: 500,
@@ -49,12 +54,11 @@ const Main = (props) => {
 
     return (
         <>
-            <Toolbar {...props}/>
+            <Toolbar  props={props} pageValue={-1} />
 
-            
-
+            <div className={classes.root}>
             {lastVisited ? (
-                <List dense className={classes.root}>
+                <List dense className={classes.list}>
                 <div className={classes.divWhite}>Lista ostatnio odwiedzanych profili: </div>
                 {lastVisited.map((value) => {
                   if(value!==null) {
@@ -81,7 +85,7 @@ const Main = (props) => {
             ) : (
                 <div className={classes.divWhite}>Nikogo ostatnio nie odwiedzałeś...</div>
             )}
-
+          </div>
         </>
     )
 }
