@@ -42,7 +42,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Search from "./Module/Search.js";
 import Filter from "./Module/Filter.js";
 
-import testProf from "./testProf";
+import testProf from "./TestData/testProf";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
