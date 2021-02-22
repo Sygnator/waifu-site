@@ -99,6 +99,10 @@ const useStyles = makeStyles((theme) => ({
           paddingBottom: "20px",
           fontSize: "25px",
       },
+      profilCenter: {
+        textAlign: "center",
+        fontSize: "32px",
+      },
     
 }));
 
@@ -131,6 +135,24 @@ const Profile = (props) => {
         )
     }
 
+    const renderCardsCount = (profilData, version=true) => {
+
+        return (
+            <div className={version ? classes.details : classes.profilCenter}>
+                Posiadane karty:
+                <div>SSS: {`${profilData.cardsCount.SSS}`}</div>
+                <div>SS: {`${profilData.cardsCount.SS}`}</div>
+                <div>S: {`${profilData.cardsCount.S}`}</div>
+                <div>A: {`${profilData.cardsCount.A}`}</div>
+                <div>B: {`${profilData.cardsCount.B}`}</div>
+                <div>C: {`${profilData.cardsCount.C}`}</div>
+                <div>D: {`${profilData.cardsCount.D}`}</div>
+                <div>E: {`${profilData.cardsCount.E}`}</div>
+                <div>Wszystkie: {`${profilData.cardsCount.total}/${profilData.maxCardCount}`}</div>
+            </div>
+        )
+    }
+
     return (
         <>
             <Toolbar props={props} pageValue={0} />
@@ -139,25 +161,20 @@ const Profile = (props) => {
                     <div className={classes.root}>
                         <div>
                             <Grid container spacing={3} className={classes.profileCards}>
-                                <Grid item xs={12} sm={6} key={profilData.waifu.profileImageUrl}>
-                                    {/* if waifu === null to nie ładować tych danych */}
-                                    <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}></CardMedia>
-                                    {/* <img src={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}/> */}
-                                </Grid>
-                                <Grid item xs={12} sm={6} key={profilData.waifu.id}>
-                                    <div className={classes.details}>
-                                        Posiadane karty:
-                                        <div>SSS: {`${profilData.cardsCount.SSS}`}</div>
-                                        <div>SS: {`${profilData.cardsCount.SS}`}</div>
-                                        <div>S: {`${profilData.cardsCount.S}`}</div>
-                                        <div>A: {`${profilData.cardsCount.A}`}</div>
-                                        <div>B: {`${profilData.cardsCount.B}`}</div>
-                                        <div>C: {`${profilData.cardsCount.C}`}</div>
-                                        <div>D: {`${profilData.cardsCount.D}`}</div>
-                                        <div>E: {`${profilData.cardsCount.E}`}</div>
-                                        <div>Wszystkie: {`${profilData.cardsCount.total}/${profilData.maxCardCount}`}</div>
-                                    </div>
-                                </Grid>
+                                {profilData.waifu===null ? (
+                                    <Grid item xs={12} sm={12} key={profilData.cardsCount.total}>
+                                        {renderCardsCount(profilData, false)}
+                                    </Grid>
+                                ) : (
+                                <div>
+                                    <Grid item xs={12} sm={6} key={profilData.waifu.profileImageUrl}>
+                                        <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}></CardMedia>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} key={profilData.cardsCount.total}>
+                                        {renderCardsCount(profilData)}
+                                    </Grid>
+                                </div>
+                                )}
                             </Grid>
                         </div>
                         <div className={classes.exchangeConditions}>{profilData.exchangeConditions}</div>
