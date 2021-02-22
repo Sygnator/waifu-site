@@ -155,11 +155,12 @@ const CardsDeck = (props) => {
         if(profileData!=undefined) {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
                     const newWaifuCardsData = res.data.cards;
+                    const totakCards = res.data.totalCards;
                     setWaifuCardsData(newWaifuCardsData);
-                    if(res.data.totalCards<localCardsOnPage) {
+                    if(totakCards<cardsOnPage) {
                         setPageCount(1);
                     } else {
-                        setPageCount(Math.ceil(res.data.totalCards/localCardsOnPage));
+                        setPageCount(Math.ceil(totakCards/cardsOnPage));
                     }
 
                     console.log(newWaifuCardsData.length);
