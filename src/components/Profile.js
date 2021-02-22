@@ -112,47 +112,12 @@ const Profile = (props) => {
     const [profilData, setProfilData] = useState();
 
     useEffect(()=> {
-        // if((JSON.parse(localStorage.getItem(`u${userID}-Profile`)).lastupdate !== userID) ) {
             axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
                 const newProfilData = res.data;
                 setProfilData(newProfilData)
             })
-
-            // localStorage.setItem('userID', JSON.stringify(userID))
-        // } else {
-        //     setProfilData(JSON.parse(localStorage.getItem(`u${userID}-Profile`)))
-        // }
-
-        // localStorage.setItem('userID', JSON.stringify(userID))
     }, [])
 
-
-    // useEffect(() => {
-    //     // setProfilData(testProf)
-    //     if(profilData===undefined) {
-    //         console.log(`Pobieram dane z api`);
-    //         axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-    //             const newProfilData = res.data;
-    //             setProfilData(newProfilData)
-    //         })
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     const value = {
-    //         orderBy: "id", //id, idDes, name, nameDes, rarity, rarityDes, title, titleDes, health, healthDes, atack, atackDes, defence, defenceDes
-    //         includeTags: [],
-    //         excludeTags: [],
-    //         searchText: null
-    //     };
-
-    //     localStorage.setItem('FData', JSON.stringify(value));
-    //   }, []);
-
-    function amount(prof) {
-        const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
-        return sssCount + ssCount + sCount + aCount + bCount + cCount + dCount + eCount;
-    }
 
     const getWaifuCard = (waifuCard) => {
         const { profileImageUrl, id } = waifuCard
@@ -182,15 +147,15 @@ const Profile = (props) => {
                                 <Grid item xs={12} sm={6} key={profilData.waifu.id}>
                                     <div className={classes.details}>
                                         Posiadane karty:
-                                        <div>SSS: {`${profilData.sssCount}`}</div>
-                                        <div>SS: {`${profilData.ssCount}`}</div>
-                                        <div>S: {`${profilData.sCount}`}</div>
-                                        <div>A: {`${profilData.aCount}`}</div>
-                                        <div>B: {`${profilData.bCount}`}</div>
-                                        <div>C: {`${profilData.cCount}`}</div>
-                                        <div>D: {`${profilData.dCount}`}</div>
-                                        <div>E: {`${profilData.eCount}`}</div>
-                                        <div>Wszystkie: {`${amount(profilData)}/${profilData.maxCardCount}`}</div>
+                                        <div>SSS: {`${profilData.cardsCount.SSS}`}</div>
+                                        <div>SS: {`${profilData.cardsCount.SS}`}</div>
+                                        <div>S: {`${profilData.cardsCount.S}`}</div>
+                                        <div>A: {`${profilData.cardsCount.A}`}</div>
+                                        <div>B: {`${profilData.cardsCount.B}`}</div>
+                                        <div>C: {`${profilData.cardsCount.C}`}</div>
+                                        <div>D: {`${profilData.cardsCount.D}`}</div>
+                                        <div>E: {`${profilData.cardsCount.E}`}</div>
+                                        <div>Wszystkie: {`${profilData.cardsCount.total}/${profilData.maxCardCount}`}</div>
                                     </div>
                                 </Grid>
                             </Grid>
@@ -200,7 +165,6 @@ const Profile = (props) => {
                             {profilData.gallery ? (
                             <Grid container justify="center" alignItems="baseline" spacing={2} className={classes.cardsContainer}>
                                 {profilData.gallery.map((x)=>getWaifuCard(x))}
-                                {/* {console.log(profilData.gallery)} */}
                             </Grid>
                             ) : (
                                 ""
