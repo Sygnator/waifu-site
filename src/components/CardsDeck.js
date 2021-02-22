@@ -114,7 +114,7 @@ const CardsDeck = (props) => {
     useEffect(() => {
 
         if(profileData!=undefined) {
-            const cardsAmount = cardAmount(profileData);
+            const cardsAmount = profileData.cardsCount.total;
 
             if(localCardsOnPage===null) {
                 setCardsOnPage(cardsAmount)
@@ -198,10 +198,10 @@ const CardsDeck = (props) => {
         )
     }
 
-    function cardAmount(prof) {
-        const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
-        return sssCount + ssCount + sCount + aCount + bCount + cCount + dCount + eCount;
-    }
+    // function cardAmount(prof) {
+    //     const {sssCount, ssCount, sCount, aCount, bCount, cCount, dCount, eCount} = prof;
+    //     return sssCount + ssCount + sCount + aCount + bCount + cCount + dCount + eCount;
+    // }
 
     const pageChange = (event, value) => {
         setPage(value);

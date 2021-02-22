@@ -166,14 +166,14 @@ const Profile = (props) => {
                                         {renderCardsCount(profilData, false)}
                                     </Grid>
                                 ) : (
-                                <div>
+                                <>
                                     <Grid item xs={12} sm={6} key={profilData.waifu.profileImageUrl}>
                                         <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}></CardMedia>
                                     </Grid>
                                     <Grid item xs={12} sm={6} key={profilData.cardsCount.total}>
                                         {renderCardsCount(profilData)}
                                     </Grid>
-                                </div>
+                                </>
                                 )}
                             </Grid>
                         </div>
