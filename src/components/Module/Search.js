@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: "1px solid rgba(255, 255, 255, 1)",
     },
     "& .MuiInput-underline:hover:before": {
-      borderBottom: "1px solid rgba(255, 0, 0, .87)",
+      borderBottom: "1px solid rgba(245, 0, 85, .87)",
     },
     '& .MuiFormLabel-root': {
       color: '#fff',

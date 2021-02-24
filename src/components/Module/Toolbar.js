@@ -39,6 +39,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 import Search from "./Search.js";
 import Filter from "./Filter.js";
@@ -67,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     marginRight: 100,
+    [theme.breakpoints.down('md')]: {
+      marginRight: 50,
+    },
   },
   container: {
     display: 'flex',
@@ -224,8 +228,9 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
       window.onscroll = () => {
         let currentScrollPos = window.pageYOffset;
         let maxScroll = document.body.scrollHeight - window.innerHeight;
-
-        setBar(currentScrollPos > 0 && currentScrollPos <= maxScroll);
+        
+        // && currentScrollPos <= maxScroll
+        setBar(currentScrollPos > 0);
 
       }
     }
@@ -291,6 +296,10 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           window.location.href=`#/user/${userID}/wishlist`;
           window.location.reload();
         break;
+      case "wikiPW":
+          window.location.replace(`https://wiki.sanakan.pl/`);
+          // window.location.reload();
+        break;
     
       default:
         break;
@@ -334,6 +343,13 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary={"Strona Główna"} />
+        </ListItem>
+
+        <ListItem button key={"wikiPW"} onClick={() => {menuRoute("wikiPW")}} >
+          <ListItemIcon>
+            <ImportContactsIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Wiki Pocket Waifu"} />
         </ListItem>
         
         {pageValue>-1 ? (
