@@ -26,7 +26,8 @@ import {
   FormLabel,
   Tooltip,
   CircularProgress,
-  Snackbar
+  Snackbar,
+  Avatar,
 } from '@material-ui/core';
 
 import MuiAlert from '@material-ui/lab/Alert';
@@ -51,6 +52,21 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+  },
+  AppBar: {
+    backgroundColor: "rgba(32, 35, 42, .5)",
+    alignItems: "center",
+  },
+  AppBarE: {
+    backgroundColor: "rgba(32, 35, 42, .99)",
+    alignItems: "center",
+  },
+  Toolbar: {
+    width: "100%",
+    maxWidth: "90%",
+  },
+  logo: {
+    marginRight: 100,
   },
   container: {
     display: 'flex',
@@ -107,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
   },
   a: {
     display: "block",
-    marginLeft: "auto",
+    marginLeft: 20,
     marginRight: "auto",
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -115,7 +131,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   b: {
-    minWidth: 400,
+    // minWidth: 300,
+    width: "100%",
     backgroundColor: "rgba(0, 0, 0, 0)",
     "& .MuiBottomNavigationAction-root": {
       color: "#fff",
@@ -125,7 +142,9 @@ const useStyles = makeStyles((theme) => ({
       color: "#f50057",
     },
   },
-
+  c: {
+    minWidth: 100,
+  },
   list: {
     width: 250
   },
@@ -170,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar({props, pageValue, showFilter=false, profileData=null}) {
+export default function SearchAppBar({props, pageValue=-1, showFilter=false, profileData=null}) {
   /*
     pageValue:
     -1 - null
@@ -197,6 +216,22 @@ export default function SearchAppBar({props, pageValue, showFilter=false, profil
   const [openSnackbarError, setOpenSnackbarError] = useState(false);
 
   const [openFilter, setOpenFilter] = useState(false);
+
+  const [bar, setBar] = useState(false);
+
+  const scroll = () => {
+    if (typeof window !== "undefined") {
+      window.onscroll = () => {
+        let currentScrollPos = window.pageYOffset;
+        let maxScroll = document.body.scrollHeight - window.innerHeight;
+
+        setBar(currentScrollPos > 0 && currentScrollPos <= maxScroll);
+
+      }
+    }
+  }
+  
+  scroll()
 
   const handleToggleFilter = () => {
     setOpenFilter((prevOpenFilter) => !prevOpenFilter);
@@ -412,24 +447,13 @@ export default function SearchAppBar({props, pageValue, showFilter=false, profil
           </Alert>
       </Snackbar>
 
-      <AppBar position="fixed">
-        <Toolbar>
+      <AppBar position="fixed" className={bar ? classes.AppBarE : classes.AppBar}>
+        <Toolbar className={classes.Toolbar} >
 
-          <IconButton
-            edge="start"
-            className={classes.startButton}
-            color="inherit"
-            aria-label="open start"
-            href={`#/`}
-          >
-            <HomeIcon />
-          </IconButton>
+          <a href={`#/`} className={classes.logo}>
+            <Avatar variant="square" src={`${process.env.PUBLIC_URL}/Pictures/pwlogo.png`} />
+          </a>
 
-          <Typography className={classes.title} variant="h6" noWrap>
-            Pocket-Waifu
-          </Typography>
-
-          
           <div className={classes.a}>
 
             {pageValue>-1 ? (
@@ -441,7 +465,7 @@ export default function SearchAppBar({props, pageValue, showFilter=false, profil
               >
                 <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} href={`#/user/${userID}/profile`} />
                 <BottomNavigationAction label="Karty" icon={<ViewCarouselIcon />}  href={`#/user/${userID}/cards`} />
-                <BottomNavigationAction label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} />
+                <BottomNavigationAction className={classes.c} label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} />
               </BottomNavigation>
             ) : ("")}
 

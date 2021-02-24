@@ -6,6 +6,7 @@ import {
     CardContent,
     CircularProgress,
     Link,
+    Container,
   } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
@@ -18,10 +19,12 @@ import Toolbar from "./Module/BackToTop";
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 import Pagination from '@material-ui/lab/Pagination';
 
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: "auto",
-        maxWidth: "98%",
+        // maxWidth: "100%",
     },
     cardsContainer: {
         flexGrow: 1,
@@ -224,7 +227,7 @@ const CardsDeck = (props) => {
 
     return (
         <>
-            <div className={classes.root}>
+            <Container fixed maxWidth="xl">
             {waifuCardsData&&profileData ? (
             <>
             <Toolbar props={props} pageValue={1} showFilter={true} profileData={profileData} />
@@ -239,7 +242,7 @@ const CardsDeck = (props) => {
                 <center><CircularProgress size={100}/></center>
                 </>
             )}
-            </div>
+            </Container>
         </>
     )
 }
