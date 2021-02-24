@@ -167,10 +167,10 @@ const Profile = (props) => {
                                     </Grid>
                                 ) : (
                                 <>
-                                    <Grid item xs={12} sm={6} key={profilData.waifu.profileImageUrl}>
+                                    <Grid item xs={12} md={6} key={profilData.waifu.profileImageUrl}>
                                         <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.img}></CardMedia>
                                     </Grid>
-                                    <Grid item xs={12} sm={6} key={profilData.cardsCount.total}>
+                                    <Grid item xs={12} md={6} key={profilData.cardsCount.total}>
                                         {renderCardsCount(profilData)}
                                     </Grid>
                                 </>
@@ -187,6 +187,7 @@ const Profile = (props) => {
                                 ""
                             )}
                         </div>
+                        {profilData.expeditions.length ? "Pewnie się zastanawiasz czemu to coś jest? Nie martw się, ja też nie wiem." : "Pewnie zastanawiasz się czemu tu nic nie ma? Nie martw się, ja też nie wiem."}
                     </div>
                 ) : (
                     <center><CircularProgress size={100}/></center>
