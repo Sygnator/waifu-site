@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
         color: "white"
     },
     cardMedia: {
-        width: "190px", 
-        height: "276px",
+        width: "190px",
+        // height: "276px",
         // margin: "auto",
     },
     details: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: "20px",
       },
       img: {
-        width: "350px", 
+        width: "350px",
         height: "508px",
         marginLeft: "auto",
       },
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: "center",
         fontSize: "32px",
       },
-    
+
 }));
 
 const Profile = (props) => {
@@ -112,7 +112,7 @@ const Profile = (props) => {
     const { userID } = params;
 
     const classes = useStyles();
-    
+
     const [profilData, setProfilData] = useState();
 
     useEffect(()=> {
@@ -129,7 +129,9 @@ const Profile = (props) => {
         return (
             <Grid item key={id}>
                 <Card variant="outlined" className={classes.cardStyle}>
-                    <LazyCardMedia image={profileImageUrl} alt={id} className={classes.cardMedia} {...props} ></LazyCardMedia>
+                    <div className={classes.cardMedia}>
+                        <LazyCardMedia image={profileImageUrl} alt={id}  {...props} ></LazyCardMedia>
+                    </div>
                 </Card>
             </Grid>
         )

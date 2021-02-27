@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   c: {
-    minWidth: 100,
+    minWidth: 105,
   },
   list: {
     width: 250

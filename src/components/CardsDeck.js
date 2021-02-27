@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
     },
     cardMedia: {
         width: "190px",
-        height: "276px",
         margin: "auto",
     },
     id: {
@@ -85,7 +84,7 @@ const CardsDeck = (props) => {
     const { userID } = params;
 
     const classes = useStyles();
-    
+
     const [waifuCardsData, setWaifuCardsData] = useState();
     const [profileData, setProfileData] = useState();
 
@@ -97,7 +96,7 @@ const CardsDeck = (props) => {
     };
 
     const filterUpdate = (filterData) => {
-      
+
         localStorage.setItem(`u${userID}filter`, JSON.stringify(filterData))
 
         return JSON.parse(localStorage.getItem(`u${userID}filter`));
@@ -151,7 +150,7 @@ const CardsDeck = (props) => {
 
         if(localFilter===null) {
             filterUpdate(emptyFilter)
-        } 
+        }
 
         setWaifuCardsData(undefined)
 
@@ -167,10 +166,10 @@ const CardsDeck = (props) => {
                     }
 
                     console.log(newWaifuCardsData.length);
-                       
+
             })
 
-            // setWaifuCardsData(testCards); 
+            // setWaifuCardsData(testCards);
         }
     }, [page, cardsOnPage]);
 
@@ -180,7 +179,9 @@ const CardsDeck = (props) => {
         return (
             <Grid item key={id}>
                 <Card className={classes.cardStyle}>
-                    <LazyCardMedia image={imageUrl} alt={id} className={classes.cardMedia} {...props} ></LazyCardMedia>
+                    <div className={classes.cardMedia}>
+                    <LazyCardMedia image={imageUrl} alt={id} {...props} ></LazyCardMedia>
+                    </div>
                     {/* <CardMedia image={imageUrl} className={classes.cardMedia}></CardMedia> */}
                     <CardContent className={classes.cardContent}>
                         <a className={classes.id}>{id}</a>: <Link className={classes.link} href={characterUrl} target="_blank">{name}</Link>
@@ -213,7 +214,7 @@ const CardsDeck = (props) => {
     const renderPagination = (page, pageCount) => {
         return (
             <div className={classes.pagination}>
-            <Pagination 
+            <Pagination
                 count={pageCount}
                 page={page}
                 onChange={pageChange}
