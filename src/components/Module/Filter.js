@@ -9,10 +9,13 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 import Button from '@material-ui/core/Button';
 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
@@ -25,13 +28,19 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+    backgroundColor: "rgba(0,0,0,0)",
+    boxShadow: "0px 21px 40px -23px rgba(0,0,0,0.75)",
   },
   barColor: {
-    borderTop: "1px solid rgba(0,0,0,0.1)",
-    backgroundColor: "#364596",
+    backgroundColor: "rgba(0,0,0,0)",
   },
   button: {
     margin: theme.spacing(1),
+    backgroundColor: "#f5005788",
+
+    "&:hover": {
+      backgroundColor: "#f50057bb",
+    },
   },
   delete: {
     color: "#ffffff",
@@ -88,6 +97,14 @@ const useStyles = makeStyles((theme) => ({
     //   },
     // },
   },
+  icon: {
+    textAlign: "right",
+    marginLeft: 10,
+  },
+  tag_value: {
+    width: "100%",
+    textAlign: "left",
+  },
 }));
 
 export default function FilterAppBar({props, profileData}) {
@@ -97,7 +114,7 @@ export default function FilterAppBar({props, profileData}) {
   const { params } = match;
   const { userID } = params;
 
-  
+
   // search  input
   const [searchData, setSearchData] = useState("")
 
@@ -107,11 +124,11 @@ export default function FilterAppBar({props, profileData}) {
 
   // *
   // *
-  // * 
+  // *
   // tag button
   // *
   // *
-  // * 
+  // *
 
   const [openTag, setOpenTag] = React.useState(false);
   const anchorRefTag = React.useRef(null);
@@ -156,11 +173,11 @@ export default function FilterAppBar({props, profileData}) {
 
   // *
   // *
-  // * 
-  // Sort button 
+  // *
+  // Sort button
   // *
   // *
-  // * 
+  // *
 
   const [openSort, setOpenSort] = React.useState(false);
   const anchorRefSort = React.useRef(null);
@@ -181,7 +198,7 @@ export default function FilterAppBar({props, profileData}) {
         return "assign";
       case "assign":
         return "reject";
-    
+
       default:
         return null;
     }
@@ -222,13 +239,13 @@ export default function FilterAppBar({props, profileData}) {
 
   // *
   // *
-  // * 
+  // *
   // Other
   // *
   // *
-  // * 
+  // *
 
-  function refreshPage() { 
+  function refreshPage() {
     console.log(`reload`);
     window.location.reload();
   }
@@ -328,7 +345,7 @@ export default function FilterAppBar({props, profileData}) {
     const searchText = searchData;
 
     const filter = {
-      orderBy: orderBy, 
+      orderBy: orderBy,
       includeTags: includeTags,
       excludeTags: excludeTags,
       searchText: searchText,
@@ -350,7 +367,7 @@ export default function FilterAppBar({props, profileData}) {
 
   useEffect(() => {
 
-  
+
 
   const newDataFilter = JSON.parse(localStorage.getItem(`u${userID}dataFilter`));
 
@@ -378,6 +395,7 @@ export default function FilterAppBar({props, profileData}) {
             aria-label="select merge strategy"
             aria-haspopup="menu"
             onClick={handleToggleSort}
+            className={classes.button}
           >
             Sortuj<ArrowDropDownIcon />
           </Button>
@@ -398,9 +416,11 @@ export default function FilterAppBar({props, profileData}) {
                         // disabled={index === 2}
                         selected={false}
                         onClick={(event) => handleMenuItemClickSort(event, index)}
-                        style={getSortStyles(option)}
+                        // style={getSortStyles(option)}
                       >
-                        {option.value}
+                          <a className={classes.tag_value}>{option.value}</a>
+                          {option.choice==="assign" ? <ArrowDropUpIcon className={classes.icon} /> :
+                           option.choice==="reject" ? <ArrowDropDownIcon className={classes.icon} /> : <a style={{marginLeft: 34}}></a>}
                       </MenuItem>
                     ))}
                   </MenuList>
@@ -419,6 +439,7 @@ export default function FilterAppBar({props, profileData}) {
             aria-label="select merge strategy"
             aria-haspopup="menu"
             onClick={handleToggleTag}
+            className={classes.button}
           >
             Tagi<ArrowDropDownIcon />
           </Button>
@@ -437,9 +458,11 @@ export default function FilterAppBar({props, profileData}) {
                       <MenuItem
                         key={option.value}
                         onClick={(event) => handleMenuItemClickTag(event, index)}
-                        style={getTagStyles(option)}
+                        // style={getTagStyles(option)}
                       >
-                        {option.value}
+                        <a className={classes.tag_value}>{option.value}</a>
+                        {option.choice==="assign" ? <CheckIcon className={classes.icon} /> :
+                         option.choice==="reject" ? <CloseIcon className={classes.icon} /> : <a style={{marginLeft: 34}}></a>}
                       </MenuItem>
                     ))}
                   </MenuList>
@@ -471,6 +494,7 @@ export default function FilterAppBar({props, profileData}) {
                 color="primary"
                 size="small"
                 className={classes.button}
+                style={{marginLeft: 14,}}
                 startIcon={<SaveIcon />}
             >
                 Zastosuj
