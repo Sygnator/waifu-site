@@ -228,14 +228,14 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
       window.onscroll = () => {
         let currentScrollPos = window.pageYOffset;
         let maxScroll = document.body.scrollHeight - window.innerHeight;
-        
+
         // && currentScrollPos <= maxScroll
         setBar(currentScrollPos > 0);
 
       }
     }
   }
-  
+
   scroll()
 
   const handleToggleFilter = () => {
@@ -300,7 +300,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           window.location.replace(`https://wiki.sanakan.pl/`);
           // window.location.reload();
         break;
-    
+
       default:
         break;
     }
@@ -325,7 +325,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
     if(localCardsOnPage!=null) {
       setCardOnPage(localCardsOnPage);
     }
-    
+
   }, []);
 
   const list = () => (
@@ -351,7 +351,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           </ListItemIcon>
           <ListItemText primary={"Wiki Pocket Waifu"} />
         </ListItem>
-        
+
         {pageValue>-1 ? (
         <div>
             <ListItem button key={"profile"} onClick={() => {menuRoute("profile")}} >
@@ -390,7 +390,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
       </List>
       </div>
       ) : ""}
-      
+
 
 
       <Divider />
@@ -437,12 +437,12 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
       <Button onClick={()=>setOpenSettings(false)} color="primary" disabled={loading}>
         Anuluj
       </Button>
-      
+
       <Button onClick={()=>handleChangeSettings()} color="primary" disabled={loading}>
         Zatwierdź
       </Button>
       {loading && <CircularProgress size={44} className={classes.buttonProgress} />}
-      
+
     </DialogActions>
   </div>
   </Dialog>
@@ -486,7 +486,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
             ) : ("")}
 
           </div>
-          
+
             <BottomNavigation
                 value={0}
                 showLabels
@@ -495,7 +495,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
             >
                 <BottomNavigationAction label="Filtry" icon={<FilterListIcon />} />
             </BottomNavigation>
-            
+
 
           <Search {...props} />
 
@@ -520,7 +520,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           >
             <MenuIcon />
           </IconButton>
-          
+
           <SwipeableDrawer
             anchor={"top"}
             open={state}
