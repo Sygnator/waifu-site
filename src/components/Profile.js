@@ -410,7 +410,7 @@ console.log(nick);
                     </Grid>
                     <Grid item xs={12} className={classes.exchangeConditions_container}>
                     {/* <Typography variant="h5" className={classes.exchangeConditions_title}>Zasady wymiany:</Typography>*/}
-                      <Typography variant="p" className={classes.exchangeConditions_content}>{profilData.exchangeConditions ? profilData.exchangeConditions : "Nie ustawiono warunktów wymiany."}</Typography>
+                      <Typography variant="p" className={classes.exchangeConditions_content}>{profilData.exchangeConditions ? profilData.exchangeConditions : "Nie ustawiono warunków wymiany."}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
