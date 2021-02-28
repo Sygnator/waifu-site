@@ -11,6 +11,7 @@ import {
   Paper,
   Typography,
   Avatar,
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -22,6 +23,9 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
 
 import Pagination from '@material-ui/lab/Pagination';
+
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 import axios from "axios";
 
@@ -165,6 +169,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.between('xs', 'xs')]: {
       marginTop: 2,
     },
+  },
+  chip_container: {
+    marginLeft: "auto",
+    marginBottom: 10,
+    marginRight: 30,
   },
   error404: {
     marginLeft: "auto",
@@ -331,6 +340,14 @@ const CardsDeck = (props) => {
     )
   }
 
+  const handleChipDeleteInclude = (tag) => {
+    console.log(tag);
+  }
+
+  const handleChipDeleteExclude = (tag) => {
+    console.log(tag);
+  }
+
   const backgroundImg = (profil) => {
     return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
     {backgroundImage: `url(${profil.backgroundImageUrl})`,}
@@ -343,7 +360,6 @@ const CardsDeck = (props) => {
           <div className={classes.shadow} ></div>
         </Paper>
 
-          {/* TODO Add avatar */}
           <Grid container justify="center" spacing={2} className={classes.mainPage}>
           <Grid item md={4} xs={12} className={classes.profile} container>
                 <Grid item xs={12}>
@@ -358,7 +374,22 @@ const CardsDeck = (props) => {
                   </Grid>
                 </Grid>
           </Grid>
-          <Grid item md={8} xs={12} container></Grid>
+          <Grid item md={8} xs={12} container>
+            {/* {cardsData&&profileData ? (
+              <>
+                <div className={classes.chip_container}>
+                  {localFilter.includeTags.map((tag)=>{
+                    return (<Chip label={tag} />)
+                  })}
+                </div>
+                <div>
+                {localFilter.excludeTags.map((tag)=>{
+                  return (<Chip label={tag} />)
+                })}
+              </div>
+            </>
+            ) : ""} */}
+          </Grid>
 
             {cardsData&&profileData ? (
               <>
