@@ -393,7 +393,7 @@ const CardsDeck = (props) => {
 
             {cardsData&&profileData ? (
               <>
-                <Grid item xs={12} justify="center" spacing={2} className={classes.cards_container} container>
+                <Grid item xs={12} justify="center" spacing={1} className={classes.cards_container} container>
                   {pageVersion ? cardsData.map((card)=>getWaifuCard(card)) : getWaifuCardList(cardsData)}
                   {pageCount>1 ? renderPagination(page, pageCount) : ""}
                 </Grid>
