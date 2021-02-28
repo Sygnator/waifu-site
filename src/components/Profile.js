@@ -14,14 +14,21 @@ import {
   TableHead,
   TableRow,
   Tooltip,
+  Snackbar,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
+
+import MuiAlert from '@material-ui/lab/Alert';
 
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 // import testProf from "./TestData/testProf.js";
 import axios from "axios";
 // import { CenterFocusStrong } from '@material-ui/icons';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -212,16 +219,10 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-block",
     height: 10,
   },
-  rarity_title: {
-    textAlign: "center",
-    marginLeft: "auto",
-    marginRight: "auto",
-    color: "#c1c1c1",
-    fontSize: 20,
-  },
   rarity_content: {
-    width: "47%",
-    display: "inline-block",
+    fontSize: 16,
+    color: "#c1c1c1",
+    marginBottom: "4px",
   },
   SSS_count: {
     textAlign: "center",
@@ -330,6 +331,7 @@ const Profile = (props) => {
 
     const classes = useStyles();
 
+    const [openSnackbarSuccess, setOpenSnackbarSuccess] = useState(false);
     const [profilData, setProfilData] = useState();
     const [status, setStatus] = useState();
 
@@ -383,7 +385,11 @@ const Profile = (props) => {
       } else {
         return difference;
       }
+    }
 
+    const copyExpeditionCmdToClipboard = (cardId) => () => {
+      navigator.clipboard.writeText("s.wyprawa koniec " + cardId);
+      setOpenSnackbarSuccess(true);
     }
 
     useEffect(()=> {
@@ -402,12 +408,24 @@ const Profile = (props) => {
       {backgroundImage: `url(${profil.backgroundImageUrl})`,}
     }
 
+    const handleCloseSnackbarSuccess = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpenSnackbarSuccess(false);
+    };
+
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profilData)}>
             <Toolbar props={props} pageValue={0} />
           <div className={classes.shadow} ></div>
         </Paper>
+
+        <Snackbar open={openSnackbarSuccess} autoHideDuration={2000} onClose={handleCloseSnackbarSuccess} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
+          <Alert onClose={handleCloseSnackbarSuccess} severity="success"> Skopiowano polecenie zakończenia wyprawy.</Alert>
+        </Snackbar>
 
           <Grid container className={classes.mainPage}>
             {profilData ? (
@@ -450,13 +468,15 @@ const Profile = (props) => {
                 </Grid>
                 <Grid item xs={12} container>
                   <Grid item xs={12} className={classes.rarity_bar_container}>
-                    <div className={classes.rarity_title}>
-                        <div className={classes.rarity_content}>Wszystkie</div>
-                        <div className={classes.rarity_content}>Limit</div>
-                    </div>
                     <div className={classes.rarity_total_max}>
+                      <div>
+                        <div className={classes.rarity_content}>Wszystkie</div>
                         <div className={classes.rarity_total}>{profilData.cardsCount.total}</div>
+                      </div>
+                      <div>
+                        <div className={classes.rarity_content}>Limit</div>
                         <div className={classes.rarity_max}>{profilData.cardsCount.max}</div>
+                      </div>
                     </div>
                     <div className={classes.rarity_bar_container}>
                       <Tooltip title={`SSS - ${profilData.cardsCount.SSS}`} placement="top" arrow>
@@ -539,7 +559,7 @@ const Profile = (props) => {
                   <TableBody>
                     {profilData.expeditions.map((card, index) => (
                       <TableRow key={card.card.id}>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.card.id}</TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime)}</TableCell>
