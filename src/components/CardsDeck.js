@@ -234,6 +234,7 @@ const CardsDeck = (props) => {
       )
   }
 
+  {/* TODO Add version cards */}
   const getWaifuCardList = (cardsData) => {
     return (
         <a>lista..</a>

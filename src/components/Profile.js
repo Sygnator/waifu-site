@@ -417,6 +417,7 @@ const Profile = (props) => {
                     </Grid>
                     <Grid item xs={12} className={classes.exchangeConditions_container}>
                     {/* <Typography variant="h5" className={classes.exchangeConditions_title}>Zasady wymiany:</Typography>*/}
+                    {/* TODO add markdown */}
                       <Typography variant="p" className={classes.exchangeConditions_content}>{profilData.exchangeConditions ? profilData.exchangeConditions : "Nie ustawiono warunków wymiany."}</Typography>
                     </Grid>
                   </Grid>
@@ -571,6 +572,7 @@ const Profile = (props) => {
                   <Divider variant="middle" />
                 </Grid>
                 <Grid item xs={12} container className={classes.gallery}>
+                  {/* TODO tooltip on img */}
                   {profilData.gallery.map((card)=>{
                     return (
                       <Grid item key={card.id}>

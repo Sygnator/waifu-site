@@ -200,8 +200,8 @@ export default function FilterAppBar({props, profileData, cardsData}) {
 
   const sortList = ["Id", "Nazwa", "Ranga", "Tytuł anime", "Życie", "Bazowe życie", "Atak", "Obrona", "Doświadczenie", "Dere", "Obrazek", "Relacja",];
 
-  const [optionsSort, setOptionsSort] = React.useState(sortList.map((o)=>{
-    return {value: o, choice: null}
+  const [optionsSort, setOptionsSort] = React.useState(sortList.map((o,i)=>{
+    return i===0 ? {value: o, choice: "reject"} : {value: o, choice: null}
   }));
 
   const [upSort, setUpSort] = React.useState(false);
@@ -495,7 +495,10 @@ export default function FilterAppBar({props, profileData, cardsData}) {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseTag}>
                   <MenuList id="split-button-menu">
-                    {optionsTag.sort((o,oo)=>o.value.length-oo.value.length).map((option, index) => (
+                  {/* (o,oo)=>o.value.length-oo.value.length */}{/* a.value.toLowerCase()==="ulubione" */}
+                    {optionsTag.sort((a,b) => {
+                      return a.value < b.value ? -1 : 1
+                    }).map((option, index) => (
                       <MenuItem
                         key={option.value}
                         onClick={(event) => handleMenuItemClickTag(event, index)}
