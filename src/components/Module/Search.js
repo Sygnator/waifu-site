@@ -111,7 +111,7 @@ function localAdd(selectUser) {
     const userIdList = lastUserList.map((x)=>{
       if (x!==null) {
         return x.id;
-      } 
+      }
       return x;
     })
 
@@ -123,14 +123,14 @@ function localAdd(selectUser) {
       lastUserList.unshift(selectUser);
       // localStorage.removeItem(`lastVisited`)
     }
-    
+
     localStorage.setItem(`lastVisited`, JSON.stringify(lastUserList));
   }
-  
+
     window.location.href=`#/user/${selectUser.id}/profile`;
     window.location.reload();
   }
-  
+
 }
 
 export default function Asynchronous() {
@@ -152,7 +152,7 @@ export default function Asynchronous() {
 
     if (searchData.length>3) {
         (async () => {
-    
+
         const data = await axios({
             method: 'post',
             url: 'https://api.sanakan.pl/api/User/find',
@@ -162,13 +162,13 @@ export default function Asynchronous() {
               sleep(5000)
               return res.data;
         }) ;
-    
+
         // console.log(data);
-    
+
         setOptions(data)
-    
+
         })();
-    } 
+    }
 
     return () => {
       active = false;
