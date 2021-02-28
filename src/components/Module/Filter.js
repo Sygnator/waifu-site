@@ -508,7 +508,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
             >
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseTag}>
-                  <MenuList id="split-button-menu">
+                  <MenuList style={{maxHeight: 600, height: "100%", overflowY: "scroll",}} id="split-button-menu">
                   {/* (o,oo)=>o.value.length-oo.value.length */}{/* a.value.toLowerCase()==="ulubione" */}
                     {optionsTag.sort((a,b) => {
                       return a.value < b.value ? -1 : 1
