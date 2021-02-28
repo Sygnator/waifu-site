@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/waifu-site/static/js/main.deb24be6.chunk.js",
-    "main.js.map": "/waifu-site/static/js/main.deb24be6.chunk.js.map",
-    "runtime-main.js": "/waifu-site/static/js/runtime-main.7a38f942.js",
-    "runtime-main.js.map": "/waifu-site/static/js/runtime-main.7a38f942.js.map",
-    "static/js/2.069ffcf3.chunk.js": "/waifu-site/static/js/2.069ffcf3.chunk.js",
-    "static/js/2.069ffcf3.chunk.js.map": "/waifu-site/static/js/2.069ffcf3.chunk.js.map",
-    "static/js/3.14ddcae0.chunk.js": "/waifu-site/static/js/3.14ddcae0.chunk.js",
-    "static/js/3.14ddcae0.chunk.js.map": "/waifu-site/static/js/3.14ddcae0.chunk.js.map",
+    "main.js": "/waifu-site/static/js/main.1c74fc55.chunk.js",
+    "main.js.map": "/waifu-site/static/js/main.1c74fc55.chunk.js.map",
+    "runtime-main.js": "/waifu-site/static/js/runtime-main.00accb7f.js",
+    "runtime-main.js.map": "/waifu-site/static/js/runtime-main.00accb7f.js.map",
+    "static/js/2.c6f64f4c.chunk.js": "/waifu-site/static/js/2.c6f64f4c.chunk.js",
+    "static/js/2.c6f64f4c.chunk.js.map": "/waifu-site/static/js/2.c6f64f4c.chunk.js.map",
+    "static/js/3.7a185009.chunk.js": "/waifu-site/static/js/3.7a185009.chunk.js",
+    "static/js/3.7a185009.chunk.js.map": "/waifu-site/static/js/3.7a185009.chunk.js.map",
     "index.html": "/waifu-site/index.html",
-    "static/js/2.069ffcf3.chunk.js.LICENSE.txt": "/waifu-site/static/js/2.069ffcf3.chunk.js.LICENSE.txt"
+    "static/js/2.c6f64f4c.chunk.js.LICENSE.txt": "/waifu-site/static/js/2.c6f64f4c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7a38f942.js",
-    "static/js/2.069ffcf3.chunk.js",
-    "static/js/main.deb24be6.chunk.js"
+    "static/js/runtime-main.00accb7f.js",
+    "static/js/2.c6f64f4c.chunk.js",
+    "static/js/main.1c74fc55.chunk.js"
   ]
 }
