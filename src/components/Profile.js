@@ -600,7 +600,6 @@ const Profile = (props) => {
                   <Divider variant="middle" />
                 </Grid>
                 <Grid item xs={12} container className={classes.gallery}>
-                  {/* TODO tooltip on img */}
                   {profilData.gallery.map((card)=>{
                     return (
                       <Grid item key={card.id}>

@@ -175,6 +175,21 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
     marginRight: 30,
   },
+  includeTags: {
+    backgroundColor: "#2e7d3255",
+    border: "1px solid #1b5e2055",
+    color: "#c1c1c1",
+    marginRight: 5,
+  },
+  excludeTags: {
+    backgroundColor: "#c6282855",
+    border: "1px solid #b71c1c55",
+    color: "#c1c1c1",
+    marginRight: 5,
+  },
+  tag_icon: {
+    color: "#c1c1c1",
+  },
   error404: {
     marginLeft: "auto",
     marginRight: "auto",
@@ -207,7 +222,7 @@ const CardsDeck = (props) => {
 
     const [status, setStatus] = useState();
 
-    const localFilter = JSON.parse(localStorage.getItem(`u${userID}filter`));
+    const [localFilter, setLocalFilter] = useState(JSON.parse(localStorage.getItem(`u${userID}filter`)));
     const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
 
     const emptyFilter = {
@@ -340,13 +355,31 @@ const CardsDeck = (props) => {
     )
   }
 
-  const handleChipDeleteInclude = (tag) => {
-    console.log(tag);
-  }
+  // let xxx;
 
-  const handleChipDeleteExclude = (tag) => {
-    console.log(tag);
-  }
+  // const handleChipDeleteInclude = (tag) => () => {
+  //   let newArr = []
+
+  //   const upfilter = {
+  //     orderBy: localFilter.orderBy,
+  //     includeTags: newArr,
+  //     excludeTags: localFilter.excludeTags,
+  //     searchText: localFilter.searchText
+  //   };
+
+  //   localFilter.includeTags.map((t)=> t===tag ? undefined : newArr.push(t))
+  //   setLocalFilter(upfilter);
+
+  //   clearTimeout(xxx);//not work
+  //   xxx = setTimeout(function(){
+  //     console.log("x");
+
+  //   }, 3000);
+  // }
+
+  // const handleChipDeleteExclude = (tag) => () => {
+  //   console.log("x");
+  // }
 
   const backgroundImg = (profil) => {
     return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
@@ -375,20 +408,18 @@ const CardsDeck = (props) => {
                 </Grid>
           </Grid>
           <Grid item md={8} xs={12} container>
-            {/* {cardsData&&profileData ? (
+            {cardsData&&profileData ? (
               <>
                 <div className={classes.chip_container}>
                   {localFilter.includeTags.map((tag)=>{
-                    return (<Chip label={tag} />)
-                  })}
+                    return (<Chip className={classes.includeTags} clickable={false} label={tag}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
+                  })}{/* icon={<CheckIcon className={classes.tag_icon} />} */}
+                  {localFilter.excludeTags.map((tag)=>{
+                    return (<Chip className={classes.excludeTags} clickable={false} label={tag}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
+                  })}{/* icon={<CloseIcon className={classes.tag_icon} />} */}
                 </div>
-                <div>
-                {localFilter.excludeTags.map((tag)=>{
-                  return (<Chip label={tag} />)
-                })}
-              </div>
             </>
-            ) : ""} */}
+            ) : ""}
           </Grid>
 
             {cardsData&&profileData ? (
