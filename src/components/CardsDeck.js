@@ -268,10 +268,11 @@ const CardsDeck = (props) => {
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profileData)}>
-            <Toolbar props={props} pageValue={1} showFilter={status===200 ? true : false} profileData={profileData}/>
+            <Toolbar props={props} pageValue={1} showFilter={status===200 ? true : false} profileData={profileData} cardsData={cardsData} />
           <div className={classes.shadow} ></div>
         </Paper>
 
+          {/* TODO Add avatar */}
           <Grid container justify="center" spacing={2} className={classes.mainPage}>
           {cardsData&&profileData ? (
             <>

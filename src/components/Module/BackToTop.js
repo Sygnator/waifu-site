@@ -58,11 +58,11 @@ ScrollTop.propTypes = {
   window: PropTypes.func,
 };
 
-export default function BackToTop({props, pageValue, showFilter, profileData}) {
+export default function BackToTop({props, pageValue, showFilter, profileData, cardsData}) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ToolbarTrue props={props} pageValue={pageValue} showFilter={showFilter} profileData={profileData} />
+      <ToolbarTrue props={props} pageValue={pageValue} showFilter={showFilter} profileData={profileData} cardsData={cardsData} />
       <Toolbar id="back-to-top-anchor" />
       <Container>
         <Box my={2}>

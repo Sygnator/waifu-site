@@ -6,11 +6,14 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 
 import InputBase from '@material-ui/core/InputBase';
 
+import MuiAlert from '@material-ui/lab/Alert';
+
 import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import Button from '@material-ui/core/Button';
 
@@ -22,6 +25,12 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Tooltip from '@material-ui/core/Tooltip';
+import Snackbar from '@material-ui/core/Snackbar';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +38,13 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
     backgroundColor: "rgba(0,0,0,0)",
-    boxShadow: "0px 21px 40px -23px rgba(0,0,0,0.75)",
+    marginRight: "auto",
+    marginLeft: "auto",
+    width: "90%",
+
+    "& .MuiPaper-elevation4": {
+      boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
+    },
   },
   barColor: {
     backgroundColor: "rgba(0,0,0,0)",
@@ -50,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   center: {
     marginLeft: "auto",
-    marginRight: "auto",
+    // marginRight: "auto",
   },
   searchRes: {
     position: 'absolute',
@@ -107,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FilterAppBar({props, profileData}) {
+export default function FilterAppBar({props, profileData, cardsData}) {
   const classes = useStyles();
 
   const { match, history } = props;
@@ -380,8 +395,34 @@ export default function FilterAppBar({props, profileData}) {
 
   }, []);
 
+  const [openSnackbarSuccess, setOpenSnackbarSuccess] = useState(false);
+
+  const handleCloseSnackbarSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbarSuccess(false);
+  };
+
+  const copyWids = () => {
+    const wids = cardsData.map((card)=>card.id).join(" ");
+    navigator.clipboard.writeText(wids).then(function() {
+      setOpenSnackbarSuccess(true);
+    }, function(err) {
+      console.error('Could not copy wids: ', err);
+    });
+  }
+
   return (
     <div className={classes.root}>
+
+      <Snackbar open={openSnackbarSuccess} autoHideDuration={4000} onClose={handleCloseSnackbarSuccess} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
+          <Alert onClose={handleCloseSnackbarSuccess} severity="success">
+            Poprawnie skopiowano WID'y kart.
+          </Alert>
+      </Snackbar>
+
       <AppBar position="static" className={classes.barColor}>
         <Toolbar variant='dense' className={classes.barColor}>
             <div className={classes.center}>
@@ -454,7 +495,7 @@ export default function FilterAppBar({props, profileData}) {
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseTag}>
                   <MenuList id="split-button-menu">
-                    {optionsTag.map((option, index) => (
+                    {optionsTag.sort((o,oo)=>o.value.length-oo.value.length).map((option, index) => (
                       <MenuItem
                         key={option.value}
                         onClick={(event) => handleMenuItemClickTag(event, index)}
@@ -487,7 +528,7 @@ export default function FilterAppBar({props, profileData}) {
                   inputProps={{ 'aria-label': 'search' }}
                 />
                 </div>
-            <div className={classes.left}>
+            <div> {/* className={classes.left}> */}
             <Button
                 onClick={()=>{apply()}}
                 variant="contained"
@@ -502,7 +543,12 @@ export default function FilterAppBar({props, profileData}) {
             <IconButton aria-label="delete" onClick={()=>clearData()} className={classes.delete}>
                 <DeleteIcon />
             </IconButton>
-            </div>
+          </div>
+          <Tooltip title={`Kopiuj WID'y kart`} arrow>
+            <IconButton aria-label="copyWID" className={classes.delete} style={{marginLeft: "auto",}} onClick={()=>copyWids()}>
+              <FileCopyIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
   Grid,
-  Card,
   CardMedia,
-  CardContent,
   CircularProgress,
-  Link,
-  Container,
   Divider,
   Paper,
   Typography,
@@ -17,17 +13,20 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
 
 import LazyCardMedia from "./Module/LazyCardMedia.js";
-import testProf from "./TestData/testProf.js";
+// import testProf from "./TestData/testProf.js";
 import axios from "axios";
+// import { CenterFocusStrong } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
+    backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "50% 35%",
     backgroundSize: "cover",
@@ -134,7 +133,6 @@ const useStyles = makeStyles((theme) => ({
   },
   waifu: {
     // boxShadow: "0px 0px 25px 0px rgba(0,0,0,0.20)",
-    borderRadius: "20px",
     marginRight: "auto",
     marginLeft: "auto",
     padding: 10,
@@ -214,6 +212,17 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-block",
     height: 10,
   },
+  rarity_title: {
+    textAlign: "center",
+    marginLeft: "auto",
+    marginRight: "auto",
+    color: "#c1c1c1",
+    fontSize: 20,
+  },
+  rarity_content: {
+    width: "47%",
+    display: "inline-block",
+  },
   SSS_count: {
     textAlign: "center",
     fontSize: 18,
@@ -241,9 +250,9 @@ const useStyles = makeStyles((theme) => ({
     // hidden table scroll
     overflow: "hidden",
   },
-  expeditions_table: {
-      border: "1px solid #424242",
-  },
+  // expeditions_table: {
+  //   border: "1px solid #424242",
+  // },
   expeditions_table_head: {
     backgroundColor: "#232427",
   },
@@ -254,7 +263,7 @@ const useStyles = makeStyles((theme) => ({
   expeditions_table_td1: {
     color: "#c1c1c1",
     backgroundColor: "#323438",
-    borderBottom: "1px solid #1d1f21",
+    borderBottom: "1px solid #1d1f2100",
 
     "& span": {
       color: "#f50057",
@@ -263,7 +272,7 @@ const useStyles = makeStyles((theme) => ({
   expeditions_table_td2: {
     color: "#c1c1c1",
     backgroundColor: "#2b2d31",
-    borderBottom: "1px solid #1d1f21",
+    borderBottom: "1px solid #1d1f2100",
 
     "& span": {
       color: "#f50057",
@@ -317,7 +326,6 @@ const Profile = (props) => {
     const [status, setStatus] = useState();
 
     const [nick, setNick] = useState();
-console.log(nick);
 
     useEffect(() => {
       const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
@@ -326,7 +334,6 @@ console.log(nick);
         lastVisited.forEach(element => {
           if(element!==null) {
             if (element.id==userID) {
-              console.log(element);
               setNick(element.name)
             }
           }
@@ -434,19 +441,39 @@ console.log(nick);
                 </Grid>
                 <Grid item xs={12} container>
                   <Grid item xs={12} className={classes.rarity_bar_container}>
+                    <div className={classes.rarity_title}>
+                        <div className={classes.rarity_content}>Wszystkie</div>
+                        <div className={classes.rarity_content}>Limit</div>
+                    </div>
                     <div className={classes.rarity_total_max}>
                         <div className={classes.rarity_total}>{profilData.cardsCount.total}</div>
                         <div className={classes.rarity_max}>{profilData.cardsCount.max}</div>
                     </div>
                     <div className={classes.rarity_bar_container}>
-                      <div className={classes.rarity_bar} style={{borderBottomLeftRadius: 4, minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.SSS), background: "linear-gradient(90deg, rgba(158,58,180,1) 0%, rgba(29,253,179,1) 50%, rgba(252,238,69,1) 100%)"}}></div>
-                      <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.SS), backgroundColor: "#ff658e"}}></div>
-                      <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.S), backgroundColor: "#ffe149"}}></div>
-                      <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.A), backgroundColor: "#f49244"}}></div>
-                      <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.B), backgroundColor: "#a556d8"}}></div>
-                      <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.C), backgroundColor: "#0069ab"}}></div>
-                      <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.D), backgroundColor: "#3e7315"}}></div>
-                      <div className={classes.rarity_bar} style={{borderBottomRightRadius: 4, minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.E), backgroundColor: "#848484"}}></div>
+                      <Tooltip title={`SSS - ${profilData.cardsCount.SSS}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{borderBottomLeftRadius: 4, minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.SSS), background: "linear-gradient(90deg, rgba(158,58,180,1) 0%, rgba(29,253,179,1) 50%, rgba(252,238,69,1) 100%)"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`SS - ${profilData.cardsCount.SS}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.SS), backgroundColor: "#ff658e"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`S - ${profilData.cardsCount.S}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.S), backgroundColor: "#ffe149"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`A - ${profilData.cardsCount.A}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.A), backgroundColor: "#f49244"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`B - ${profilData.cardsCount.B}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.B), backgroundColor: "#a556d8"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`C - ${profilData.cardsCount.C}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.C), backgroundColor: "#0069ab"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`D - ${profilData.cardsCount.D}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.D), backgroundColor: "#3e7315"}}></div>
+                      </Tooltip>
+                      <Tooltip title={`E - ${profilData.cardsCount.E}`} placement="top" arrow>
+                        <div className={classes.rarity_bar} style={{borderBottomRightRadius: 4, minWidth: calculateBarWidth(profilData.cardsCount.total, profilData.cardsCount.E), backgroundColor: "#848484"}}></div>
+                      </Tooltip>
                     </div>
                   </Grid>
                   <Grid item xs={12} className={classes.rarity_container}>

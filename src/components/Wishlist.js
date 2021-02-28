@@ -67,9 +67,9 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 200,
     },
   },
-  wishlist_table: {
-    border: "1px solid #424242",
-  },
+  // wishlist_table: {
+  //   border: "1px solid #424242",
+  // },
   wishlist_table_head: {
     backgroundColor: "#232427",
   },
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: "#c1c1c1",
     backgroundColor: "#323438",
-    borderBottom: "1px solid #1d1f21",
+    borderBottom: "1px solid #1d1f2100",
 
     "& span": {
       color: "#f50057",
@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: "#c1c1c1",
     backgroundColor: "#2b2d31",
-    borderBottom: "1px solid #1d1f21",
+    borderBottom: "1px solid #1d1f2100",
 
     "& span": {
       color: "#f50057",
