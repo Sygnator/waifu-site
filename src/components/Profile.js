@@ -245,6 +245,14 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 15,
     color: "#c1c1c1",
   },
+  expeditions_card_name: {
+    textDecoration: "none",
+    color: "#c1c1c1",
+
+    "&:hover": {
+      color: "#f50057",
+    }
+  },
   expeditions_table_container: {
     padding: 15,
     // hidden table scroll
@@ -532,7 +540,7 @@ const Profile = (props) => {
                     {profilData.expeditions.map((card, index) => (
                       <TableRow key={card.card.id}>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.card.id}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.card.name}</TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime)}</TableCell>
                       </TableRow>
@@ -576,9 +584,11 @@ const Profile = (props) => {
                   {profilData.gallery.map((card)=>{
                     return (
                       <Grid item key={card.id}>
-                        <div className={classes.gallery_card}>
-                          <LazyCardMedia image={card.profileImageUrl} alt={card.id}  {...props} ></LazyCardMedia>
-                        </div>
+                        <Tooltip title={`${card.id} - ${card.name}`} placement="top" arrow>
+                          <div className={classes.gallery_card}>
+                            <LazyCardMedia image={card.profileImageUrl} alt={card.id}  {...props} ></LazyCardMedia>
+                          </div>
+                        </Tooltip>
                       </Grid>
                     )
                   })}

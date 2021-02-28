@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 15,
     // hidden table scroll
     overflow: "hidden",
-    marginBottom: 50,
+    marginBottom: 70,
     [theme.breakpoints.up('md')]: {
       marginRight: 100,
       marginLeft: 100,
@@ -106,6 +106,41 @@ const useStyles = makeStyles((theme) => ({
       color: "#f50057",
     }
   },
+  profile: {
+    marginTop: -30,
+    marginBottom: -20,
+  },
+  profile_container: {
+    margin: 0,
+    padding: 0,
+  },
+  profile_item: {
+    position: "relative",
+    minHeight: 70,
+  },
+  profile_item_avatar: {
+    position: "absolute",
+    width: 150,
+    height: 150,
+    right: 0,
+    bottom: 0,
+    padding: 4,
+    border: "2px solid #20232a",
+    background: "linear-gradient(to bottom, #20232a, #30333a)",
+
+    "& .MuiAvatar-img": {
+      borderRadius: "50%",
+    },
+  },
+  profile_item_name: {
+    color: "#f50057",
+    marginTop: 5,
+    marginLeft: 10,
+  },
+  profile_item_rank: {
+    color: "#ab003c",
+    marginLeft: 10,
+  },
   CircularProgress: {
     marginTop: 20,
     marginLeft: "auto",
@@ -153,6 +188,22 @@ const Wishlist = (props) => {
     const [wlList, setWlList] = useState();
     const [profileData, setProfileData] = useState();
 
+    const [nick, setNick] = useState();
+
+    useEffect(() => {
+      const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
+
+      if (lastVisited!==null) {
+        lastVisited.forEach(element => {
+          if(element!==null) {
+            if (element.id==userID) {
+              setNick(element.name)
+            }
+          }
+        });
+      }
+    }, []);
+
     useEffect(async () => {
       if(profileData===undefined) {
           await axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
@@ -192,10 +243,25 @@ const Wishlist = (props) => {
         </Paper>
 
           <Grid container justify="center" spacing={2} className={classes.mainPage}>
+          <Grid item md={4} xs={12} className={classes.profile} container>
+                <Grid item xs={12}>
+                  <Grid container justify="center" alignItems="center" className={classes.profile_container}>
+                    <Grid item xl={5} lg={6} md={7} sm={4} xs={5} className={classes.profile_item}>
+                      <Avatar src={`http://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                    </Grid>
+                    <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profileData ? profileData.userTitle : "???"}</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+          </Grid>
+          <Grid item md={8} xs={12} container></Grid>
+          <Grid item xs={12} className={classes.wishlist_table_container} container>
           {status===200 ? (
             <>
             <div className={classes.wishlist_title}>Lista życzeń</div>
-            <TableContainer className={classes.wishlist_table_container}>
+            <TableContainer>
               <Table className={classes.wishlist_table} aria-label="simple table">
                 <TableHead className={classes.wishlist_table_head}>
                   <TableRow >
@@ -224,6 +290,7 @@ const Wishlist = (props) => {
                 status===-1 ? <p className={classes.error404}><span>Error</span><br />Nie odnaleziono listy życzeń użytkownika.</p> :
                 <CircularProgress className={classes.CircularProgress} size={100}/>
             )}
+          </Grid>
           </Grid>
     </>
     )

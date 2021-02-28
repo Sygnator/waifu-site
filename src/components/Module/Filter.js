@@ -45,9 +45,20 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiPaper-elevation4": {
       boxShadow: "0px 0px 0px 0px rgba(0,0,0,0)",
     },
+
+    [theme.breakpoints.between('sm', 'sm')]: {
+      width: "100%",
+    },
+
   },
   barColor: {
     backgroundColor: "rgba(0,0,0,0)",
+
+    [theme.breakpoints.between('xs', 'sm')]: {
+      marginLeft: 0,
+      display: "inline-block",
+      textAlign: "center",
+    },
   },
   button: {
     margin: theme.spacing(1),
@@ -119,6 +130,9 @@ const useStyles = makeStyles((theme) => ({
   tag_value: {
     width: "100%",
     textAlign: "left",
+  },
+  button_group: {
+    display: "contents",
   },
 }));
 
@@ -440,7 +454,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
           >
             Sortuj<ArrowDropDownIcon />
           </Button>
-        <Popper open={openSort} anchorEl={anchorRefSort.current} role={undefined} transition disablePortal>
+        <Popper style={{zIndex: 999,}} open={openSort} anchorEl={anchorRefSort.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
@@ -484,7 +498,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
           >
             Tagi<ArrowDropDownIcon />
           </Button>
-        <Popper open={openTag} anchorEl={anchorRefTag.current} role={undefined} transition disablePortal>
+        <Popper style={{zIndex: 999,}} open={openTag} anchorEl={anchorRefTag.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
@@ -531,7 +545,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                   inputProps={{ 'aria-label': 'search' }}
                 />
                 </div>
-            <div> {/* className={classes.left}> */}
+            <div className={classes.button_group}>
             <Button
                 onClick={()=>{apply()}}
                 variant="contained"
@@ -543,9 +557,11 @@ export default function FilterAppBar({props, profileData, cardsData}) {
             >
                 Zastosuj
             </Button>
-            <IconButton aria-label="delete" onClick={()=>clearData()} className={classes.delete}>
+            <Tooltip title={`Wyczyść filtry`} arrow>
+              <IconButton aria-label="delete" onClick={()=>clearData()} className={classes.delete}>
                 <DeleteIcon />
-            </IconButton>
+              </IconButton>
+            </Tooltip>
           </div>
           <Tooltip title={`Kopiuj WID'y kart`} arrow>
             <IconButton aria-label="copyWID" className={classes.delete} style={{marginLeft: "auto",}} onClick={()=>copyWids()}>

@@ -62,6 +62,13 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     padding: 4,
+
+    [theme.breakpoints.between('xs', 'xs')]: {
+      maxWidth: 380,
+      minWidth: 380,
+      maxHeight: 566,
+      padding: 4,
+    },
   },
   card_content: {
     textAlign: "center",
@@ -71,6 +78,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
     width: 220,
+
+    [theme.breakpoints.between('xs', 'xs')]: {
+      width: 320,
+      marginTop: 10,
+    },
   },
   card_name: {
     color: "#f50057",
@@ -84,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
   CircularProgress: {
     marginTop: 20,
+    marginBottom: 40,
     marginLeft: "auto",
     marginRight: "auto",
     color: "#ab003c",
@@ -110,6 +123,47 @@ const useStyles = makeStyles((theme) => ({
           },
         },
       },
+    },
+  },
+  profile: {
+    marginTop: -30,
+  },
+  profile_container: {
+    margin: 0,
+    padding: 0,
+  },
+  profile_item: {
+    position: "relative",
+    minHeight: 70,
+  },
+  profile_item_avatar: {
+    position: "absolute",
+    width: 150,
+    height: 150,
+    right: 0,
+    bottom: 0,
+    padding: 4,
+    border: "2px solid #20232a",
+    background: "linear-gradient(to bottom, #20232a, #30333a)",
+
+    "& .MuiAvatar-img": {
+      borderRadius: "50%",
+    },
+  },
+  profile_item_name: {
+    color: "#f50057",
+    marginTop: 5,
+    marginLeft: 10,
+  },
+  profile_item_rank: {
+    color: "#ab003c",
+    marginLeft: 10,
+  },
+  cards_container: {
+    marginTop: 20,
+
+    [theme.breakpoints.between('xs', 'xs')]: {
+      marginTop: 2,
     },
   },
   error404: {
@@ -153,6 +207,22 @@ const CardsDeck = (props) => {
       excludeTags: [],
       searchText: null
     };
+
+    const [nick, setNick] = useState();
+
+    useEffect(() => {
+      const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
+
+      if (lastVisited!==null) {
+        lastVisited.forEach(element => {
+          if(element!==null) {
+            if (element.id==userID) {
+              setNick(element.name)
+            }
+          }
+        });
+      }
+    }, []);
 
     const filterUpdate = (filterData) => {
       localStorage.setItem(`u${userID}filter`, JSON.stringify(filterData))
@@ -275,15 +345,32 @@ const CardsDeck = (props) => {
 
           {/* TODO Add avatar */}
           <Grid container justify="center" spacing={2} className={classes.mainPage}>
-          {cardsData&&profileData ? (
-            <>
-              {pageVersion ? cardsData.map((card)=>getWaifuCard(card)) : getWaifuCardList(cardsData)}
-              {pageCount>1 ? renderPagination(page, pageCount) : ""}
-            </>
-          ) : (
-            status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
-            <CircularProgress className={classes.CircularProgress} size={100}/>
-          )}
+          <Grid item md={4} xs={12} className={classes.profile} container>
+                <Grid item xs={12}>
+                  <Grid container justify="center" alignItems="center" className={classes.profile_container}>
+                    <Grid item xl={5} lg={6} md={7} sm={4} xs={5} className={classes.profile_item}>
+                      <Avatar src={`http://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                    </Grid>
+                    <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profileData ? profileData.userTitle : "???"}</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+          </Grid>
+          <Grid item md={8} xs={12} container></Grid>
+
+            {cardsData&&profileData ? (
+              <>
+                <Grid item xs={12} justify="center" spacing={2} className={classes.cards_container} container>
+                  {pageVersion ? cardsData.map((card)=>getWaifuCard(card)) : getWaifuCardList(cardsData)}
+                  {pageCount>1 ? renderPagination(page, pageCount) : ""}
+                </Grid>
+              </>
+            ) : (
+              status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
+              <CircularProgress className={classes.CircularProgress} size={100}/>
+            )}
           </Grid>
 
     </>
