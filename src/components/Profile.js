@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
   Grid,
   CardMedia,
@@ -137,6 +138,22 @@ const useStyles = makeStyles((theme) => ({
   exchangeConditions_content: {
     color: "#c1c1c1",
     fontSize: 18,
+
+    "& a": {
+      color: "#f50057",
+    },
+    "& p": {
+      marginTop: "10px",
+      marginBottom: "0px",
+    },
+    "& img": {
+      maxWidth: "100%",
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+    "& ul, ol": {
+      textAlign: "left",
+    },
   },
   waifu: {
     // boxShadow: "0px 0px 25px 0px rgba(0,0,0,0.20)",
@@ -196,6 +213,10 @@ const useStyles = makeStyles((theme) => ({
     // borderRight: "0px solid #000",
     // borderBottom: "0px solid #000",
     backgroundColor: "#34363b",
+    clipPath: "polygon(5% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)",
+    WebkitClipPath: "polygon(5% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)",
+    marginLeft: "-10px",
+    paddingLeft: "10px",
   },
   rarity_max: {
     borderTopRightRadius: 4,
@@ -203,6 +224,10 @@ const useStyles = makeStyles((theme) => ({
     // borderLeft: "0px solid #000",
     // borderBottom: "0px solid #000",
     backgroundColor: "#2f3034",
+    clipPath: "polygon(5% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)",
+    WebkitClipPath: "polygon(5% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)",
+    marginLeft: "-10px",
+    paddingLeft: "10px",
   },
   rarity_bar_container: {
     marginLeft: "auto",
@@ -442,9 +467,13 @@ const Profile = (props) => {
                       <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profilData.userTitle ? profilData.userTitle : "???"}</Typography>
                     </Grid>
                     <Grid item xs={12} className={classes.exchangeConditions_container}>
-                    {/* <Typography variant="h5" className={classes.exchangeConditions_title}>Zasady wymiany:</Typography>*/}
-                    {/* TODO add markdown */}
-                      <Typography variant="p" className={classes.exchangeConditions_content}>{profilData.exchangeConditions ? profilData.exchangeConditions : "Nie ustawiono warunków wymiany."}</Typography>
+                      {profilData.exchangeConditions ? (
+                          <ReactMarkdown
+                            className={classes.exchangeConditions_content}
+                            allowedTypes={['root', 'text', 'break', 'paragraph', 'emphasis', 'strong', 'thematicBreak', 'blockquote', 'image', 'list', 'listItem', 'heading']}
+                            children={profilData.exchangeConditions}
+                          />
+                        ) : <div className={classes.exchangeConditions_content}>{"Nie ustawiono warunków wymiany."}</div>}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -470,7 +499,7 @@ const Profile = (props) => {
                   <Grid item xs={12} className={classes.rarity_bar_container}>
                     <div className={classes.rarity_total_max}>
                       <div>
-                        <div className={classes.rarity_content}>Wszystkie</div>
+                        <div className={classes.rarity_content}>Posiadane</div>
                         <div className={classes.rarity_total}>{profilData.cardsCount.total}</div>
                       </div>
                       <div>
@@ -559,7 +588,7 @@ const Profile = (props) => {
                   <TableBody>
                     {profilData.expeditions.map((card, index) => (
                       <TableRow key={card.card.id}>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} style={{cursor: "copy"}} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime)}</TableCell>

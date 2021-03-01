@@ -180,12 +180,14 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #1b5e2055",
     color: "#c1c1c1",
     marginRight: 5,
+    marginBottom: 5,
   },
   excludeTags: {
     backgroundColor: "#c6282855",
     border: "1px solid #b71c1c55",
     color: "#c1c1c1",
     marginRight: 5,
+    marginBottom: 5,
   },
   tag_icon: {
     color: "#c1c1c1",
@@ -294,6 +296,8 @@ const CardsDeck = (props) => {
                 } else {
                     setPageCount(Math.ceil(totakCards/cardsOnPage));
                 }
+        }).catch((error)=>{
+          setStatus(415)
         })
     }
   }, [page, cardsOnPage]);
@@ -431,6 +435,7 @@ const CardsDeck = (props) => {
               </>
             ) : (
               status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
+              status===415 ? <p className={classes.error404}><span>415</span><br />Nie pobrano kart użytkownika.</p> :
               <CircularProgress className={classes.CircularProgress} size={100}/>
             )}
           </Grid>
