@@ -435,7 +435,7 @@ const Profile = (props) => {
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={4} lg={5} md={12} sm={4} xs={5} className={classes.profile_item}>
                       {/* <Avatar src={`${process.env.PUBLIC_URL}/Pictures/avatar.png`} alt="avatar.jpg" className={classes.profile_item_avatar} /> */}
-                      <Avatar src={`http://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
                     </Grid>
                     <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
                       <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
