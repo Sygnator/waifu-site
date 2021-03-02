@@ -130,7 +130,9 @@ const useStyles = makeStyles((theme) => ({
 
   exchangeConditions_container: {
     margin: 15,
+    maxHeight: 620,
     textAlign: "center",
+    overflow: "hidden",
   },
   exchangeConditions_title: {
     color: "#fff",
