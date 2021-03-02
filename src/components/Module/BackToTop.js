@@ -11,17 +11,12 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Zoom from '@material-ui/core/Zoom';
 
 import ToolbarTrue from "./Toolbar";
-import zIndex from '@material-ui/core/styles/zIndex';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
-    zIndex: 999, // test
-  },
-  index: {
-    zIndex: 999,
   },
 }));
 

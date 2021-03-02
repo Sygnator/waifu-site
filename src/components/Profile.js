@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
   CardMedia,
   CircularProgress,
   Divider,
-  Paper,
   Typography,
   Avatar,
   Table,
@@ -17,33 +16,14 @@ import {
   Tooltip,
   Snackbar,
 } from "@material-ui/core";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import Toolbar from "./Module/BackToTop";
-
 import MuiAlert from '@material-ui/lab/Alert';
-
 import LazyCardMedia from "./Module/LazyCardMedia.js";
-// import testProf from "./TestData/testProf.js";
-import axios from "axios";
-// import { CenterFocusStrong } from '@material-ui/icons';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: "auto",
-    backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "50% 35%",
-    backgroundSize: "cover",
-    height: "330px",
-  },
-  shadow: {
-    height: "100%",
-    background: "linear-gradient(180deg,rgba(32, 35, 42,0) 40%,rgba(32, 35, 42,.6))",
-  },
   mainPage: {
     width: "95%",
     minHeight: "200px",
@@ -130,9 +110,7 @@ const useStyles = makeStyles((theme) => ({
 
   exchangeConditions_container: {
     margin: 15,
-    maxHeight: 620,
     textAlign: "center",
-    overflow: "hidden",
   },
   exchangeConditions_title: {
     color: "#fff",
@@ -140,22 +118,6 @@ const useStyles = makeStyles((theme) => ({
   exchangeConditions_content: {
     color: "#c1c1c1",
     fontSize: 18,
-
-    "& a": {
-      color: "#f50057",
-    },
-    "& p": {
-      marginTop: "10px",
-      marginBottom: "0px",
-    },
-    "& img": {
-      maxWidth: "100%",
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
-    "& ul, ol": {
-      textAlign: "left",
-    },
   },
   waifu: {
     // boxShadow: "0px 0px 25px 0px rgba(0,0,0,0.20)",
@@ -215,10 +177,6 @@ const useStyles = makeStyles((theme) => ({
     // borderRight: "0px solid #000",
     // borderBottom: "0px solid #000",
     backgroundColor: "#34363b",
-    clipPath: "polygon(0% 0%,100% 0%, 100% 5%, 95% 100%, 0% 100%)",
-    WebkitClipPath: "polygon(0% 0%,100% 0%, 100% 5%, 95% 100%, 0% 100%)",
-    marginRight: "-10px",
-    paddingRight: "10px",
   },
   rarity_max: {
     borderTopRightRadius: 4,
@@ -226,10 +184,6 @@ const useStyles = makeStyles((theme) => ({
     // borderLeft: "0px solid #000",
     // borderBottom: "0px solid #000",
     backgroundColor: "#2f3034",
-    clipPath: "polygon(5% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)",
-    WebkitClipPath: "polygon(5% 0%, 100% 0%, 100% 100%, 100% 100%, 0% 100%)",
-    marginLeft: "-10px",
-    paddingLeft: "10px",
   },
   rarity_bar_container: {
     marginLeft: "auto",
@@ -351,142 +305,111 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
+  const { match } = props;
+  const { params } = match;
+  const { userID } = params;
+  const profilData = props.profile;
+  const classes = useStyles();
 
-    const { match, history } = props;
-    const { params } = match;
-    const { userID } = params;
+  const [openSnackbarSuccess, setOpenSnackbarSuccess] = useState(false);
+  const [status, setStatus] = useState();
+  const [nick, setNick] = useState();
 
-    const classes = useStyles();
+  useEffect(() => {
+    const lastVisited = JSON.parse(localStorage.getItem(`lastVisited`))
 
-    const [openSnackbarSuccess, setOpenSnackbarSuccess] = useState(false);
-    const [profilData, setProfilData] = useState();
-    const [status, setStatus] = useState();
-
-    const [nick, setNick] = useState();
-
-    useEffect(() => {
-      const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
-
-      if (lastVisited!==null) {
-        lastVisited.forEach(element => {
-          if(element!==null) {
-            if (element.id==userID) {
-              setNick(element.name)
-            }
+    if (lastVisited!==null) {
+      lastVisited.forEach(element => {
+        if(element !== null) {
+          if (element.id === userID) {
+            setNick(element.name)
           }
-        });
-      }
-    }, []);
+        }
+      });
+    }
+  }, []);
 
-    const calculateBarWidth = (max, current) => {
-      return `${(100/max)*current}%`;
+  const calculateBarWidth = (max, current) => {
+    return `${(100/max)*current}%`;
+  }
+
+  function timeDiffCalc(dateFuture, dateNow, maxTime) {
+    let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
+    const min = diffInMilliSeconds/60
+
+    // calculate days
+    const days = Math.floor(diffInMilliSeconds / 86400);
+    diffInMilliSeconds -= days * 86400;
+
+    // calculate hours
+    const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
+    diffInMilliSeconds -= hours * 3600;
+
+    // calculate minutes
+    const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
+    diffInMilliSeconds -= minutes * 60;
+
+    let difference = '';
+    if (days > 0) {
+      difference += (days === 1) ? `${days}d ` : `${days}d `;
     }
 
-    function timeDiffCalc(dateFuture, dateNow, maxTime) {
-      let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
-      const min = diffInMilliSeconds/60
+    difference += (hours === 0 || hours === 1) ? `${hours}h ` : `${hours}h `;
 
-      // calculate days
-      const days = Math.floor(diffInMilliSeconds / 86400);
-      diffInMilliSeconds -= days * 86400;
+    difference += (minutes === 0 || hours === 1) ? `${minutes}m` : `${minutes}m`;
 
-      // calculate hours
-      const hours = Math.floor(diffInMilliSeconds / 3600) % 24;
-      diffInMilliSeconds -= hours * 3600;
-
-      // calculate minutes
-      const minutes = Math.floor(diffInMilliSeconds / 60) % 60;
-      diffInMilliSeconds -= minutes * 60;
-
-      let difference = '';
-      if (days > 0) {
-        difference += (days === 1) ? `${days}d ` : `${days}d `;
-      }
-
-      difference += (hours === 0 || hours === 1) ? `${hours}h ` : `${hours}h `;
-
-      difference += (minutes === 0 || hours === 1) ? `${minutes}m` : `${minutes}m`;
-
-      if (min>maxTime) {
-        return (<span>{difference}</span>);
-      } else {
-        return difference;
-      }
+    if (min>maxTime) {
+      return (<span>{difference}</span>);
+    } else {
+      return difference;
     }
+  }
 
-    const copyExpeditionCmdToClipboard = (cardId) => () => {
-      navigator.clipboard.writeText("s.wyprawa koniec " + cardId);
-      setOpenSnackbarSuccess(true);
+  const copyExpeditionCmdToClipboard = (cardId) => () => {
+    navigator.clipboard.writeText("s.wyprawa koniec " + cardId);
+    setOpenSnackbarSuccess(true);
+  }
+
+  const handleCloseSnackbarSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
     }
+    setOpenSnackbarSuccess(false);
+  };
 
-    useEffect(()=> {
-      setProfilData();
-      setStatus();
-      axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-          const newProfilData = res.data;
-          setProfilData(newProfilData)
-      }).catch((error)=>{
-        setStatus(404)
-      })
-    }, [userID])
+  return (
+    <>
+      <Snackbar open={openSnackbarSuccess} autoHideDuration={2000} onClose={handleCloseSnackbarSuccess} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
+        <Alert onClose={handleCloseSnackbarSuccess} severity="success"> Skopiowano polecenie zakończenia wyprawy.</Alert>
+      </Snackbar>
 
-    const backgroundImg = (profil) => {
-      return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
-      {backgroundImage: `url(${profil.backgroundImageUrl})`,}
-    }
-
-    const handleCloseSnackbarSuccess = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-
-      setOpenSnackbarSuccess(false);
-    };
-
-    return (
-      <>
-        <Paper className={classes.root} style={backgroundImg(profilData)}>
-            <Toolbar props={props} pageValue={0} />
-          <div className={classes.shadow} ></div>
-        </Paper>
-
-        <Snackbar open={openSnackbarSuccess} autoHideDuration={2000} onClose={handleCloseSnackbarSuccess} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
-          <Alert onClose={handleCloseSnackbarSuccess} severity="success"> Skopiowano polecenie zakończenia wyprawy.</Alert>
-        </Snackbar>
-
-          <Grid container className={classes.mainPage}>
-            {profilData ? (
-              <>
+      <Grid container className={classes.mainPage}>
+        {profilData ? (
+          <>
             <Grid item md={4} xs={12} className={classes.profile} container>
-                <Grid item xs={12}>
-                  <Grid container justify="center" alignItems="center" className={classes.profile_container}>
-                    <Grid item xl={4} lg={5} md={12} sm={4} xs={5} className={classes.profile_item}>
-                      {/* <Avatar src={`${process.env.PUBLIC_URL}/Pictures/avatar.png`} alt="avatar.jpg" className={classes.profile_item_avatar} /> */}
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
-                    </Grid>
-                    <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
-                      <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profilData.userTitle ? profilData.userTitle : "???"}</Typography>
-                    </Grid>
-                    <Grid item xs={12} className={classes.exchangeConditions_container}>
-                      {profilData.exchangeConditions ? (
-                          <ReactMarkdown
-                            className={classes.exchangeConditions_content}
-                            allowedTypes={['root', 'text', 'break', 'paragraph', 'emphasis', 'strong', 'thematicBreak', 'blockquote', 'image', 'list', 'listItem', 'heading']}
-                            children={profilData.exchangeConditions}
-                          />
-                        ) : <div className={classes.exchangeConditions_content}>{"Nie ustawiono warunków wymiany."}</div>}
-                    </Grid>
+              <Grid item xs={12}>
+                <Grid container justify="center" alignItems="center" className={classes.profile_container}>
+                  <Grid item xl={4} lg={5} md={12} sm={4} xs={5} className={classes.profile_item}>
+                    {/* <Avatar src={`${process.env.PUBLIC_URL}/Pictures/avatar.png`} alt="avatar.jpg" className={classes.profile_item_avatar} /> */}
+                    <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                  </Grid>
+                  <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
+                    <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
+                    <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profilData.userTitle ? profilData.userTitle : "???"}</Typography>
+                  </Grid>
+                  <Grid item xs={12} className={classes.exchangeConditions_container}>
+                    {/* <Typography variant="h5" className={classes.exchangeConditions_title}>Zasady wymiany:</Typography>*/}
+                    {/* TODO add markdown */}
+                    <Typography variant="p" className={classes.exchangeConditions_content}>{profilData.exchangeConditions ? profilData.exchangeConditions : "Nie ustawiono warunków wymiany."}</Typography>
                   </Grid>
                 </Grid>
+              </Grid>
 
-                {/* // TODO: Add divider */}
+              {/* // TODO: Add divider */}
             </Grid>
 
             <Grid item md={8} xs={12} container>
-
               <Grid item lg={6} md={12} xs={12} container>
-
                 <Grid item xs={12}>
                   <Grid item xs={12} className={classes.waifu_border}>
                     {profilData.waifu ? (
@@ -501,7 +424,7 @@ const Profile = (props) => {
                   <Grid item xs={12} className={classes.rarity_bar_container}>
                     <div className={classes.rarity_total_max}>
                       <div>
-                        <div className={classes.rarity_content}>Posiadane</div>
+                        <div className={classes.rarity_content}>Wszystkie</div>
                         <div className={classes.rarity_total}>{profilData.cardsCount.total}</div>
                       </div>
                       <div>
@@ -571,87 +494,86 @@ const Profile = (props) => {
                     </div>
                   </Grid>
                 </Grid>
-
               </Grid>
 
               {/* Expeditions table */}
               <Grid item lg={6} md={12} xs={12}>
-              <Typography variant="h5" className={classes.expeditions_title}>Wyprawy: </Typography>
-              <TableContainer className={classes.expeditions_table_container}>
-                <Table className={classes.expeditions_table} size="small" aria-label="a dense table">
-                  <TableHead className={classes.expeditions_table_head}>
-                    <TableRow>
-                      <TableCell className={classes.expeditions_table_th} align="center">ID</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center">Nazwa</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center">Typ</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center">Czas</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {profilData.expeditions.map((card, index) => (
-                      <TableRow key={card.card.id}>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} style={{cursor: "copy"}} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime)}</TableCell>
+                <Typography variant="h5" className={classes.expeditions_title}>Wyprawy: </Typography>
+                <TableContainer className={classes.expeditions_table_container}>
+                  <Table className={classes.expeditions_table} size="small" aria-label="a dense table">
+                    <TableHead className={classes.expeditions_table_head}>
+                      <TableRow>
+                        <TableCell className={classes.expeditions_table_th} align="center">ID</TableCell>
+                        <TableCell className={classes.expeditions_table_th} align="center">Nazwa</TableCell>
+                        <TableCell className={classes.expeditions_table_th} align="center">Typ</TableCell>
+                        <TableCell className={classes.expeditions_table_th} align="center">Czas</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              {/* Expeditions table END */}
+                    </TableHead>
+                    <TableBody>
+                      {profilData.expeditions.map((card, index) => (
+                        <TableRow key={card.card.id}>
+                          <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
+                          <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
+                          <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
+                          <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                {/* Expeditions table END */}
 
-              {/* Wallet */}
-              <Grid item xs={12}>
-                <div className={classes.wallet_container}>
-                  <div className={classes.wallet_item}>
-                    <span>PC</span>: {profilData.wallet.PC}
+                {/* Wallet */}
+                <Grid item xs={12}>
+                  <div className={classes.wallet_container}>
+                    <div className={classes.wallet_item}>
+                      <span>PC</span>: {profilData.wallet.PC}
+                    </div>
+                    <div className={classes.wallet_item}>
+                      <span>CT</span>: {profilData.wallet.CT}
+                    </div>
+                    <div className={classes.wallet_item}>
+                      <span>TC</span>: {profilData.wallet.TC}
+                    </div>
+                    <div className={classes.wallet_item}>
+                      <span>SC</span>: {profilData.wallet.SC}
+                    </div>
                   </div>
-                  <div className={classes.wallet_item}>
-                    <span>CT</span>: {profilData.wallet.CT}
-                  </div>
-                  <div className={classes.wallet_item}>
-                    <span>TC</span>: {profilData.wallet.TC}
-                  </div>
-                  <div className={classes.wallet_item}>
-                    <span>SC</span>: {profilData.wallet.SC}
-                  </div>
-                </div>
+                </Grid>
+                {/* Wallet END */}
+
               </Grid>
-              {/* Wallet END */}
-
-              </Grid>
-
             </Grid>
 
-
             <Grid item xs={12} container>
-
               <Grid item xs={12}>
-                  <Divider variant="middle" />
-                </Grid>
-                <Grid item xs={12} container className={classes.gallery}>
-                  {profilData.gallery.map((card)=>{
-                    return (
-                      <Grid item key={card.id}>
-                        <Tooltip title={`${card.id} - ${card.name}`} placement="top" arrow>
-                          <div className={classes.gallery_card}>
-                            <LazyCardMedia image={card.profileImageUrl} alt={card.id}  {...props} ></LazyCardMedia>
-                          </div>
-                        </Tooltip>
-                      </Grid>
-                    )
-                  })}
-                </Grid>
+                <Divider variant="middle" />
               </Grid>
-              </>
-            ) : (
-              status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
-              <CircularProgress className={classes.CircularProgress} size={100}/>
-            )}
-          </Grid>
+              <Grid item xs={12} container className={classes.gallery}>
+                {profilData.gallery.map((card) => {
+                  return (
+                    <Grid item key={card.id}>
+                      <Tooltip title={`${card.id} - ${card.name}`} placement="top" arrow>
+                        <div className={classes.gallery_card}>
+                          <LazyCardMedia image={card.profileImageUrl} alt={card.id}  {...props} ></LazyCardMedia>
+                        </div>
+                      </Tooltip>
+                    </Grid>
+                  )
+                })}
+              </Grid>
+            </Grid>
+          </>
+        ) : ( status===404 ? (
+          <p className={classes.error404}>
+            <span>404</span><br />Nie odnaleziono profilu użytkownika waifu.
+          </p>
+        ) :
+          <CircularProgress className={classes.CircularProgress} size={100}/>
+        )}
+      </Grid>
     </>
-    )
+  )
 }
 
 export default Profile;
