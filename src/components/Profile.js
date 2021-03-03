@@ -163,6 +163,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
     padding: 10,
     width: 350,
+
+    [theme.breakpoints.down('xs')]: {
+      width: "90%",
+      height: "90%",
+    },
   },
   waifu_border: {
     padding: 30,

@@ -4,6 +4,8 @@ import {
   Card,
   CardMedia,
   CardContent,
+  CardActionArea,
+  CardActions,
   CircularProgress,
   Link,
   Container,
@@ -18,6 +20,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
@@ -26,9 +34,11 @@ import Pagination from '@material-ui/lab/Pagination';
 
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import axios from "axios";
-
+import Button from '@material-ui/core/Button';
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 import testProf from "./TestData/testProf.js";
 import testCards from "./TestData/testCard.js";
@@ -204,6 +214,66 @@ const useStyles = makeStyles((theme) => ({
       color: "#ab003c",
     }
   },
+  dialogContainer: {
+    borderRadius: "8px",
+    backgroundColor: "#30333a00",
+
+    "& .MuiDialog-paper": {
+      backgroundColor: "#00000000",
+      opacity: "1",
+      // width: "100%",
+      // height: "100%",
+    },
+
+    "& .MuiPaper-rounded": {
+      borderRadius: "10px",
+    },
+  },
+  dialogTitle: {
+    backgroundColor: "#30333a",
+    color: "#fff",
+    padding: "10px 16px",
+
+    "& h2": {
+      fontSize: 15,
+    },
+  },
+  dialogContent: {
+    backgroundColor: "#30333a",
+    color: "#c1c1c1",
+  },
+  dialogActions: {
+    backgroundColor: "#30333a",
+
+    "& button": {
+      color: "#fff",
+      width: "100%",
+      height: "100%",
+    },
+
+    "& button:hover": {
+      backgroundColor: "rgba(255, 255, 255, 0.01)",
+    },
+
+  },
+  dialogImage: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "100%",
+    height: "100%",
+
+    [theme.breakpoints.down('xs')]: {
+      display: "none",
+    },
+  },
+  dialogDetails: {
+    fontSize: 18,
+
+    "& p": {
+      marginTop: 6,
+      marginBottom: 6,
+    }
+  },
 }));
 
 const CardsDeck = (props) => {
@@ -302,29 +372,43 @@ const CardsDeck = (props) => {
     }
   }, [page, cardsOnPage]);
 
-    const getWaifuCard = (waifuCard) => {
-      const { id, imageUrl, name, animeTitle, characterUrl, isTradable, isInCage, isUnique, isUltimate, hasCustomImage, isOnExpedition, affection, tags } = waifuCard
+  const cardIcon = (waifuCard) => {
+    const { isTradable, isInCage, isUnique, isUltimate, hasCustomImage, hasCustomBorder, isOnExpedition, affection, tags, isActive, value } = waifuCard
+    return (
+      <p className={classes.card_icon}>
+        {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ""}`}
+        {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}
+        {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}
+        {`${tags.map((e)=> e.toLowerCase()).indexOf("galeria") > -1 ? "📌" : ""}`}
+        {`${isUnique ? "💠" : ""}`}
+        {`${isUltimate ? "🎖️" : ""}`}
+        {`${hasCustomImage ? "🖼️" : ""}`}
+        {`${hasCustomBorder ? "✂️" : ""}`}
+        {`${affection==="Pogarda" ? "💔" : ""}`}
+        {`${isTradable ? "" : "⛔"}`}
+        {`${isInCage ? "🔒" : ""}`}
+        {`${isActive ? "☑️" : ""}`}
+        {`${value==="hight" ? "💰" : ""}`}
+        {`${value==="low" ? "♻️" : ""}`}
+        {`${isOnExpedition ? "✈️" : ""}`}
+      </p>
+    )
+  }
+
+  const getWaifuCard = (waifuCard, index) => {
+      const { id, imageUrl, name, animeTitle, characterUrl } = waifuCard
       //console.log(tags)
       return (
-          <Grid item key={id}>
-              <Card className={classes.card_item}>
+          <Grid item key={id} >
+              <Card className={classes.card_item} >
+                <CardActionArea onClick={handleOpenCardDetails(index)}>
                   <div className={classes.card_img}>
                     <LazyCardMedia image={imageUrl} alt={id} {...props} ></LazyCardMedia>
                   </div>
+                </CardActionArea>
                   <CardContent className={classes.card_content}>
                     <a className={classes.card_id}>{id}</a>: <Link className={classes.card_name} href={characterUrl} target="_blank">{name}</Link>
-                      <p className={classes.card_icon}>
-                          {`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ""}`}
-                          {`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}
-                          {`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}
-                          {`${isUnique ? "💠" : ""}`}
-                          {`${isUltimate ? "🎖️" : ""}`}
-                          {`${hasCustomImage ? "🖼️" : ""}`}
-                          {`${affection==="Pogarda" ? "💔" : ""}`}
-                          {`${isTradable ? "" : "⛔"}`}
-                          {`${isInCage ? "🔒" : ""}`}
-                          {`${isOnExpedition ? "✈️" : ""}`}
-                      </p>
+                    {cardIcon(waifuCard)}
                     {`${animeTitle}`}
                   </CardContent>
               </Card>
@@ -357,6 +441,100 @@ const CardsDeck = (props) => {
           </div>
         </Grid>
     )
+  }
+
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
+
+  const CardDetails = (index, cardsData) => {
+    const card = cardsData[index];
+
+    return (
+      <div>
+        {card ?
+        <Dialog
+          open={openDetails}
+          // TransitionComponent={Transition}
+          keepMounted
+          maxWidth={"lg"}
+          onClose={handleCloseCardDetails}
+          aria-labelledby="card-details"
+          // aria-describedby="alert-dialog-slide-description"
+          className={classes.dialogContainer}
+        >
+          <DialogTitle className={classes.dialogTitle} id="card-details">
+            {card ?
+              (
+                <>
+                <div style={{display: "flex"}}>
+                  <div style={{marginRight: "auto"}}>{card.id}</div>
+                  <div style={{marginLeft: "auto"}}>{cardIcon(card)}</div>
+                </div>
+                </>
+              ): ""}
+          </DialogTitle>
+          <DialogContent className={classes.dialogContent} dividers>
+            <Grid container spacing={2}>
+              <Grid item sm={6} xs={12}>
+                  <div className={classes.dialogImage}>
+                    <LazyCardMedia image={card.imageUrl} alt={card.id} {...props} ></LazyCardMedia>
+                  </div>
+              </Grid>
+              <Grid item sm={6} xs={12} className={classes.dialogDetails}>
+                <p style={{fontSize: 22, marginBottom: 0,}}><a style={{color: "#f50057", textDecoration: "none"}} href={card.characterUrl}>{card.name}</a></p>
+                <p style={{fontSize: 20, marginTop: 0,}}>{card.animeTitle}</p>
+                <Divider />
+                <p style={{display: "flex", marginBottom: 15,}}><div><b>❤️</b>{card.finalHealth} ({card.baseHealth}) <b>🔥</b>{card.attack} <b>🛡️</b>{card.defence}</div><div style={{marginLeft: "auto"}}></div></p>
+                {/* <Divider /> */}
+                <p><b>Relacja: </b>{card.affection}</p>
+                <p><b>Dere: </b>{`${card.dere[0].toUpperCase()}${card.dere.slice(1)}`}</p>
+                <p><b>Dostępne ulepszenia: </b>{card.upgradesCnt}</p>
+                <p><b>Restarty: </b>{card.restartCnt}</p>
+                <p><b>Doświadczenie: </b>{`${Math.floor(card.expCnt*1000)/1000}/${card.expCntForNextLevel}`}</p>
+                <p><b>Pochodzenie: </b>{card.source}</p>
+                <p><b>Moc: </b>{Math.floor(card.cardPower*1000)/1000}</p>
+                {card.isUltimate ? <p><b>Ultimate: </b>{card.ultimateQuality}</p> : ""}
+                {/* <Divider /> */}
+                {/* <p style={{fontSize: 12}}>{card.createdAt}</p> */}
+              </Grid>
+            </Grid>
+          </DialogContent>
+          <DialogActions className={classes.dialogActions} >
+            {index>0 ?
+              <Button onClick={handleIndexDown} color="secendary" style={{marginLeft: "auto", marginRight: "auto"}}>
+                <ArrowBackIosIcon />
+              </Button>
+            : ""}
+            {cardsData.length>index+1 ?
+              <Button onClick={handleIndexUp} color="secendary" style={{marginRight: "auto", marginLeft: "auto"}}>
+                <ArrowForwardIosIcon />
+              </Button>
+            : ""}
+          </DialogActions>
+        </Dialog>
+        : ""}
+      </div>
+    );
+}
+  const [openDetails, setOpenDetails] = React.useState(false);
+  const [detailsIndex, setDetailsIndex] = React.useState(-1);
+
+  const handleOpenCardDetails = (index) => () => {
+    setDetailsIndex(index)
+    setOpenDetails(true);
+  }
+
+  const handleCloseCardDetails = () => {
+    setOpenDetails(false);
+  }
+
+  const handleIndexUp = () => {
+    setDetailsIndex(detailsIndex+1);
+  }
+
+  const handleIndexDown = () => {
+    setDetailsIndex(detailsIndex-1);
   }
 
   // let xxx;
@@ -429,13 +607,14 @@ const CardsDeck = (props) => {
             {cardsData&&profileData ? (
               <>
                 <Grid item xs={12} justify="center" spacing={1} className={classes.cards_container} container>
-                  {pageVersion ? cardsData.map((card)=>getWaifuCard(card)) : getWaifuCardList(cardsData)}
+                  {pageVersion ? cardsData.map((card, index)=>getWaifuCard(card, index)) : getWaifuCardList(cardsData)}
                   {pageCount>1 ? renderPagination(page, pageCount) : ""}
                 </Grid>
+                {CardDetails(detailsIndex, cardsData)}
               </>
             ) : (
               status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
-              status===415 ? <p className={classes.error404}><span>415</span><br />Nie pobrano kart użytkownika.</p> :
+              status===415 ? <p className={classes.error404}><span>415</span><br />Nie pobrano kart użytkownika. <br /> Spróbuj odświeżyć stronę lub zgłoś błąd na discord.</p> :
               <CircularProgress className={classes.CircularProgress} size={100}/>
             )}
           </Grid>
