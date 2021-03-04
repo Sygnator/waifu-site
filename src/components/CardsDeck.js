@@ -291,7 +291,6 @@ const CardsDeck = (props) => {
                 const totalCards = res.data.totalCards;
                 setStatus(200);
                 setCardsData(newWaifuCardsData);
-                console.log(newWaifuCardsData.length, totalCards, cardsOnPage);
                 if(totalCards<cardsOnPage) {
                     setPageCount(1);
                 } else {
@@ -305,7 +304,6 @@ const CardsDeck = (props) => {
               const totalCards = res.data.totalCards;
               setStatus(200);
               setCardsData(newWaifuCardsData);
-              console.log(newWaifuCardsData.length, totalCards, cardsOnPage);
               if(totalCards<cardsOnPage) {
                   setPageCount(1);
               } else {

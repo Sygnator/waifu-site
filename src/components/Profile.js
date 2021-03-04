@@ -384,7 +384,7 @@ const Profile = (props) => {
     }, []);
 
     const calculateBarWidth = (max, current) => {
-      return `${(100/max)*current}%`;
+      return `${(((90.4/max)*current) + 1.2)}%`;
     }
 
     function timeDiffCalc(dateFuture, dateNow, maxTime) {
@@ -477,7 +477,7 @@ const Profile = (props) => {
                           <ReactMarkdown
                             className={classes.exchangeConditions_content}
                             allowedTypes={['root', 'text', 'break', 'paragraph', 'emphasis', 'strong', 'thematicBreak', 'blockquote', 'image', 'list', 'listItem', 'heading']}
-                            children={profilData.exchangeConditions}
+                            children={profilData.exchangeConditions.replace(/^((?!(.+|)\!\[.+\]\().+)(https?:\/\/|(www\.))?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)/gm, "")}
                           />
                         ) : <div className={classes.exchangeConditions_content}>{"Nie ustawiono warunków wymiany."}</div>}
                     </Grid>
