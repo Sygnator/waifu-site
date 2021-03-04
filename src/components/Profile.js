@@ -245,7 +245,7 @@ const useStyles = makeStyles((theme) => ({
     // borderTop: "0px solid #000",
     borderRadius: 4,
     width: "94%",
-    marginTop: -10,
+    marginTop: -13,
   },
   rarity_bar: {
     display: "inline-block",
@@ -466,7 +466,6 @@ const Profile = (props) => {
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={4} lg={5} md={12} sm={4} xs={5} className={classes.profile_item}>
-                      {/* <Avatar src={`${process.env.PUBLIC_URL}/Pictures/avatar.png`} alt="avatar.jpg" className={classes.profile_item_avatar} /> */}
                       <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
                     </Grid>
                     <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
