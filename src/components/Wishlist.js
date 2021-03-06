@@ -280,11 +280,11 @@ const Wishlist = (props) => {
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={5} lg={6} md={7} sm={4} xs={5} className={classes.profile_item}>
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar}
+                      <Avatar src={userID==1 ? `https://sanakan.pl/sanakan.jpg` : `https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar}
                       style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{userID==1 ? "Safeguard" : nick===undefined ? "????" : nick}</Typography>
                       <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{profileData ? profileData.userTitle : "???"}</Typography>
                     </Grid>
                   </Grid>
@@ -319,7 +319,7 @@ const Wishlist = (props) => {
             </TableContainer>
             </>
             ) : (
-                status===401 ? <p className={classes.error404}><span>401</span><br />Lista życzeń jest prywatna.</p> :
+                status===401 ? <p className={classes.error404}><span style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >401</span><br />Lista życzeń jest prywatna.</p> :
                 status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
                 status===-1 ? <p className={classes.error404}><span>Error</span><br />Nie odnaleziono listy życzeń użytkownika.</p> :
                 <CircularProgress className={classes.CircularProgress} size={100}/>

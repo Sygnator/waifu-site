@@ -196,7 +196,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#c1c1c1",
     marginRight: 5,
     marginBottom: 5,
-    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 8%)",
+    boxShadow: "0px 0px 100px 0px rgba(0,0,0,0.08)",
   },
   excludeTags: {
     backgroundColor: "#c6282855",
@@ -204,7 +204,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#c1c1c1",
     marginRight: 5,
     marginBottom: 5,
-    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 8%)",
+    boxShadow: "0px 0px 100px 0px rgba(0,0,0,0.08)",
   },
   tag_icon: {
     color: "#c1c1c1",
@@ -482,10 +482,10 @@ const CardsDeck = (props) => {
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={5} lg={6} md={7} sm={4} xs={5} className={classes.profile_item}>
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
+                      <Avatar src={userID==1 ? `https://sanakan.pl/sanakan.jpg` :  `https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{userID==1 ? "Safeguard" : nick===undefined ? "????" : nick}</Typography>
                       <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{profileData ? profileData.userTitle : "???"}</Typography>
                     </Grid>
                   </Grid>

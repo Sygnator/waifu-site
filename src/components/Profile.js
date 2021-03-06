@@ -503,10 +503,10 @@ const Profile = (props) => {
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={4} lg={5} md={12} sm={4} xs={5} className={classes.profile_item}>
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profilData ? profilData.foregroundColor ? {background: `linear-gradient(to bottom, ${profilData.foregroundColor}, ${hexToRgbA(profilData.foregroundColor,0.50)})`,} : {}  : {}} />
+                      <Avatar src={userID==1 ? `https://sanakan.pl/sanakan.jpg` : `https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profilData ? profilData.foregroundColor ? {background: `linear-gradient(to bottom, ${profilData.foregroundColor}, ${hexToRgbA(profilData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}>{userID==1 ? "Safeguard" : nick===undefined ? "????" : nick}</Typography>
                       <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined), opacity: 0.80}}>{profilData.userTitle ? profilData.userTitle : "???"}</Typography>
                     </Grid>
                     <Grid item xs={12} className={classes.exchangeConditions_container}>
