@@ -19,6 +19,7 @@ import {
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
+import Footer from "./Module/Footer";
 
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -376,6 +377,8 @@ const Profile = (props) => {
 
     const [nick, setNick] = useState();
 
+    const [userData, setUserData] = useState();
+
     const changeUserColor = (profileColor) => {
       return profileColor ? profileColor : "#f50057"
     }
@@ -450,6 +453,29 @@ const Profile = (props) => {
       })
     }, [userID])
 
+    // useEffect(()=> {
+    //   console.log("Test - shinden api");
+    //   if(nick==="????") {
+
+    //     axios({
+    //       method: 'get',
+    //       url: `https://shinden.pl/api/user/${userID}/info`,
+    //       headers: {"Content-Type": "application/json", "Accept": "*/*"},
+    //     }).then((res)=> {
+    //       const newUserData = res.data;
+    //       setNick(newUserData.name)
+    //       setUserData(newUserData)
+    //     }).catch((error)=>{
+    //       console.log(error);
+    //     });
+    //   }
+    // }, [userID, nick])
+
+    const nickUpdate = () => {
+      setNick("????")
+      return "????"
+    }
+
     const backgroundImg = (profil) => {
       return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
       {backgroundImage: `url(${profil.backgroundImageUrl})`, backgroundPosition: `50% ${profil.backgroundPosition ? profil.backgroundPosition : 35}%`,}
@@ -506,7 +532,7 @@ const Profile = (props) => {
                       <Avatar src={userID==1 ? `https://sanakan.pl/sanakan.jpg` : `https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profilData ? profilData.foregroundColor ? {background: `linear-gradient(to bottom, ${profilData.foregroundColor}, ${hexToRgbA(profilData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}>{userID==1 ? "Sanakan" : nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}>{userID==1 ? "Sanakan" : nick===undefined ? nickUpdate() : nick}</Typography>
                       <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined), opacity: 0.80}}>{userID==1 ? "Safeguard" : profilData.userTitle ? profilData.userTitle : "???"}</Typography>
                     </Grid>
                     <Grid item xs={12} className={classes.exchangeConditions_container}>
@@ -632,7 +658,7 @@ const Profile = (props) => {
                     {profilData.expeditions.map((card, index) => (
                       <TableRow key={card.card.id}>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} style={{cursor: "copy"}} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a style={{color: changeUserColor(profilData.foregroundColor), opacity: 0.85}} href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a style={profilData.foregroundColor ? {color: changeUserColor(profilData.foregroundColor), opacity: 0.90} : {}} href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime, profilData ? profilData.foregroundColor : undefined)}</TableCell>
                       </TableRow>
@@ -691,6 +717,7 @@ const Profile = (props) => {
               <CircularProgress className={classes.CircularProgress} size={100}/>
             )}
           </Grid>
+        <Footer />
     </>
     )
 }

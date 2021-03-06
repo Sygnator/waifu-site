@@ -206,7 +206,7 @@ export default function Asynchronous({props,userColor=false}) {
           }).then((res)=> {
               sleep(5000)
               return res.data;
-        }) ;
+        });
 
         // console.log(data);
 

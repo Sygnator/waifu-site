@@ -24,6 +24,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
+import Footer from "./Module/Footer";
 
 import MuiAlert from '@material-ui/lab/Alert';
 import Pagination from '@material-ui/lab/Pagination';
@@ -38,6 +39,7 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 import CardDetails from "./Card/CardDetails.js";
 import CardIcons from "./Card/CardIcons.js";
+import { NonceProvider } from 'react-select';
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -221,6 +223,88 @@ const useStyles = makeStyles((theme) => ({
       color: "#ab003c",
     }
   },
+
+  table_container: {
+    padding: 15,
+    // hidden table scroll
+    overflow: "hidden",
+    marginBottom: 70,
+    [theme.breakpoints.up('md')]: {
+      marginRight: 100,
+      marginLeft: 100,
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginRight: 200,
+      marginLeft: 200,
+    },
+  },
+  // table: {
+  //   // border: "1px solid #424242",
+  //     color: "#c1c1c1",
+  // },
+  table_head: {
+    backgroundColor: "#232427",
+  },
+  table_th: {
+    textAlign: "center",
+    borderBottom: "2px solid #ab003ce8",
+    color: "#f50057",
+  },
+  table_image: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "20%",
+    height: "20%",
+
+    [theme.breakpoints.down('lg')]: {
+      width: "30%",
+      height: "30%",
+    },
+
+    [theme.breakpoints.down('md')]: {
+      width: "40%",
+      height: "40%",
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      display: "none",
+    },
+  },
+  table_body: {
+    "& tr:hover": {
+      cursor: "pointer",
+      opacity: 0.7,
+      height: "102%",
+    },
+  },
+  table_td1: {
+    textAlign: "center",
+    color: "#c1c1c1",
+    backgroundColor: "#323438",
+    borderBottom: "1px solid #1d1f2100",
+
+    "& span": {
+      color: "#f50057",
+    }
+  },
+  table_td2: {
+    textAlign: "center",
+    color: "#c1c1c1",
+    backgroundColor: "#2b2d31",
+    borderBottom: "1px solid #1d1f2100",
+
+    "& span": {
+      color: "#f50057",
+    }
+  },
+  table_name: {
+    textDecoration: "none",
+    color: "#c1c1c1",
+
+    "&:hover": {
+      color: "#f50057",
+    }
+  },
 }));
 
 const CardsDeck = (props) => {
@@ -231,7 +315,7 @@ const CardsDeck = (props) => {
 
     const classes = useStyles();
 
-    const [pageVersion, setPageVersion] = useState(true);
+    const [pageVersion, setPageVersion] = useState();
     const [profileData, setProfileData] = useState();
     const [cardsData, setCardsData] = useState();
 
@@ -243,6 +327,7 @@ const CardsDeck = (props) => {
 
     const [localFilter, setLocalFilter] = useState(JSON.parse(localStorage.getItem(`u${userID}filter`)));
     const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
+    const localCardsStyle = JSON.parse(localStorage.getItem(`cardsStyle`));
 
     const emptyFilter = {
       orderBy: "id",
@@ -284,6 +369,12 @@ const CardsDeck = (props) => {
           } else {
               setCardsOnPage(parseInt(localCardsOnPage))
               setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
+          }
+
+          if(localCardsOnPage===null) {
+            setPageVersion("cards")
+          } else {
+            setPageVersion(localCardsStyle)
           }
       }
   }, [profileData]);
@@ -368,7 +459,40 @@ const CardsDeck = (props) => {
   {/* TODO Add version cards */}
   const getWaifuCardList = (cardsData) => {
     return (
-        <a>lista..</a>
+      <TableContainer className={classes.table_container}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead className={classes.table_head}>
+          <TableRow >
+            <TableCell className={classes.table_th} style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} ></TableCell>
+            <TableCell className={classes.table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >ID</TableCell>
+            <TableCell className={classes.table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Nazwa</TableCell>
+            <TableCell className={classes.table_th} align="right" style={{maxWidth: 20, color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Statystyki</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody className={classes.table_body} >
+          {cardsData.map((card, index) => (
+            <TableRow key={card.id} onClick={handleOpenCardDetails(index)}>
+              <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2} align="center" >
+                <div className={classes.table_image}>
+                  <LazyCardMedia image={card.smallImageUrl} alt={card.id} {...props} />
+                </div>
+              </TableCell>
+              <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2}  align="center">{card.id}</TableCell>
+              <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2}  align="center">
+                <a style={{color: changeUserColor(profileData.foregroundColor), textDecoration: "none"}}>
+                  {card.name}
+                </a>
+                <CardIcons
+                    {...props}
+                    card={card}
+                />
+              </TableCell>
+              <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2}  align="center">❤️ {card.finalHealth} ({card.baseHealth}) 🔥 {card.attack} 🛡️ {card.defence} </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     )
   }
 
@@ -509,7 +633,7 @@ const CardsDeck = (props) => {
             {cardsData&&profileData ? (
               <>
                 <Grid item xs={12} justify="center" spacing={1} className={classes.cards_container} container>
-                  {pageVersion ? cardsData.map((card, index)=>getWaifuCard(card, index)) : getWaifuCardList(cardsData)}
+                  {pageVersion==="cards" ? cardsData.map((card, index)=>getWaifuCard(card, index)) : getWaifuCardList(cardsData)}
                   {pageCount>1 ? renderPagination(page, pageCount) : ""}
                 </Grid>
                 <CardDetails
@@ -530,7 +654,7 @@ const CardsDeck = (props) => {
               <CircularProgress className={classes.CircularProgress} style={profileData ? {color: changeUserColor(profileData ? profileData.foregroundColor : undefined)} : {}} size={100}/>
             )}
           </Grid>
-
+        <Footer />
     </>
     )
 }

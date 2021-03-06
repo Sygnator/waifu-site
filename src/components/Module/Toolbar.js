@@ -28,6 +28,9 @@ import {
   CircularProgress,
   Snackbar,
   Avatar,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
 } from '@material-ui/core';
 
 import MuiAlert from '@material-ui/lab/Alert';
@@ -211,6 +214,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
 
   const [openSettings, setOpenSettings] = useState(false);
   const [cardOnPage, setCardOnPage] = useState(200);
+  const [cardsStyle, setCardsStyle] = useState("cards");
 
   const [state, setState] = useState(false);
 
@@ -261,6 +265,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
 
         if (!(cardOnPage<100||cardOnPage>4000)) {
           localStorage.setItem(`cardsOnPage`, JSON.stringify(cardOnPage))
+          localStorage.setItem(`cardsStyle`, JSON.stringify(cardsStyle))
           setOpenSnackbarSuccess(true);
           setOpenSettings(false);
         } else {
@@ -330,9 +335,15 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   useEffect(() => {
 
     const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
+    const localCardsStyle = JSON.parse(localStorage.getItem(`cardsStyle`));
 
     if(localCardsOnPage!=null) {
       setCardOnPage(localCardsOnPage);
+    }
+
+    if(localCardsStyle!=null) {
+      // console.log(localCardsStyle, typeof(localCardsStyle));
+      setCardsStyle(localCardsStyle);
     }
 
   }, []);
@@ -439,6 +450,13 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           }}
         />
         <FormHelperText component="p" variant="standard">Kart nie może być mniej niż 100 <br />oraz więcej niż 4000.</FormHelperText>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <FormLabel component="legend">Styl listy kart</FormLabel>
+          <RadioGroup aria-label="style" name="style" value={cardsStyle} onChange={(event)=>setCardsStyle(event.target.value)} >
+            <FormControlLabel value={"cards"} control={<Radio />} label="Karty" />
+            <FormControlLabel value={"list"} control={<Radio />} label="Lista" />
+          </RadioGroup>
         </FormControl>
       </form>
     </DialogContent>

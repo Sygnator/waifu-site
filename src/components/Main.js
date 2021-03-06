@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
+import Footer from "./Module/Footer";
+
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 
 const useStyles = makeStyles((theme) => ({
@@ -112,6 +114,7 @@ const MainTest = (props) => {
               <div className={classes.divWhite}>Nikogo ostatnio nie odwiedzałeś...</div>
             )}
           </Grid>
+      <Footer />
     </>
     )
 }

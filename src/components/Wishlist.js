@@ -20,6 +20,8 @@ import {
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
+import Footer from "./Module/Footer";
+
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -326,6 +328,7 @@ const Wishlist = (props) => {
             )}
           </Grid>
           </Grid>
+        <Footer />
     </>
     )
 }
