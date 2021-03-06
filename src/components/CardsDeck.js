@@ -485,8 +485,8 @@ const CardsDeck = (props) => {
                       <Avatar src={userID==1 ? `https://sanakan.pl/sanakan.jpg` :  `https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{userID==1 ? "Safeguard" : nick===undefined ? "????" : nick}</Typography>
-                      <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{profileData ? profileData.userTitle : "???"}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{userID==1 ? "Sanakan" : nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{userID==1 ? "Safeguard" : profileData ? profileData.userTitle : "???"}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
