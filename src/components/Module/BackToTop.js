@@ -63,6 +63,7 @@ ScrollTop.propTypes = {
 };
 
 export default function BackToTop({props, pageValue, showFilter, profileData, cardsData}) {
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -81,7 +82,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
         </Box>
       </Container>
       <ScrollTop {...props}>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
+        <Fab color="secondary" size="small" aria-label="scroll back to top" style={profileData ? {backgroundColor: profileData.foregroundColor ? profileData.foregroundColor : "#f50057", opacity: 0.9, color: "#fff"} : {}} >
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTop>

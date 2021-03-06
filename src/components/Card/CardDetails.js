@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
 const CardDetails = (props) => {
   const {
     index,
-    // cardIcon,
+    userColor,
     cardsData,
     openDetails,
     handleIndexUp,
@@ -138,7 +138,7 @@ const CardDetails = (props) => {
                 </div>
             </Grid>
             <Grid item sm={6} xs={12} className={classes.dialogDetails}>
-              <p style={{fontSize: 22, marginBottom: 0,}}><a style={{color: "#f50057", textDecoration: "none"}} href={card.characterUrl}>{card.name}</a></p>
+              <p style={{fontSize: 22, marginBottom: 0,}}><a style={{color: userColor ? userColor : "#f50057", textDecoration: "none"}} href={card.characterUrl} target="_blank">{card.name}</a></p>
               <p style={{fontSize: 20, marginTop: 0,}}>{card.animeTitle}</p>
               <Divider />
               <p style={{display: "flex", marginBottom: 15,}}><div><b>❤️</b>{card.finalHealth} ({card.baseHealth}) <b>🔥</b>{card.attack} <b>🛡️</b>{card.defence}</div><div style={{marginLeft: "auto"}}></div></p>

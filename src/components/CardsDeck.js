@@ -20,10 +20,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Snackbar,
 } from "@material-ui/core";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
 
+import MuiAlert from '@material-ui/lab/Alert';
 import Pagination from '@material-ui/lab/Pagination';
 
 // import CheckIcon from '@material-ui/icons/Check';
@@ -37,6 +39,10 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 import CardDetails from "./Card/CardDetails.js";
 import CardIcons from "./Card/CardIcons.js";
 
+// function Alert(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
@@ -44,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     backgroundPosition: "50% 35%",
     backgroundSize: "cover",
+    height: "330px",
+  },
+  foreground: {
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "auto",
+    margin: "auto",
     height: "330px",
   },
   shadow: {
@@ -118,12 +130,15 @@ const useStyles = makeStyles((theme) => ({
           "& button": {
             color: "#c1c1c1",
           },
+          "& div": {
+            color: "#c1c1c1",
+          },
           "& .Mui-selected": {
-            backgroundColor: "#f5005733",
-            color: "#f50057",
+            backgroundColor: "#c1c1c133",
+            color: "#c1c1c1",
           },
           "& button:hover": {
-            backgroundColor: "#f5005711",
+            backgroundColor: "#c1c1c111",
           },
         },
       },
@@ -147,8 +162,8 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     padding: 4,
-    border: "2px solid #20232a",
-    background: "linear-gradient(to bottom, #20232a, #30333a)",
+    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 14%)",
+    background: "linear-gradient(to bottom, #f50057, #f5005788)",
 
     "& .MuiAvatar-img": {
       borderRadius: "50%",
@@ -181,6 +196,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#c1c1c1",
     marginRight: 5,
     marginBottom: 5,
+    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 8%)",
   },
   excludeTags: {
     backgroundColor: "#c6282855",
@@ -188,6 +204,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#c1c1c1",
     marginRight: 5,
     marginBottom: 5,
+    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 8%)",
   },
   tag_icon: {
     color: "#c1c1c1",
@@ -235,6 +252,10 @@ const CardsDeck = (props) => {
     };
 
     const [nick, setNick] = useState();
+
+    const changeUserColor = (profileColor) => {
+      return profileColor ? profileColor : "#f50057"
+    }
 
     useEffect(() => {
       const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
@@ -332,7 +353,7 @@ const CardsDeck = (props) => {
                   </div>
                 </CardActionArea>
                   <CardContent className={classes.card_content}>
-                    <a className={classes.card_id}>{id}</a>: <Link className={classes.card_name} href={characterUrl} target="_blank">{name}</Link>
+                    <a className={classes.card_id}>{id}</a>: <Link className={classes.card_name} style={{color: changeUserColor(profileData.foregroundColor)}} href={characterUrl} target="_blank">{name}</Link>
                     <CardIcons
                       {...props}
                       card={waifuCard}
@@ -355,7 +376,9 @@ const CardsDeck = (props) => {
     setPage(value);
   };
 
+
   const renderPagination = (page, pageCount) => {
+
     return (
         <Grid xs={12} item justify="center" key={"pagination"}>
           <div className={classes.pagination}>
@@ -419,26 +442,51 @@ const CardsDeck = (props) => {
 
   const backgroundImg = (profil) => {
     return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
-    {backgroundImage: `url(${profil.backgroundImageUrl})`,}
+    {backgroundImage: `url(${profil.backgroundImageUrl})`, backgroundPosition: `50% ${profil.backgroundPosition ? profil.backgroundPosition : 35}%`,}
   }
+
+  const foregroundImg = (profil) => {
+    return (profil===undefined||profil.foregroundImageUrl===null) ?  {} :
+    {
+      backgroundImage: `url(${profil.foregroundImageUrl})`,
+      backgroundPosition: `${profil.foregroundPosition ? profil.foregroundPosition : 0}% top`,
+    }
+  }
+
+  function hexToRgbA(hex,o=1){
+    var c;
+    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+        c= hex.substring(1).split('');
+        if(c.length== 3){
+            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c= '0x'+c.join('');
+        return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+o+')';
+    }
+    throw new Error('Bad Hex');
+}
 
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profileData)}>
+            <div className={classes.foreground} style={foregroundImg(profileData)}></div>
             <Toolbar props={props} pageValue={1} showFilter={status===200 ? true : false} profileData={profileData} cardsData={cardsData} />
+
           <div className={classes.shadow} ></div>
         </Paper>
+
+
 
           <Grid container justify="center" spacing={2} className={classes.mainPage}>
           <Grid item md={4} xs={12} className={classes.profile} container>
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={5} lg={6} md={7} sm={4} xs={5} className={classes.profile_item}>
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
-                      <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profileData ? profileData.userTitle : "???"}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{profileData ? profileData.userTitle : "???"}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -469,6 +517,7 @@ const CardsDeck = (props) => {
                   index={detailsIndex}
                   cardsData={cardsData}
                   openDetails={openDetails}
+                  userColor={profileData.foregroundColor}
                   handleIndexUp={handleIndexUp}
                   handleIndexDown={handleIndexDown}
                   handleCloseCardDetails={handleCloseCardDetails}
@@ -478,7 +527,7 @@ const CardsDeck = (props) => {
               status===-1 ? <p className={classes.error404}><span>Error</span><br />Nieobsługiwany błąd strony.</p> :
               status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
               status===415 ? <p className={classes.error404}><span>415</span><br />Nie pobrano kart użytkownika. <br /> Spróbuj odświeżyć stronę lub zgłoś błąd na discord.</p> :
-              <CircularProgress className={classes.CircularProgress} size={100}/>
+              <CircularProgress className={classes.CircularProgress} style={profileData ? {color: changeUserColor(profileData ? profileData.foregroundColor : undefined)} : {}} size={100}/>
             )}
           </Grid>
 

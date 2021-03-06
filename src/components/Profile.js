@@ -40,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     height: "330px",
   },
+  foreground: {
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "auto",
+    margin: "auto",
+    height: "330px",
+  },
   shadow: {
     height: "100%",
     background: "linear-gradient(180deg,rgba(32, 35, 42,0) 40%,rgba(32, 35, 42,.6))",
@@ -94,8 +100,9 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     padding: 4,
-    border: "2px solid #20232a",
-    background: "linear-gradient(to bottom, #20232a, #30333a)",
+    // border: "2px solid #20232a",
+    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 14%)",
+    background: "linear-gradient(to bottom, #f50057, #f5005788)",
     // background: "linear-gradient(to bottom right, #20232a, #30333a)",
     // border: "2px solid #20232a",
 
@@ -369,6 +376,10 @@ const Profile = (props) => {
 
     const [nick, setNick] = useState();
 
+    const changeUserColor = (profileColor) => {
+      return profileColor ? profileColor : "#f50057"
+    }
+
     useEffect(() => {
       const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
 
@@ -387,7 +398,7 @@ const Profile = (props) => {
       return `${(((90.4/max)*current) + 1.2)}%`;
     }
 
-    function timeDiffCalc(dateFuture, dateNow, maxTime) {
+    function timeDiffCalc(dateFuture, dateNow, maxTime, profileColor) {
       let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
       const min = diffInMilliSeconds/60
 
@@ -413,7 +424,11 @@ const Profile = (props) => {
       difference += (minutes === 0 || hours === 1) ? `${minutes}m` : `${minutes}m`;
 
       if (min>maxTime) {
-        return (<span>{difference}</span>);
+        return (
+          <span style={{color: changeUserColor(profileColor ? profileColor : undefined)}}>
+            {difference}
+          </span>
+        );
       } else {
         return difference;
       }
@@ -437,7 +452,15 @@ const Profile = (props) => {
 
     const backgroundImg = (profil) => {
       return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
-      {backgroundImage: `url(${profil.backgroundImageUrl})`,}
+      {backgroundImage: `url(${profil.backgroundImageUrl})`, backgroundPosition: `50% ${profil.backgroundPosition ? profil.backgroundPosition : 35}%`,}
+    }
+
+    const foregroundImg = (profil) => {
+      return (profil===undefined||profil.foregroundImageUrl===null) ?  {} :
+      {
+        backgroundImage: `url(${profil.foregroundImageUrl})`,
+        backgroundPosition: `${profil.foregroundPosition ? profil.foregroundPosition : 0}% top`,
+      }
     }
 
     const handleCloseSnackbarSuccess = (event, reason) => {
@@ -448,10 +471,24 @@ const Profile = (props) => {
       setOpenSnackbarSuccess(false);
     };
 
+    function hexToRgbA(hex,o=1){
+      var c;
+      if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+          c= hex.substring(1).split('');
+          if(c.length== 3){
+              c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+          }
+          c= '0x'+c.join('');
+          return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+o+')';
+      }
+      throw new Error('Bad Hex');
+  }
+
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profilData)}>
-            <Toolbar props={props} pageValue={0} />
+            <div className={classes.foreground} style={foregroundImg(profilData)}></div>
+            <Toolbar props={props} pageValue={0} profileData={profilData} />
           <div className={classes.shadow} ></div>
         </Paper>
 
@@ -466,11 +503,11 @@ const Profile = (props) => {
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={4} lg={5} md={12} sm={4} xs={5} className={classes.profile_item}>
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profilData ? profilData.foregroundColor ? {background: `linear-gradient(to bottom, ${profilData.foregroundColor}, ${hexToRgbA(profilData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={8} lg={7} md={12} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
-                      <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profilData.userTitle ? profilData.userTitle : "???"}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined), opacity: 0.80}}>{profilData.userTitle ? profilData.userTitle : "???"}</Typography>
                     </Grid>
                     <Grid item xs={12} className={classes.exchangeConditions_container}>
                       {profilData.exchangeConditions ? (
@@ -495,7 +532,7 @@ const Profile = (props) => {
                   <Grid item xs={12} className={classes.waifu_border}>
                     {profilData.waifu ? (
                       <>
-                        <div className={classes.waifu_name}><a href={profilData.waifu.characterUrl} className={classes.waifu_name_link} target={"_blank"}>{profilData.waifu.name}</a></div>
+                        <div className={classes.waifu_name}><a href={profilData.waifu.characterUrl} className={classes.waifu_name_link} target={"_blank"} style={{color: changeUserColor(profilData.foregroundColor)}}>{profilData.waifu.name}</a></div>
                         <CardMedia component='img' image={profilData.waifu.profileImageUrl} alt={profilData.waifu.id} className={classes.waifu}></CardMedia>
                       </>
                     ) : ""}
@@ -585,19 +622,19 @@ const Profile = (props) => {
                 <Table className={classes.expeditions_table} size="small" aria-label="a dense table">
                   <TableHead className={classes.expeditions_table_head}>
                     <TableRow>
-                      <TableCell className={classes.expeditions_table_th} align="center">ID</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center">Nazwa</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center">Typ</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center">Czas</TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>ID</TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>Nazwa</TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>Typ</TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>Czas</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {profilData.expeditions.map((card, index) => (
                       <TableRow key={card.card.id}>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} style={{cursor: "copy"}} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a style={{color: changeUserColor(profilData.foregroundColor), opacity: 0.85}} href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime)}</TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime, profilData ? profilData.foregroundColor : undefined)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -609,16 +646,16 @@ const Profile = (props) => {
               <Grid item xs={12}>
                 <div className={classes.wallet_container}>
                   <div className={classes.wallet_item}>
-                    <span>PC</span>: {profilData.wallet.PC}
+                    <span style={{color: changeUserColor(profilData.foregroundColor)}}>PC</span>: {profilData.wallet.PC}
                   </div>
                   <div className={classes.wallet_item}>
-                    <span>CT</span>: {profilData.wallet.CT}
+                    <span style={{color: changeUserColor(profilData.foregroundColor)}}>CT</span>: {profilData.wallet.CT}
                   </div>
                   <div className={classes.wallet_item}>
-                    <span>TC</span>: {profilData.wallet.TC}
+                    <span style={{color: changeUserColor(profilData.foregroundColor)}}>TC</span>: {profilData.wallet.TC}
                   </div>
                   <div className={classes.wallet_item}>
-                    <span>SC</span>: {profilData.wallet.SC}
+                    <span style={{color: changeUserColor(profilData.foregroundColor)}}>SC</span>: {profilData.wallet.SC}
                   </div>
                 </div>
               </Grid>
@@ -634,12 +671,12 @@ const Profile = (props) => {
               <Grid item xs={12}>
                   <Divider variant="middle" />
                 </Grid>
-                <Grid item xs={12} container className={classes.gallery}>
+                <Grid item xs={12} container className={classes.gallery} >
                   {profilData.gallery.map((card)=>{
                     return (
-                      <Grid item key={card.id}>
+                      <Grid item key={card.id} >
                         <Tooltip title={`${card.id} - ${card.name}`} placement="top" arrow>
-                          <div className={classes.gallery_card}>
+                          <div className={classes.gallery_card} >
                             <LazyCardMedia image={card.profileImageUrl} alt={card.id}  {...props} ></LazyCardMedia>
                           </div>
                         </Tooltip>

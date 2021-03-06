@@ -143,7 +143,6 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   const { params } = match;
   const { userID } = params;
 
-
   // search  input
   const [searchData, setSearchData] = useState("")
 
@@ -428,6 +427,10 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     });
   }
 
+  const changeUserColor = (profileColor) => {
+    return profileColor ? profileColor : "#f50057"
+  }
+
   return (
     <div className={classes.root}>
 
@@ -451,6 +454,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
             aria-haspopup="menu"
             onClick={handleToggleSort}
             className={classes.button}
+            style={profileData ? {backgroundColor: changeUserColor(profileData.foregroundColor), opacity: 0.8} : {}}
           >
             Sortuj<ArrowDropDownIcon />
           </Button>
@@ -495,6 +499,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
             aria-haspopup="menu"
             onClick={handleToggleTag}
             className={classes.button}
+            style={profileData ? {backgroundColor: changeUserColor(profileData.foregroundColor), opacity: 0.8} : {}}
           >
             Tagi<ArrowDropDownIcon />
           </Button>
@@ -552,7 +557,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                 color="primary"
                 size="small"
                 className={classes.button}
-                style={{marginLeft: 14,}}
+                style={profileData ? {backgroundColor: changeUserColor(profileData.foregroundColor), opacity: 0.85, marginLeft: 14,} : {marginLeft: 14,}}
                 startIcon={<SaveIcon />}
             >
                 Zastosuj

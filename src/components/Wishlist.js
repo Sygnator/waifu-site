@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
     height: "330px",
   },
+  foreground: {
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "auto",
+    margin: "auto",
+    height: "330px",
+  },
   shadow: {
     height: "100%",
     background: "linear-gradient(180deg,rgba(32, 35, 42,0) 40%,rgba(32, 35, 42,.6))",
@@ -125,8 +131,9 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     padding: 4,
-    border: "2px solid #20232a",
-    background: "linear-gradient(to bottom, #20232a, #30333a)",
+    // border: "2px solid #20232a",
+    boxShadow: "0px 0px 22px 2px rgb(0 0 0 / 14%)",
+    background: "linear-gradient(to bottom, #f50057, #f5005788)",
 
     "& .MuiAvatar-img": {
       borderRadius: "50%",
@@ -168,21 +175,25 @@ function type(cardType) {
   if(cardType==="card") return "Karta";
   return "Inny";
 }
-function name(type, name, id, classes) {
+function name(type, name, id, classes, profileColor) {
   if(name==="None") name="????"
-  if(type==="title") return <a href={`https://shinden.pl/t/${id}`} target="_blank" className={classes.wishlist_name}>{name}</a>;
-  if(type==="character") return <a href={`https://shinden.pl/character/${id}`} target="_blank" className={classes.wishlist_name}>{name}</a>;
+  if(type==="title") return <a href={`https://shinden.pl/t/${id}`} target="_blank" className={classes.wishlist_name} style={profileColor ? {color: profileColor ? profileColor : "#f50057"} : {}}>{name}</a>;
+  if(type==="character") return <a href={`https://shinden.pl/character/${id}`} target="_blank" className={classes.wishlist_name} style={profileColor ? {color: profileColor ? profileColor : "#f50057"} : {}}>{name}</a>;
   if(type==="card") return name;
   return {name};
 }
 
 const Wishlist = (props) => {
 
-    const { match, history } = props;
+    const { match } = props;
     const { params } = match;
     const { userID } = params;
 
     const classes = useStyles();
+
+    const changeUserColor = (profileColor) => {
+      return profileColor ? profileColor : "#f50057"
+    }
 
     const [status, setStatus] = useState();
     const [wlList, setWlList] = useState();
@@ -232,13 +243,35 @@ const Wishlist = (props) => {
 
       const backgroundImg = (profil) => {
         return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
-        {backgroundImage: `url(${profil.backgroundImageUrl})`,}
+        {backgroundImage: `url(${profil.backgroundImageUrl})`, backgroundPosition: `50% ${profil.backgroundPosition ? profil.backgroundPosition : 35}%`,}
       }
+
+      const foregroundImg = (profil) => {
+        return (profil===undefined||profil.foregroundImageUrl===null) ?  {} :
+        {
+          backgroundImage: `url(${profil.foregroundImageUrl})`,
+          backgroundPosition: `${profil.foregroundPosition ? profil.foregroundPosition : 0}% top`,
+        }
+      }
+
+      function hexToRgbA(hex,o=1){
+        var c;
+        if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+            c= hex.substring(1).split('');
+            if(c.length== 3){
+                c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+            }
+            c= '0x'+c.join('');
+            return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+o+')';
+        }
+        throw new Error('Bad Hex');
+    }
 
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profileData)}>
-            <Toolbar props={props} pageValue={2}/>
+            <div className={classes.foreground} style={foregroundImg(profileData)}></div>
+            <Toolbar props={props} pageValue={2} profileData={profileData} />
           <div className={classes.shadow} ></div>
         </Paper>
 
@@ -247,11 +280,12 @@ const Wishlist = (props) => {
                 <Grid item xs={12}>
                   <Grid container justify="center" alignItems="center" className={classes.profile_container}>
                     <Grid item xl={5} lg={6} md={7} sm={4} xs={5} className={classes.profile_item}>
-                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} />
+                      <Avatar src={`https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar}
+                      style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap>{nick===undefined ? "????" : nick}</Typography>
-                      <Typography variant="h7" className={classes.profile_item_rank} noWrap>{profileData ? profileData.userTitle : "???"}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{profileData ? profileData.userTitle : "???"}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -265,16 +299,16 @@ const Wishlist = (props) => {
               <Table className={classes.wishlist_table} aria-label="simple table">
                 <TableHead className={classes.wishlist_table_head}>
                   <TableRow >
-                    <TableCell className={classes.wishlist_table_th} >Nazwa</TableCell>
-                    <TableCell className={classes.wishlist_table_th} align="right">Typ</TableCell>
-                    <TableCell className={classes.wishlist_table_th} align="right">ID</TableCell>
+                    <TableCell className={classes.wishlist_table_th} style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Nazwa</TableCell>
+                    <TableCell className={classes.wishlist_table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Typ</TableCell>
+                    <TableCell className={classes.wishlist_table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >ID</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {wlList.map((row, index) => (
                     <TableRow key={row.name}>
                       <TableCell className={index%2===0 ? classes.wishlist_table_td1 : classes.wishlist_table_td2} component="th" scope="row">
-                          {name(row.type, row.objectName, row.objectId, classes)}
+                          {name(row.type, row.objectName, row.objectId, classes, profileData ? profileData.foregroundColor : undefined)}
                       </TableCell>
                       <TableCell className={index%2===0 ? classes.wishlist_table_td1 : classes.wishlist_table_td2}  align="right">{type(row.type)}</TableCell>
                       <TableCell className={index%2===0 ? classes.wishlist_table_td1 : classes.wishlist_table_td2}  align="right">{row.objectId}</TableCell>

@@ -143,7 +143,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .Mui-selected": {
       backgroundColor: "rgba(100, 0, 0, 0)",
-      color: "#f50057",
+      // color: "#f50057",
     },
   },
   c: {
@@ -222,6 +222,15 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   const [openFilter, setOpenFilter] = useState(false);
 
   const [bar, setBar] = useState(false);
+
+
+  const changeUserColor = (pageValue, userColor) => {
+      if((pageValue===0||pageValue===1||pageValue===2)&&userColor) {
+        return userColor
+      } else {
+        return "#f50057"
+      }
+   }
 
   const scroll = () => {
     if (typeof window !== "undefined") {
@@ -479,9 +488,9 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
                 showLabels
                 className={classes.b}
               >
-                <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} href={`#/user/${userID}/profile`} />
-                <BottomNavigationAction label="Karty" icon={<ViewCarouselIcon />}  href={`#/user/${userID}/cards`} />
-                <BottomNavigationAction className={classes.c} label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} />
+                <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} href={`#/user/${userID}/profile`} style={{color: pageValue===0 ? changeUserColor(pageValue, profileData ? profileData.foregroundColor : undefined) : ""}} />
+                <BottomNavigationAction label="Karty" icon={<ViewCarouselIcon />}  href={`#/user/${userID}/cards`} style={{color:pageValue===1 ? changeUserColor(pageValue, profileData ? profileData.foregroundColor : undefined) : ""}} />
+                <BottomNavigationAction className={classes.c} label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} style={{color: pageValue===2 ? changeUserColor(pageValue, profileData ? profileData.foregroundColor : undefined) : ""}} />
               </BottomNavigation>
             ) : ("")}
 
@@ -497,7 +506,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
             </BottomNavigation>
 
 
-          <Search {...props} />
+          <Search props={props} userColor={pageValue<=-1 ? undefined : profileData ? profileData.foregroundColor : undefined} />
 
           <Tooltip title="Ustawienia strony" arrow>
           <IconButton

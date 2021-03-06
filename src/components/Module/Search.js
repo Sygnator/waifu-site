@@ -60,6 +60,50 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff!important',
     },
   },
+  Input2: {
+    color: "#fff",
+    "& .MuiInput-underline:before": {
+      borderBottom: "1px solid rgba(255, 255, 255, 1)",
+    },
+    "& .MuiInput-underline:hover:before": {
+      borderBottom: "1px solid #ffffffbb",
+    },
+    '& .MuiFormLabel-root': {
+      color: '#fff',
+    },
+    '& .MuiInputBase-root': {
+      color: '#fff',
+    },
+    '& .MuiFormLabel-root': {
+      color: '#fff',
+    },
+    '& .MuiIconButton-root': {
+      color: '#fff',
+    },
+    '& .MuiCircularProgress-root': {
+      color: '#fff',
+    },
+    '& label.Mui-focused': {
+      color: '#fff',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#ffffffaa',
+    },
+    '& .MuiInput-root': {
+      '& fieldset': {
+        borderColor: '#fff',
+      },
+      '&:hover fieldset': {
+        borderColor: '#fff',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#fff',
+      },
+    },
+    "& .MuiAutocomplete-endAdornment": {
+      color: '#fff!important',
+    },
+  },
   img: {
     width: "35px",
     height: "35px",
@@ -133,7 +177,8 @@ function localAdd(selectUser) {
 
 }
 
-export default function Asynchronous() {
+export default function Asynchronous({props,userColor=false}) {
+  // const {userColor} = props;
   const classes = useStyles();
 
   const [searchData, setSearchData] = useState("");
@@ -232,7 +277,7 @@ export default function Asynchronous() {
           label="Szukaj użytkownika"
           variant="standard"
           onChange={(event)=>setSearchData(event.target.value)}
-          className={classes.Input}
+          className={userColor ? classes.Input2 : classes.Input}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
