@@ -315,7 +315,7 @@ const CardsDeck = (props) => {
 
     const classes = useStyles();
 
-    const [pageVersion, setPageVersion] = useState();
+    const [pageVersion, setPageVersion] = useState("cards");
     const [profileData, setProfileData] = useState();
     const [cardsData, setCardsData] = useState();
 
