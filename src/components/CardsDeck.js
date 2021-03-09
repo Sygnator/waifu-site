@@ -358,6 +358,7 @@ const CardsDeck = (props) => {
 
     const filterUpdate = (filterData) => {
       localStorage.setItem(`u${userID}filter`, JSON.stringify(filterData))
+      setLocalFilter(filterData)
       return JSON.parse(localStorage.getItem(`u${userID}filter`));
     };
 
@@ -409,25 +410,8 @@ const CardsDeck = (props) => {
                     setPageCount(Math.ceil(totalCards/cardsOnPage));
                 }
         }).catch((error)=>{
-          // TODO Fix me - api cards
-          if(error.response.status===415) {
-            axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
-              const newWaifuCardsData = res.data.cards;
-              const totalCards = res.data.totalCards;
-              setStatus(200);
-              setCardsData(newWaifuCardsData);
-              if(totalCards<cardsOnPage) {
-                  setPageCount(1);
-              } else {
-                  setPageCount(Math.ceil(totalCards/cardsOnPage));
-              }
-            }).catch((error)=>{
-              setStatus(415)
-            })
-          } else {
-            console.error(error.response.status, "Błąd strony.");
-            setStatus(-1)
-          }
+          console.log(error);
+          setStatus(415);
         })
     }
   }, [page, cardsOnPage]);

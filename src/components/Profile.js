@@ -16,6 +16,7 @@ import {
   TableRow,
   Tooltip,
   Snackbar,
+  CardActionArea,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
@@ -27,6 +28,7 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 // import testProf from "./TestData/testProf.js";
 import axios from "axios";
 // import { CenterFocusStrong } from '@material-ui/icons';
+import CardDetails from "./Card/CardDetails.js";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -292,6 +294,7 @@ const useStyles = makeStyles((theme) => ({
 
     "&:hover": {
       color: "#f50057",
+      cursor: "pointer",
     }
   },
   expeditions_table_container: {
@@ -460,8 +463,13 @@ const Profile = (props) => {
     //     axios({
     //       method: 'get',
     //       url: `https://shinden.pl/api/user/${userID}/info`,
-    //       headers: {"Content-Type": "application/json", "Accept": "*/*"},
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "Accept": "*/*",
+    //         // "User-Agent:": "*/*",
+    //       },
     //     }).then((res)=> {
+    //       console.log(res.data, "Api shinden");
     //       const newUserData = res.data;
     //       setNick(newUserData.name)
     //       setUserData(newUserData)
@@ -508,6 +516,53 @@ const Profile = (props) => {
           return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+o+')';
       }
       throw new Error('Bad Hex');
+  }
+
+
+  const [openDetails, setOpenDetails] = React.useState(false);
+  const [detailsIndex, setDetailsIndex] = React.useState(-1);
+
+  const handleOpenCardDetails = (index) => () => {
+    setDetailsIndex(index)
+    setOpenDetails(true);
+  }
+
+  const handleCloseCardDetails = () => {
+    setOpenDetails(false);
+  }
+
+  const handleIndexUp = () => {
+    setDetailsIndex(detailsIndex+1);
+  }
+
+  const handleIndexDown = () => {
+    setDetailsIndex(detailsIndex-1);
+  }
+
+  const [openDetailsExpeditions, setOpenDetailsExpeditions] = React.useState(false);
+  const [detailsIndexExpeditions, setDetailsIndexExpeditions] = React.useState(-1);
+
+  const ExpeditionsCards = [];
+
+  const ExpeditionsCardsUpdate = (card) => {
+    ExpeditionsCards.push(card);
+  }
+
+  const handleOpenCardDetailsExpeditions = (index) => () => {
+    setDetailsIndexExpeditions(index)
+    setOpenDetailsExpeditions(true);
+  }
+
+  const handleCloseCardDetailsExpeditions = () => {
+    setOpenDetailsExpeditions(false);
+  }
+
+  const handleIndexUpExpeditions = () => {
+    setDetailsIndexExpeditions(detailsIndexExpeditions+1);
+  }
+
+  const handleIndexDownExpeditions = () => {
+    setDetailsIndexExpeditions(detailsIndexExpeditions-1);
   }
 
     return (
@@ -658,11 +713,29 @@ const Profile = (props) => {
                     {profilData.expeditions.map((card, index) => (
                       <TableRow key={card.card.id}>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} style={{cursor: "copy"}} align="center" onClick={copyExpeditionCmdToClipboard(card.card.id)}>{card.card.id}</TableCell>
-                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center"><a style={profilData.foregroundColor ? {color: changeUserColor(profilData.foregroundColor), opacity: 0.90} : {}} href={`${card.card.characterUrl}`} target="_blank" className={classes.expeditions_card_name}>{card.card.name}</a></TableCell>
+                        <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">
+                        {/* <CardActionArea > */}
+                        {/* href={`${card.card.characterUrl}`} target="_blank" */}
+                          <a style={profilData.foregroundColor ? {color: changeUserColor(profilData.foregroundColor), opacity: 0.90} : {}} onClick={handleOpenCardDetailsExpeditions(index)} className={classes.expeditions_card_name}>
+                            {card.card.name}
+                            {ExpeditionsCardsUpdate(card.card)}
+                          </a>
+                        {/* </CardActionArea> */}
+                        </TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{card.expedition}</TableCell>
                         <TableCell className={index%2===0 ? classes.expeditions_table_td1 : classes.expeditions_table_td2} align="center">{timeDiffCalc(new Date(card.startTime), new Date(), card.maxTime, profilData ? profilData.foregroundColor : undefined)}</TableCell>
                       </TableRow>
                     ))}
+                    <CardDetails
+                      {...props}
+                      index={detailsIndexExpeditions}
+                      cardsData={ExpeditionsCards}
+                      openDetails={openDetailsExpeditions}
+                      userColor={profilData.foregroundColor}
+                      handleIndexUp={handleIndexUpExpeditions}
+                      handleIndexDown={handleIndexDownExpeditions}
+                      handleCloseCardDetails={handleCloseCardDetailsExpeditions}
+                    />
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -698,17 +771,29 @@ const Profile = (props) => {
                   <Divider variant="middle" />
                 </Grid>
                 <Grid item xs={12} container className={classes.gallery} >
-                  {profilData.gallery.map((card)=>{
+                  {profilData.gallery.map((card,index)=>{
                     return (
                       <Grid item key={card.id} >
                         <Tooltip title={`${card.id} - ${card.name}`} placement="top" arrow>
+                        <CardActionArea onClick={handleOpenCardDetails(index)}>
                           <div className={classes.gallery_card} >
                             <LazyCardMedia image={card.profileImageUrl} alt={card.id}  {...props} ></LazyCardMedia>
                           </div>
+                        </CardActionArea>
                         </Tooltip>
                       </Grid>
                     )
                   })}
+                  <CardDetails
+                  {...props}
+                  index={detailsIndex}
+                  cardsData={profilData.gallery}
+                  openDetails={openDetails}
+                  userColor={profilData.foregroundColor}
+                  handleIndexUp={handleIndexUp}
+                  handleIndexDown={handleIndexDown}
+                  handleCloseCardDetails={handleCloseCardDetails}
+                />
                 </Grid>
               </Grid>
               </>
