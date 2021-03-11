@@ -100,8 +100,19 @@ const CardDetails = (props) => {
 
   const card = cardsData[index];
 
+  const onKeyPress = (key) => {
+    //right
+    if(key===39) {
+      handleIndexUp()
+    }
+    //left
+    if(key===37) {
+      handleIndexDown()
+    }
+  }
+
   return (
-    <div>
+    <div onKeyDown={(e)=>onKeyPress(e.keyCode)}>
       {card ?
       <Dialog
         open={openDetails}
