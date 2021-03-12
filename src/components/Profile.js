@@ -27,6 +27,9 @@ import MuiAlert from '@material-ui/lab/Alert';
 import LazyCardMedia from "./Module/LazyCardMedia.js";
 // import testProf from "./TestData/testProf.js";
 import axios from "axios";
+import axiosCookieJarSupport from "axios-cookiejar-support";
+import tough from "tough-cookie";
+
 // import { CenterFocusStrong } from '@material-ui/icons';
 import CardDetails from "./Card/CardDetails.js";
 
@@ -456,28 +459,6 @@ const Profile = (props) => {
       })
     }, [userID])
 
-    // useEffect(()=> {
-    //   console.log("Test - shinden api");
-    //   if(nick==="????") {
-
-    //     axios({
-    //       method: 'get',
-    //       url: `https://shinden.pl/api/user/${userID}/info`,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Accept": "*/*",
-    //         // "User-Agent:": "*/*",
-    //       },
-    //     }).then((res)=> {
-    //       console.log(res.data, "Api shinden");
-    //       const newUserData = res.data;
-    //       setNick(newUserData.name)
-    //       setUserData(newUserData)
-    //     }).catch((error)=>{
-    //       console.log(error);
-    //     });
-    //   }
-    // }, [userID, nick])
 
     const nickUpdate = () => {
       setNick("????")
