@@ -425,10 +425,21 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
     </div>
   );
 
+  const onKeyPress = (key) => {
+    //enter
+    if(key===13) {
+      handleChangeSettings()
+    }
+    //esc
+    if(key===27) {
+      setOpenSettings(false)
+    }
+  }
+
   const errorSettings = cardOnPage<100||cardOnPage>4000||openSnackbarError===true;
 
   const dialogSettings = () => (
-    <Dialog disableBackdropClick disableEscapeKeyDown open={openSettings} onClose={()=>setOpenSettings(false)}>
+    <Dialog disableBackdropClick disableEscapeKeyDown open={openSettings} onClose={()=>setOpenSettings(false)} onKeyDown={(e)=>onKeyPress(e.keyCode)}>
       <div className={classes.wrapper}>
     <DialogTitle>Ustawienia</DialogTitle>
     <DialogContent>
