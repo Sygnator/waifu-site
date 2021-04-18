@@ -287,8 +287,17 @@ const useStyles = makeStyles((theme) => ({
     width: 180,
   },
   expeditions_title: {
-    paddingTop: 15,
-    paddingLeft: 15,
+    // paddingTop: 15,
+    // paddingLeft: 15,
+    // color: "#c1c1c1",
+    display: "grid",
+    gridAutoFlow: "column",
+    width: "94%",
+    fontSize: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+    // fontWeight: "bold",
+    paddingTop: 5,
     color: "#c1c1c1",
   },
   expeditions_card_name: {
@@ -302,6 +311,7 @@ const useStyles = makeStyles((theme) => ({
   },
   expeditions_table_container: {
     padding: 15,
+    paddingTop: 5,
     // hidden table scroll
     overflow: "hidden",
   },
@@ -679,7 +689,12 @@ const Profile = (props) => {
 
               {/* Expeditions table */}
               <Grid item lg={6} md={12} xs={12}>
-              <Typography variant="h5" className={classes.expeditions_title}>Wyprawy ({profilData.expeditions.length}/10): </Typography>
+                <div className={classes.expeditions_title}>
+                  <div style={{textAlign: "left"}}>Wyprawy:</div>
+                  <div style={{textAlign: "right"}}>{profilData.expeditions.length}/10</div>
+              {/* <Typography variant="div" className={classes.expeditions_title}>Wyprawy:</Typography> */}
+              {/* <Typography variant="div" className={classes.expeditions_title}>({profilData.expeditions.length}/10)</Typography> */}
+              </div>
               <TableContainer className={classes.expeditions_table_container}>
                 <Table className={classes.expeditions_table} size="small" aria-label="a dense table">
                   <TableHead className={classes.expeditions_table_head}>
@@ -736,6 +751,9 @@ const Profile = (props) => {
                   </div>
                   <div className={classes.wallet_item}>
                     <span style={{color: changeUserColor(profilData.foregroundColor)}}>SC</span>: {profilData.wallet.SC}
+                  </div>
+                  <div className={classes.wallet_item}>
+                    <span style={{color: changeUserColor(profilData.foregroundColor)}}>AC</span>: {profilData.wallet.AC}
                   </div>
                 </div>
               </Grid>
