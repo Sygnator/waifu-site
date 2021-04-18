@@ -679,7 +679,7 @@ const Profile = (props) => {
 
               {/* Expeditions table */}
               <Grid item lg={6} md={12} xs={12}>
-              <Typography variant="h5" className={classes.expeditions_title}>Wyprawy: </Typography>
+              <Typography variant="h5" className={classes.expeditions_title}>Wyprawy ({profilData.expeditions.length}/10): </Typography>
               <TableContainer className={classes.expeditions_table_container}>
                 <Table className={classes.expeditions_table} size="small" aria-label="a dense table">
                   <TableHead className={classes.expeditions_table_head}>

@@ -617,8 +617,13 @@ const CardsDeck = (props) => {
             {cardsData&&profileData ? (
               <>
                 <Grid item xs={12} justify="center" spacing={1} className={classes.cards_container} container>
-                  {pageVersion==="list" ? getWaifuCardList(cardsData) : cardsData.map((card, index)=>getWaifuCard(card, index))}
-                  {pageCount>1 ? renderPagination(page, pageCount) : ""}
+                  {cardsData.length===0 ? <p className={classes.error404}><span style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>Error</span><br />Nie znaleziono kart.</p>
+                   : (
+                  <>
+                    {pageVersion==="list" ? getWaifuCardList(cardsData) : cardsData.map((card, index)=>getWaifuCard(card, index))}
+                    {pageCount>1 ? renderPagination(page, pageCount) : ""}
+                  </>
+                  )}
                 </Grid>
                 <CardDetails
                   {...props}

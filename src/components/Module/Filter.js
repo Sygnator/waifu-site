@@ -395,15 +395,35 @@ export default function FilterAppBar({props, profileData, cardsData}) {
 
   useEffect(() => {
 
-
-
   const newDataFilter = JSON.parse(localStorage.getItem(`u${userID}dataFilter`));
 
   if(newDataFilter!==null) {
-    setOptionsTag(newDataFilter.optionsTag);
     setOptionsSort(newDataFilter.optionsSort);
     setSearchData(newDataFilter.searchData);
     setSelectedIndexSort(newDataFilter.index);
+
+    if (newDataFilter.optionsTag.length===profileData.tagList.length) {
+      setOptionsTag(newDataFilter.optionsTag);
+    } else {
+      const newTagsR = profileData.tagList.map((o)=>{
+        let choice = null
+        newDataFilter.optionsTag.map((oo)=>{
+          if(oo.value === o) choice = oo.choice
+        })
+        return {value: o, choice: choice}
+      })
+      setOptionsTag(newTagsR);
+
+      const dataFilterR = {
+        optionsTag: newTagsR,
+        optionsSort: newDataFilter.optionsSort,
+        searchData: newDataFilter.searchData,
+        index: newDataFilter.index,
+      }
+
+      localStorage.setItem(`u${userID}dataFilter`, JSON.stringify(dataFilterR))
+
+    }
   }
 
   }, []);
@@ -431,6 +451,13 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     return profileColor ? profileColor : "#f50057"
   }
 
+  const onKeyPress = (key) => {
+    //enter
+    if(key===13) {
+      apply()
+    }
+  }
+
   return (
     <div className={classes.root}>
 
@@ -441,7 +468,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       </Snackbar>
 
       <AppBar position="static" className={classes.barColor}>
-        <Toolbar variant='dense' className={classes.barColor}>
+        <Toolbar variant='dense' className={classes.barColor} >
             <div className={classes.center}>
             <Button
             ref={anchorRefSort}
@@ -543,6 +570,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                   onChange={(event) => inputSearch(event.target.value)}
                   value={searchData}
                   placeholder="Szukaj karty"
+                  onKeyDown={(e)=>onKeyPress(e.keyCode)}
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
