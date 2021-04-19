@@ -52,9 +52,11 @@ const Test = (props) => {
             headers: {
               "Content-Type": "application/json",
               "Accept": "*/*",
-              "Cookie": "",
-              "withCredentials": true,
-              "User-Agent": "Waifu/Sanakan",
+              // "withCredentials": true,
+              "xhrFields": {
+                withCredentials: true
+              },
+              "crossDomain": true
             },
           }).then((res)=> {
             console.log(res.data, "Api shinden");
