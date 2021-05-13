@@ -212,7 +212,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   const anchorRefSort = React.useRef(null);
   const [selectedIndexSort, setSelectedIndexSort] = React.useState(0);
 
-  const sortList = ["Id", "Nazwa", "Ranga", "Tytuł anime", "Życie", "Bazowe życie", "Atak", "Obrona", "Doświadczenie", "Dere", "Obrazek", "Relacja",];
+  const sortList = ["Id", "Nazwa", "Ranga", "Tytuł anime", "Życie", "Bazowe życie", "Atak", "Obrona", "Doświadczenie", "Dere", "Obrazek", "Relacja", "Moc"];
 
   const [optionsSort, setOptionsSort] = React.useState(sortList.map((o,i)=>{
     return i===0 ? {value: o, choice: "reject"} : {value: o, choice: null}
@@ -348,9 +348,12 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       case "Obrazek":
         if(sortOp.choice==="assign") return "picture";
         if(sortOp.choice==="reject") return "pictureDes";
-    case "Relacja":
+      case "Relacja":
         if(sortOp.choice==="assign") return "relation";
         if(sortOp.choice==="reject") return "relationDes";
+      case "Moc":
+        if(sortOp.choice==="assign") return "cardPower";
+        if(sortOp.choice==="reject") return "cardPowerDes";
       default:
         return "id";
     }
