@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fade, makeStyles } from "@material-ui/core/styles";
 
+import CryptoJS from "crypto-js";
+
 import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import tough from "tough-cookie";

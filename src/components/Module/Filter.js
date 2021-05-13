@@ -1,3 +1,4 @@
+import CryptoJS from "crypto-js";
 import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -402,7 +403,9 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setSearchData(newDataFilter.searchData);
     setSelectedIndexSort(newDataFilter.index);
 
-    if (newDataFilter.optionsTag.length===profileData.tagList.length) {
+    const newDataNameFilter = newDataFilter.optionsTag.map((o)=>o.value)
+
+    if (CryptoJS.MD5(newDataNameFilter.toString()).toString()===CryptoJS.MD5(profileData.tagList.toString()).toString()) {
       setOptionsTag(newDataFilter.optionsTag);
     } else {
       const newTagsR = profileData.tagList.map((o)=>{
