@@ -322,8 +322,8 @@ export default function FilterAppBar({props, profileData, cardsData}) {
         if(sortOp.choice==="assign") return "name";
         if(sortOp.choice==="reject") return "nameDes";
       case "Ranga":
-        if(sortOp.choice==="assign") return "rarity";
-        if(sortOp.choice==="reject") return "rarityDes";
+        if(sortOp.choice==="assign") return "rarityDes";
+        if(sortOp.choice==="reject") return "rarity";
       case "Tytuł anime":
         if(sortOp.choice==="assign") return "title";
         if(sortOp.choice==="reject") return "titleDes";

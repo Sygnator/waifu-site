@@ -25,6 +25,8 @@ const Test = (props) => {
     useEffect(()=> {
         console.log("Test - shinden api");
 
+        document.title = "Pocket Waifu - test"
+
         // axiosCookieJarSupport(axios);
 
         // const cookieJar = new tough.CookieJar();
@@ -48,23 +50,45 @@ const Test = (props) => {
           // const cookieX = document.cookie;
           // console.log(cookieX);
 
-          axios({
+          // axios({
+          //   method: 'get',
+          //   url: `https://shinden.pl/api/user/3/info`,
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     "Accept": "*/*",
+          //     // "withCredentials": true,
+          //     // "xhrFields": {
+          //     //   withCredentials: true
+          //     // },
+          //     "Access-Control-Allow-Origin": "<origin>",
+          //     "crossDomain": true
+          //   },
+          // }).then((res)=> {
+          //   console.log(res.data, "Api shinden");
+          // }).catch((error)=>{
+          //   console.log(error);
+          // });
+
+
+          var config = {
             method: 'get',
-            url: `https://shinden.pl/api/user/3/info`,
+            url: 'https://shinden.pl/api/user/3/info',
             headers: {
-              "Content-Type": "application/json",
-              "Accept": "*/*",
-              // "withCredentials": true,
-              "xhrFields": {
-                withCredentials: true
-              },
-              "crossDomain": true
-            },
-          }).then((res)=> {
-            console.log(res.data, "Api shinden");
-          }).catch((error)=>{
+              'Accept': 'application/json',
+              'User-Agent': '',
+              'Cookie': '',
+              "crossDomain": true,
+            }
+          };
+
+          axios(config)
+          .then(function (response) {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch(function (error) {
             console.log(error);
           });
+
 
       }, [])
 
