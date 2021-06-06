@@ -333,7 +333,8 @@ const CardsDeck = (props) => {
       orderBy: "id",
       includeTags: [],
       excludeTags: [],
-      searchText: null
+      searchText: null,
+      filterTagsMethod: 0,
     };
 
     const [nick, setNick] = useState();

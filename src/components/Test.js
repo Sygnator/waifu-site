@@ -7,6 +7,11 @@ import axios from "axios";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import tough from "tough-cookie";
 
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
@@ -70,7 +75,7 @@ const Test = (props) => {
           // });
 
 
-          var config = {
+/*           var config = {
             method: 'get',
             url: 'https://shinden.pl/api/user/3/info',
             headers: {
@@ -88,13 +93,36 @@ const Test = (props) => {
           .catch(function (error) {
             console.log(error);
           });
-
+ */
 
       }, [])
+
+      const [filterTagsMethod, setFilterTagsMethod] = React.useState(false);
+
+      const handleChangeFilterTagsMethod = (event) => {
+        setFilterTagsMethod(event.target.checked);
+        console.log(filterTagsMethod, event.target.checked);
+      };
 
     return (
       <>
         <div>test</div>
+          <Typography component="div">
+          <Grid component="label" container alignItems="center" spacing={1}>
+            <Grid item>AND</Grid>
+            <Grid item>
+              <Switch
+                defaultChecked
+                color="default"
+                inputProps={{ 'aria-label': 'checkbox with default color' }}
+                checked={filterTagsMethod}
+                onChange={handleChangeFilterTagsMethod}
+                name="filterTagsMethod"
+              />
+            </Grid>
+            <Grid item>OR</Grid>
+          </Grid>
+        </Typography>
       </>
     )
 }

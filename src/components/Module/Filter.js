@@ -29,6 +29,10 @@ import MenuList from '@material-ui/core/MenuList';
 import Tooltip from '@material-ui/core/Tooltip';
 import Snackbar from '@material-ui/core/Snackbar';
 
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -200,6 +204,21 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     if(option.choice==="reject") return {color: "red"}
   };
 
+
+  // *
+  // *
+  // *
+  // Filter Tags Method
+  // *
+  // *
+  // *
+
+  const [filterTagsMethod, setFilterTagsMethod] = React.useState(0);
+
+      const handleChangeFilterTagsMethod = (event) => {
+        setFilterTagsMethod(event.target.checked ? 1 : 0);
+      };
+
   // *
   // *
   // *
@@ -292,11 +311,14 @@ export default function FilterAppBar({props, profileData, cardsData}) {
 
     setSearchData("")
 
+    setFilterTagsMethod(0)
+
     const filter = {
       orderBy: "id",
       includeTags: [],
       excludeTags: [],
-      searchText: null
+      searchText: null,
+      filterTagsMethod: 0,
     };
 
     const dataFilter = {
@@ -304,6 +326,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       optionsSort: optionsSort,
       searchData: searchData,
       index: selectedIndexSort,
+      filterTagsMethod: filterTagsMethod,
     }
 
     localStorage.setItem(`u${userID}filter`, JSON.stringify(filter))
@@ -381,6 +404,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       includeTags: includeTags,
       excludeTags: excludeTags,
       searchText: searchText,
+      filterTagsMethod: filterTagsMethod,
     };
 
     const dataFilter = {
@@ -388,6 +412,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       optionsSort: optionsSort,
       searchData: searchData,
       index: selectedIndexSort,
+      filterTagsMethod: filterTagsMethod,
     }
 
     // console.log("filter", filter);
@@ -405,6 +430,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setOptionsSort(newDataFilter.optionsSort);
     setSearchData(newDataFilter.searchData);
     setSelectedIndexSort(newDataFilter.index);
+    setFilterTagsMethod(newDataFilter.filterTagsMethod)
 
     const newDataNameFilter = newDataFilter.optionsTag.map((o)=>o.value)
 
@@ -425,6 +451,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
         optionsSort: newDataFilter.optionsSort,
         searchData: newDataFilter.searchData,
         index: newDataFilter.index,
+        filterTagsMethod: newDataFilter.filterTagsMethod,
       }
 
       localStorage.setItem(`u${userID}dataFilter`, JSON.stringify(dataFilterR))
@@ -491,6 +518,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
           >
             Sortuj<ArrowDropDownIcon />
           </Button>
+
         <Popper style={{zIndex: 999,}} open={openSort} anchorEl={anchorRefSort.current} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
             <Grow
@@ -521,7 +549,9 @@ export default function FilterAppBar({props, profileData, cardsData}) {
             </Grow>
           )}
         </Popper>
-              <Button
+
+
+            <Button
             ref={anchorRefTag}
             variant="contained"
             color="primary"
@@ -548,6 +578,28 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                 <ClickAwayListener onClickAway={handleCloseTag}>
                   <MenuList style={{maxHeight: 600, height: "100%", overflowY: "auto",}} id="split-button-menu">
                   {/* (o,oo)=>o.value.length-oo.value.length */}{/* a.value.toLowerCase()==="ulubione" */}
+                      <MenuItem
+                        key="FilterTagsMethod"
+                        onChange={handleChangeFilterTagsMethod}
+                      >
+                    {/* chyba tutaj */}
+                    <Typography component="div">
+                    <Grid component="label" container alignItems="center" spacing={1}>
+                      <Grid item>AND</Grid>
+                      <Grid item>
+                        <Switch
+                          defaultChecked
+                          color="default"
+                          inputProps={{ 'aria-label': 'checkbox with default color' }}
+                          checked={filterTagsMethod}
+                          // onChange={handleChangeFilterTagsMethod}
+                          name="filterTagsMethod"
+                        />
+                      </Grid>
+                      <Grid item>OR</Grid>
+                    </Grid>
+                  </Typography>
+                  </MenuItem>
                     {optionsTag.sort((a,b) => {
                       return a.value < b.value ? -1 : 1
                     }).map((option, index) => (
