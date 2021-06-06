@@ -430,7 +430,11 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setOptionsSort(newDataFilter.optionsSort);
     setSearchData(newDataFilter.searchData);
     setSelectedIndexSort(newDataFilter.index);
-    setFilterTagsMethod(newDataFilter.filterTagsMethod)
+    if (newDataFilter.filterTagsMethod===undefined || newDataFilter.filterTagsMethod===null) {
+      setFilterTagsMethod(0)
+    } else {
+      setFilterTagsMethod(newDataFilter.filterTagsMethod)
+    }
 
     const newDataNameFilter = newDataFilter.optionsTag.map((o)=>o.value)
 
