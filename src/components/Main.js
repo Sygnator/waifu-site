@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import {
   Grid,
-  Paper,
-  Typography,
-  Avatar,
   List,
+  Paper,
+  Avatar,
+  Tooltip,
   ListItem,
+  IconButton,
+  Typography,
   ListItemText,
   ListItemAvatar,
-  IconButton,
-  Tooltip,
+  ListItemSecondaryAction,
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
 import Footer from "./Module/Footer";
 
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,6 +77,48 @@ const MainTest = (props) => {
       setLastVisited(JSON.parse(localStorage.getItem(`lastVisited`)))
     }, []);
 
+    const goToProfile = (id) => {
+        window.location.href=`#/user/${id}/profile`;
+        window.location.reload();
+    }
+
+    const pinProfile = (selectUser, pin) => {
+      const newListPin = []
+      const newListUnPin = []
+
+      lastVisited.map((x)=>{
+        if (x!==null) {
+          return x.id===selectUser.id ? {
+            id: selectUser.id,
+            pinned: pin,
+            name: selectUser.name,
+            rank: selectUser.rank,
+            avatarUrl: selectUser.avatarUrl,
+          } : x;
+        }
+        return x;
+      }).map((x)=>{
+        if (x!==null) {
+          if(x.id===selectUser.id&&x.pinned) {
+            return newListPin.unshift(x)
+          }
+          return x.pinned ? newListPin.push(x) : newListUnPin.push(x)
+        }
+        return x;
+      })
+
+      const newList = [...newListPin, ...newListUnPin]
+
+      for (let index = newList.length; index < 10; index++) {
+        newList.push(null);
+    }
+
+      setLastVisited(newList)
+      localStorage.setItem(`lastVisited`, JSON.stringify(newList));
+
+      console.log(newList);
+    }
+
     return (
       <>
         <Paper className={classes.root}>
@@ -89,8 +133,7 @@ const MainTest = (props) => {
                 {lastVisited.map((value) => {
                   if(value!==null) {
                     return (
-                        <a className={classes.test} href={`#/user/${value.id}/profile`}>
-                        <ListItem key={value.name} button>
+                        <ListItem key={value.name} button onClick={()=>goToProfile(value.id)}>
                           <ListItemAvatar>
                             <Avatar
                               alt={`Avatar ${value.id}`}
@@ -98,13 +141,14 @@ const MainTest = (props) => {
                             />
                           </ListItemAvatar>
                           <ListItemText className={classes.secondary} id={value.id} primary={value.name}/>
-                          <Tooltip title={`Karty ${value.name}`} arrow>
-                            <IconButton className={classes.test} edge="end" aria-label="comments" href={`#/user/${value.id}/cards`}>
-                              <ViewCarouselIcon />
+                          <ListItemSecondaryAction>
+                            <Tooltip title={value.pinned ? `Odepnij profil` : `Przypnij profil`} arrow>
+                            <IconButton className={classes.test} edge="end" aria-label="comments" onClick={()=>value.pinned ? pinProfile(value, false) : pinProfile(value, true)} style={value.pinned ? {color: "#f50057"} : {}}>
+                              <BookmarksIcon />
                             </IconButton>
-                          </Tooltip>
+                            </Tooltip>
+                          </ListItemSecondaryAction>
                         </ListItem>
-                        </a>
                       );
                   }
                   return ""

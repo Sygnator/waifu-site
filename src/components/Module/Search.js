@@ -145,13 +145,13 @@ function localAdd(selectUser) {
   if (lastUserList===null) {
     const userList = [];
 
-    userList.unshift(selectUser);
+    userList.unshift({...selectUser, pinned: false});
     for (let index = 0; index < 9; index++) {
         userList.push(null);
     }
 
     localStorage.setItem(`lastVisited`, JSON.stringify(userList));
-  } else {
+  } else if (lastUserList[9]===null ? true : lastUserList[9].pinned===false) {
     const userIdList = lastUserList.map((x)=>{
       if (x!==null) {
         return x.id;
@@ -160,15 +160,39 @@ function localAdd(selectUser) {
     })
 
     if(userIdList.includes(selectUser.id)) {
-      lastUserList.unshift(selectUser);
-      lastUserList.splice(userIdList.indexOf(selectUser.id)+1, 1);
+      if (lastUserList[userIdList.indexOf(selectUser.id)].pinned === true) {
+        lastUserList.unshift({...selectUser, pinned: true});
+        lastUserList.splice(userIdList.indexOf(selectUser.id)+1, 1);
+      } else {
+        lastUserList.unshift({...selectUser, pinned: false});
+        lastUserList.splice(userIdList.indexOf(selectUser.id)+1, 1);
+      }
     } else {
-      lastUserList.pop();
-      lastUserList.unshift(selectUser);
+        lastUserList.pop();
+        lastUserList.unshift({...selectUser, pinned: false});
       // localStorage.removeItem(`lastVisited`)
     }
 
-    localStorage.setItem(`lastVisited`, JSON.stringify(lastUserList));
+    const newListPin = []
+    const newListUnPin = []
+
+    lastUserList.map((x)=>{
+      if (x!==null) {
+        if(x.id===selectUser.id&&x.pinned) {
+          return newListPin.unshift(x)
+        }
+        return x.pinned ? newListPin.push(x) : newListUnPin.push(x)
+      }
+      return x;
+    })
+
+    const newList = [...newListPin, ...newListUnPin]
+
+    for (let index = newList.length; index < 10; index++) {
+      newList.push(null);
+  }
+
+    localStorage.setItem(`lastVisited`, JSON.stringify(newList));
   }
 
     window.location.href=`#/user/${selectUser.id}/profile`;
@@ -253,7 +277,6 @@ export default function Asynchronous({props,userColor=false}) {
       selectOnFocus={false}
       getOptionSelected={(option, value) => {
         if(option.id === value.id) {
-          console.log(`xxxx`,option, value);
           setSelected(value)
         }
         return option.name === value.name}}
