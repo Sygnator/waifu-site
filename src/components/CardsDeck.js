@@ -40,6 +40,7 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 import CardDetails from "./Card/CardDetails.js";
 import CardIcons from "./Card/CardIcons.js";
 import { NonceProvider } from 'react-select';
+import emoji from "./emoji.js";
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -605,10 +606,11 @@ const CardsDeck = (props) => {
               <>
                 <div className={classes.chip_container}>
                   {localFilter.includeTags.map((tag)=>{
-                    return (<Chip className={classes.includeTags} clickable={false} label={tag}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
+                    // console.log(emoji(tag))
+                    return (<Chip className={classes.includeTags} clickable={false} label={emoji(tag)=='️'? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
                   })}{/* icon={<CheckIcon className={classes.tag_icon} />} */}
                   {localFilter.excludeTags.map((tag)=>{
-                    return (<Chip className={classes.excludeTags} clickable={false} label={tag}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
+                    return (<Chip className={classes.excludeTags} clickable={false} label={emoji(tag)=='️'? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
                   })}{/* icon={<CloseIcon className={classes.tag_icon} />} */}
                 </div>
             </>

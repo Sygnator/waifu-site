@@ -33,6 +33,8 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
+import emoji from "./../emoji.js";
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -612,7 +614,8 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                         onClick={(event) => handleMenuItemClickTag(event, index)}
                         // style={getTagStyles(option)}
                       >
-                        <a className={classes.tag_value}>{option.value}</a>
+                        <a className={classes.tag_value}>{emoji(option.value)=='️'? "Zepsuty Tag" : emoji(option.value)}</a>
+                        {/* option.value.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF ]+/gm, "") */}
                         {option.choice==="assign" ? <CheckIcon className={classes.icon} /> :
                          option.choice==="reject" ? <CloseIcon className={classes.icon} /> : <a style={{marginLeft: 34}}></a>}
                       </MenuItem>

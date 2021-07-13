@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
+import emoji from "./emoji.js";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
@@ -104,6 +106,8 @@ const Test = (props) => {
         console.log(filterTagsMethod, event.target.checked);
       };
 
+      const xxx = "bla bla 😆😆😆 1233444 😛 $%% to😣 nei sjsj❤️jsd jeeda ekwn!39393"
+
     return (
       <>
         <div>test</div>
@@ -123,6 +127,8 @@ const Test = (props) => {
             <Grid item>OR</Grid>
           </Grid>
         </Typography>
+        <div style={{color: "#eee"}}>Przed: {xxx}</div>
+        <div style={{color: "#eee"}}>Po: {emoji(xxx)}</div>
       </>
     )
 }
