@@ -616,10 +616,10 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                       >
                         <a className={classes.tag_value}>
                           {
-                            option.value.toLowerCase().indexOf("wymiana") > -1 ? "🔃" :
-                            option.value.toLowerCase().indexOf("ulubione") > -1 ? "💗" :
-                            option.value.toLowerCase().indexOf("rezerwacja") > -1 ? "📝" :
-                            option.value.toLowerCase().indexOf("galeria") > -1 ? "📌" : <a style={{visibility: "hidden"}}>.....</a>
+                            option.value.toLowerCase() == "wymiana" ? "🔃" :
+                            option.value.toLowerCase() == "ulubione" ? "💗" :
+                            option.value.toLowerCase() == "rezerwacja" ? "📝" :
+                            option.value.toLowerCase() == "galeria" ? "📌" : <a style={{visibility: "hidden"}}>.....</a>
                           }
                           {emoji(option.value)=='️' ? "Zepsuty Tag" :
                            emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value)}
