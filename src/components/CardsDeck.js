@@ -607,10 +607,12 @@ const CardsDeck = (props) => {
                 <div className={classes.chip_container}>
                   {localFilter.includeTags.map((tag)=>{
                     // console.log(emoji(tag))
-                    return (<Chip className={classes.includeTags} clickable={false} label={emoji(tag)=='️'? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
+                    return (<Chip className={classes.includeTags} clickable={false} label={emoji(tag)=='️' || ""? "Zepsuty Tag" :
+                    emoji(tag)=="" ? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
                   })}{/* icon={<CheckIcon className={classes.tag_icon} />} */}
                   {localFilter.excludeTags.map((tag)=>{
-                    return (<Chip className={classes.excludeTags} clickable={false} label={emoji(tag)=='️'? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
+                    return (<Chip className={classes.excludeTags} clickable={false} label={emoji(tag)=='️' || "" ? "Zepsuty Tag" :
+                    emoji(tag)=="" ? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
                   })}{/* icon={<CloseIcon className={classes.tag_icon} />} */}
                 </div>
             </>

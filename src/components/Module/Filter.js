@@ -614,7 +614,16 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                         onClick={(event) => handleMenuItemClickTag(event, index)}
                         // style={getTagStyles(option)}
                       >
-                        <a className={classes.tag_value}>{emoji(option.value)=='️'? "Zepsuty Tag" : emoji(option.value)}</a>
+                        <a className={classes.tag_value}>
+                          {
+                            option.value.toLowerCase().indexOf("wymiana") > -1 ? "🔃" :
+                            option.value.toLowerCase().indexOf("ulubione") > -1 ? "💗" :
+                            option.value.toLowerCase().indexOf("rezerwacja") > -1 ? "📝" :
+                            option.value.toLowerCase().indexOf("galeria") > -1 ? "📌" : <a style={{visibility: "hidden"}}>.....</a>
+                          }
+                          {emoji(option.value)=='️' ? "Zepsuty Tag" :
+                           emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value)}
+                        </a>
                         {/* option.value.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF ]+/gm, "") */}
                         {option.choice==="assign" ? <CheckIcon className={classes.icon} /> :
                          option.choice==="reject" ? <CloseIcon className={classes.icon} /> : <a style={{marginLeft: 34}}></a>}
