@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   index: {
     zIndex: 999,
   },
+  test: {
+    visibility: "hidden",
+  },
 }));
 
 function ScrollTop(props) {
@@ -63,12 +66,13 @@ ScrollTop.propTypes = {
 };
 
 export default function BackToTop({props, pageValue, showFilter, profileData, cardsData}) {
+  const classes = useStyles();
 
   return (
     <React.Fragment>
       <CssBaseline />
       <ToolbarTrue props={props} pageValue={pageValue} showFilter={showFilter} profileData={profileData} cardsData={cardsData} />
-      <Toolbar id="back-to-top-anchor" />
+      <Toolbar id="back-to-top-anchor" className={classes.test}/>
       <Container>
         <Box my={2}>
           {/* {[...new Array(12)]
