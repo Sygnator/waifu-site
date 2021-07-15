@@ -204,17 +204,24 @@ const Wishlist = (props) => {
     const [nick, setNick] = useState();
 
     useEffect(() => {
-      const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
+      axios.get(`https://api.sanakan.pl/api/user/shinden/${userID}/username`).then((res)=> {
+          const newNick = res.data
+          setNick(newNick)
+        }).catch((error)=>{
 
-      if (lastVisited!==null) {
-        lastVisited.forEach(element => {
-          if(element!==null) {
-            if (element.id==userID) {
-              setNick(element.name)
-            }
+          const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
+
+          if (lastVisited!==null) {
+            lastVisited.forEach(element => {
+              if(element!==null) {
+                if (element.id==userID) {
+                  setNick(element.name)
+                }
+              }
+            });
           }
-        });
-      }
+
+        })
     }, []);
 
     useEffect(async () => {
