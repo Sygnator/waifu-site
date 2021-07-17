@@ -215,7 +215,6 @@ const Test = (props) => {
     // straszna prowizorka, ale tak to jest jak trzeba coś zrobić w 1h
 
       const [q, setQ] = useState("")
-      const [c, setC] = useState(1)
 
       const [a1, setA1] = useState(true)
       const [a2, setA2] = useState(false)
@@ -243,86 +242,86 @@ const Test = (props) => {
 
     const addAnswer = () => {
 
-        const answer1 = `
+        const answer1 = a1a == '' ? null : `
         {
             "id": 0,
             "number": 1,
             "content": "${a1a}",
             "questionId": 0
-        },`
-        const answer2 = `
+        }${a2 ? ',' : ''}`
+        const answer2 = a2a == '' ? null : `
         {
             "id": 0,
             "number": 2,
             "content": "${a2a}",
             "questionId": 0
-        },`
-        const answer3 = `
+        }${a3 ? ',' : ''}`
+        const answer3 = a3a == '' ? null : `
         {
             "id": 0,
             "number": 3,
             "content": "${a3a}",
             "questionId": 0
-        },`
-        const answer4 = `
+        }${a4 ? ',' : ''}`
+        const answer4 = a4a == '' ? null : `
         {
             "id": 0,
             "number": 4,
             "content": "${a4a}",
             "questionId": 0
-        },`
-        const answer5 = `
+        }${a5 ? ',' : ''}`
+        const answer5 = a5a == '' ? null : `
         {
             "id": 0,
             "number": 5,
             "content": "${a5a}",
             "questionId": 0
-        },`
-        const answer6 = `
+        }${a6 ? ',' : ''}`
+        const answer6 = a6a == '' ? null : `
         {
             "id": 0,
             "number": 6,
             "content": "${a6a}",
             "questionId": 0
-        },`
-        const answer7 = `
+        }${a7 ? ',' : ''}`
+        const answer7 = a7a == '' ? null : `
         {
             "id": 0,
             "number": 7,
             "content": "${a7a}",
             "questionId": 0
-        },`
-        const answer8 = `
+        }${a8 ? ',' : ''}`
+        const answer8 = a8a == '' ? null : `
         {
             "id": 0,
             "number": 8,
             "content": "${a8a}",
             "questionId": 0
-        },`
-        const answer9 = `
+        }${a9 ? ',' : ''}`
+        const answer9 = a9a == '' ? null : `
         {
             "id": 0,
             "number": 9,
             "content": "${a9a}",
             "questionId": 0
-        },`
-        const answer10 = `
+        }${a10 ? ',' : ''}`
+        const answer10 = a10a == '' ? null : `
         {
             "id": 0,
             "number": 10,
             "content": "${a10a}",
             "questionId": 0
-        },`
+        }`
 
         setGenJson(`{
     "id": 0,
     "group": 1,
-    "answer": ${c},
+    "answer": ${a1 ? 1 : a2 ? 2 : a3 ? 3 : a4 ? 4 : a5 ? 5 : a6 ? 6 : a7 ? 7 : a8 ? 8 : a9 ? 9 : a10 ? 10 : 0},
     "pointsWin": 1,
     "pointsLose": 0,
     "content": "${q}",
     "timeToAnswer": 30,
-    "answers": [${a1 ? answer1 : ''}${a2 ? answer2 : ''}${a3 ? answer3 : ''}${a4 ? answer4 : ''}${a5 ? answer5 : ''}${a6 ? answer6 : ''}${a7 ? answer7 : ''}${a8 ? answer8 : ''}${a9 ? answer9 : ''}${a10 ? answer10 : ''}
+    "answers": [${answer1 ? answer1 : ''}${answer2 ? answer2 : ''}${answer3 ? answer3 : ''}${answer4 ? answer4 : ''}${answer5 ? answer5 : ''}${answer6 ? answer6 : ''}${answer7 ? answer7 : ''}${answer8 ? answer8 : ''}${answer9 ? answer9 : ''}${answer10 ? answer10 : ''}
     ]
 }`)
 
@@ -349,7 +348,7 @@ const Test = (props) => {
                 onChange={(event)=>setQ(event.target.value)}
                 variant="filled"
             />
-            <Tooltip title={`Poprawna odpoweidź:`} arrow>
+            {/* <Tooltip title={`Poprawna odpoweidź:`} arrow>
                 <TextField
                     className={classes.c4}
                     id="correctAnswer"
@@ -365,7 +364,7 @@ const Test = (props) => {
                         max: 10,
                       }}
                 />
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip title={`Zatwierdź`} arrow>
             <IconButton aria-label="addAnswer" className={classes.margin}>
               <DoneIcon
@@ -382,6 +381,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a1}
+                    disabled={a2||a3||a4||a5||a6||a7||a8||a9||a10}
                     onChange={()=>setA1(!a1)}
                     name="answer1"
                   />
@@ -389,7 +389,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 1:"
-                    disabled={!a1}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA1a(event.target.value)}
@@ -401,6 +400,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a2}
+                    disabled={a1||a3||a4||a5||a6||a7||a8||a9||a10}
                     onChange={()=>setA2(!a2)}
                     name="answer2"
                   />
@@ -408,7 +408,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 2:"
-                    disabled={!a2}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA2a(event.target.value)}
@@ -420,6 +419,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a3}
+                    disabled={a1||a2||a4||a5||a6||a7||a8||a9||a10}
                     onChange={()=>setA3(!a3)}
                     name="answer3"
                   />
@@ -427,7 +427,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 3:"
-                    disabled={!a3}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA3a(event.target.value)}
@@ -439,6 +438,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a4}
+                    disabled={a1||a3||a2||a5||a6||a7||a8||a9||a10}
                     onChange={()=>setA4(!a4)}
                     name="answer4"
                   />
@@ -446,7 +446,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 4:"
-                    disabled={!a4}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA4a(event.target.value)}
@@ -458,6 +457,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a5}
+                    disabled={a1||a3||a4||a2||a6||a7||a8||a9||a10}
                     onChange={()=>setA5(!a5)}
                     name="answer5"
                   />
@@ -465,7 +465,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 5:"
-                    disabled={!a5}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA5a(event.target.value)}
@@ -477,6 +476,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a6}
+                    disabled={a1||a3||a4||a5||a2||a7||a8||a9||a10}
                     onChange={()=>setA6(!a6)}
                     name="answer6"
                   />
@@ -484,7 +484,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 6:"
-                    disabled={!a6}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA6a(event.target.value)}
@@ -496,6 +495,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a7}
+                    disabled={a1||a3||a4||a5||a6||a2||a8||a9||a10}
                     onChange={()=>setA7(!a7)}
                     name="answer7"
                   />
@@ -503,7 +503,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 7:"
-                    disabled={!a7}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA7a(event.target.value)}
@@ -515,6 +514,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a8}
+                    disabled={a1||a3||a4||a5||a6||a7||a2||a9||a10}
                     onChange={()=>setA8(!a8)}
                     name="answer8"
                   />
@@ -522,7 +522,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 8:"
-                    disabled={!a8}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA8a(event.target.value)}
@@ -534,6 +533,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a9}
+                    disabled={a1||a3||a4||a5||a6||a7||a8||a2||a10}
                     onChange={()=>setA9(!a9)}
                     name="answer9"
                   />
@@ -541,7 +541,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 9:"
-                    disabled={!a9}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA9a(event.target.value)}
@@ -553,6 +552,7 @@ const Test = (props) => {
                     color="default"
                     inputProps={{ 'aria-label': 'checkbox with default color' }}
                     checked={a10}
+                    disabled={a1||a3||a4||a5||a6||a7||a8||a9||a2}
                     onChange={()=>setA10(!a10)}
                     name="answer10"
                   />
@@ -560,7 +560,6 @@ const Test = (props) => {
                     className={classes.c3}
                     id="question"
                     label="Wpisz odpowiedź 10:"
-                    disabled={!a10}
                     multiline
                     defaultValue=""
                     onChange={(event)=>setA10a(event.target.value)}
