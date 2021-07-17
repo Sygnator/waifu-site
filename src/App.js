@@ -6,12 +6,15 @@ import Cards from "./components/CardsDeck.js";
 import Profile from "./components/Profile.js";
 import Wishlist from "./components/Wishlist.js";
 import Test from "./components/Test.js";
+import Q from "./components/question.js";
+
 
 function App() {
   return (
     <Switch>
       <Route exact path="/" render={(props) => <Main {...props} />} />
       <Route exact path="/Test" render={(props) => <Test {...props} />} />
+      <Route exact path="/question-generator" render={(props) => <Q {...props} />} />
       <Route exact path="/user/:userID/Cards" render={(props) => <Cards {...props} />} />
       <Route exact path="/user/:userID/Profile" render={(props) => <Profile {...props} />} />
       <Route exact path="/user/:userID/Wishlist" render={(props) => <Wishlist {...props} />} />
