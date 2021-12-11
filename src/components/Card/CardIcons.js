@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     card_icons: {
         margin: 0,
         padding: 0,
+        fontFamily: "Arial",
     },
 }));
 

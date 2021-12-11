@@ -93,6 +93,22 @@ const useStyles = makeStyles((theme) => ({
       padding: 4,
     },
   },
+  card_small_item: {
+    backgroundColor: "#2c2f35",
+    maxWidth: 150,
+    minWidth: 150,
+    maxHeight: 250,
+    height: "100%",
+    width: "100%",
+    padding: 4,
+
+    [theme.breakpoints.between('xs', 'xs')]: {
+      maxWidth: 380,
+      minWidth: 380,
+      maxHeight: 566,
+      padding: 4,
+    },
+  },
   card_content: {
     textAlign: "center",
     color: "#c1c1c1",
@@ -101,6 +117,16 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
     width: 220,
+
+    [theme.breakpoints.between('xs', 'xs')]: {
+      width: 320,
+      marginTop: 10,
+    },
+  },
+  card_small_img: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: 130,
 
     [theme.breakpoints.between('xs', 'xs')]: {
       width: 320,
@@ -449,6 +475,25 @@ const CardsDeck = (props) => {
       )
   }
 
+  const getWaifuSmallCard = (waifuCard, index) => {
+    const { id, smallImageUrl, name, characterUrl } = waifuCard
+    //console.log(tags)
+    return (
+        <Grid item key={id} >
+            <Card className={classes.card_small_item} >
+              <CardActionArea onClick={handleOpenCardDetails(index)}>
+                <div className={classes.card_small_img}>
+                  <LazyCardMedia image={smallImageUrl} alt={id} {...props} ></LazyCardMedia>
+                </div>
+              </CardActionArea>
+                <CardContent className={classes.card_content}>
+                  <a className={classes.card_id}>{id}</a><br /> <Link className={classes.card_name} style={{color: changeUserColor(profileData.foregroundColor)}} href={characterUrl} target="_blank">{name.split(" ")[0]}</Link>
+                </CardContent>
+            </Card>
+        </Grid>
+    )
+}
+
   {/* TODO Add version cards */}
   const getWaifuCardList = (cardsData) => {
     return (
@@ -632,7 +677,7 @@ const CardsDeck = (props) => {
                   {cardsData.length===0 ? <p className={classes.error404}>Nie znaleziono kart.</p>
                    : (
                   <>
-                    {pageVersion==="list" ? getWaifuCardList(cardsData) : cardsData.map((card, index)=>getWaifuCard(card, index))}
+                    {pageVersion==="list" ? getWaifuCardList(cardsData) : pageVersion==="small" ? cardsData.map((card, index)=>getWaifuSmallCard(card, index)) : cardsData.map((card, index)=>getWaifuCard(card, index))}
                     {pageCount>1 ? renderPagination(page, pageCount) : ""}
                   </>
                   )}

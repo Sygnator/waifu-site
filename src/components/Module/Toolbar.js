@@ -467,6 +467,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           <RadioGroup aria-label="style" name="style" value={cardsStyle} onChange={(event)=>setCardsStyle(event.target.value)} >
             <FormControlLabel value={"cards"} control={<Radio />} label="Karty" />
             <FormControlLabel value={"list"} control={<Radio />} label="Lista" />
+            <FormControlLabel value={"small"} control={<Radio />} label="Małe karty" />
           </RadioGroup>
         </FormControl>
       </form>

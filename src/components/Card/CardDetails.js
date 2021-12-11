@@ -152,7 +152,7 @@ const CardDetails = (props) => {
               <p style={{fontSize: 22, marginBottom: 0,}}><a style={{color: userColor ? userColor : "#f50057", textDecoration: "none"}} href={card.characterUrl} target="_blank">{card.name}</a></p>
               <p style={{fontSize: 20, marginTop: 0,}}>{card.animeTitle}</p>
               <Divider />
-              <p style={{display: "flex", marginBottom: 15,}}><div><b>❤️</b>{card.finalHealth} ({card.baseHealth}) <b>🔥</b>{card.attack} <b>🛡️</b>{card.defence}</div><div style={{marginLeft: "auto"}}></div></p>
+              <p style={{display: "flex", marginBottom: 15, fontFamily: "Arial",}}><div><b>❤️</b>{card.finalHealth} ({card.baseHealth}) <b>🔥</b>{card.attack} <b>🛡️</b>{card.defence}</div><div style={{marginLeft: "auto"}}></div></p>
               <p><b>Relacja: </b>{card.affection}</p>
               <p><b>Dere: </b>{`${card.dere[0].toUpperCase()}${card.dere.slice(1)}`}</p>
               <p><b>Dostępne ulepszenia: </b>{card.upgradesCnt}</p>
