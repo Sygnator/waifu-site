@@ -250,6 +250,20 @@ const useStyles = makeStyles((theme) => ({
       color: "#ab003c",
     }
   },
+  errorCliskSpan: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    textAlign: "center",
+    fontSize: 32,
+    color: "#c1c1c1",
+
+    "& span": {
+      color: "#ab003c",
+    },
+    "& span:hover": {
+      textDecoration: "underline"
+    }
+  },
 
   table_container: {
     padding: 15,
@@ -538,6 +552,11 @@ const CardsDeck = (props) => {
     setPage(value);
   };
 
+  const clearData = () => {
+    localStorage.removeItem(`u${userID}filter`)
+    localStorage.removeItem(`u${userID}dataFilter`)
+    window.location.reload()
+  };
 
   const renderPagination = (page, pageCount) => {
 
@@ -670,11 +689,10 @@ const CardsDeck = (props) => {
             </>
             ) : ""}
           </Grid>
-
             {cardsData&&profileData ? (
               <>
                 <Grid item xs={12} justify="center" spacing={1} className={classes.cards_container} container>
-                  {cardsData.length===0 ? <p className={classes.error404}>Nie znaleziono kart.</p>
+                  {cardsData.length===0 ? <p className={classes.error404}>Nie znaleziono kart.<p className={classes.errorCliskSpan}>Prawdopodobnie jest to spowodowane przez tagi które oznaczyłeś, aby je zrestasować kliknij <span onClick={()=>clearData()}>tutaj</span>.</p></p>
                    : (
                   <>
                     {pageVersion==="list" ? getWaifuCardList(cardsData) : pageVersion==="small" ? cardsData.map((card, index)=>getWaifuSmallCard(card, index)) : cardsData.map((card, index)=>getWaifuCard(card, index))}
