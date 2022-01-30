@@ -35,6 +35,7 @@ import {
 
 import MuiAlert from '@material-ui/lab/Alert';
 
+import BarChartIcon from '@mui/icons-material/BarChart';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -46,6 +47,7 @@ import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 import Search from "./Search.js";
 import Filter from "./Filter.js";
+import CardStats from "./../Module/CardStats.js";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -226,6 +228,15 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   const [openFilter, setOpenFilter] = useState(false);
 
   const [bar, setBar] = useState(false);
+
+  const [openCardStats, setOpenCardStats] = React.useState(false);
+
+  const handleClickOpenCardStats = () => {
+    setOpenCardStats(true);
+  };
+  const handleCloseCardStats = () => {
+    setOpenCardStats(false);
+  };
 
 
   const changeUserColor = (pageValue, userColor) => {
@@ -530,6 +541,16 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
                 value={0}
                 showLabels
                 className={showFilter ? classes.filter : classes.filterHidden}
+                onClick={handleClickOpenCardStats}
+            >
+                <BottomNavigationAction label="Statystyki" icon={<BarChartIcon />} />
+            </BottomNavigation>
+
+
+            <BottomNavigation
+                value={0}
+                showLabels
+                className={showFilter ? classes.filter : classes.filterHidden}
                 onClick={handleToggleFilter}
             >
                 <BottomNavigationAction label="Filtry" icon={<FilterListIcon />} />
@@ -573,6 +594,13 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
       </AppBar>
 
       {dialogSettings()}
+      {showFilter&&openCardStats ? (<CardStats
+              {...props}
+              openCardStats={openCardStats}
+              handleCloseCardStats={handleCloseCardStats}
+              cardsData={cardsData}
+              profileData={profileData}
+      />) : ""}
     </div>
   );
 }

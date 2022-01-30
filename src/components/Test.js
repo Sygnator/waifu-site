@@ -14,6 +14,18 @@ import { withStyles } from '@material-ui/core/styles';
 
 import emoji from "./emoji.js";
 
+import {
+  Button,
+} from '@material-ui/core';
+
+// chart test
+import {ValueChart, ValueChartData} from "./Chart/cardValueChart";
+import {AffectionChart, AffectionChartData} from "./Chart/cardAffectionChart";
+import {DereChart, DereChartData} from "./Chart/cardDereChart";
+import {RarityChart, RarityChartData} from "./Chart/cardRarityChart";
+
+import CardStats from "./Module/CardStats.js";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
@@ -28,6 +40,7 @@ const Test = (props) => {
     // const { userID } = params;
 
     const classes = useStyles();
+
 
     useEffect(()=> {
         console.log("Test - shinden api");
@@ -100,36 +113,42 @@ const Test = (props) => {
 
       }, [])
 
-      const [filterTagsMethod, setFilterTagsMethod] = React.useState(false);
+      const [openCardStats, setOpenCardStats] = React.useState(false);
 
-      const handleChangeFilterTagsMethod = (event) => {
-        setFilterTagsMethod(event.target.checked);
-        console.log(filterTagsMethod, event.target.checked);
+      const handleClickOpenCardStats = () => {
+        setOpenCardStats(true);
+      };
+      const handleCloseCardStats = () => {
+        setOpenCardStats(false);
       };
 
-      const xxx = "bla bla 😆😆😆 1233444 😛 $%% to😣 nei sjsj❤️jsd jeeda ekwn!39393"
+      // ValueChartData.datasets[0].data = [14,122,31]
+      // AffectionChartData.datasets[0].data = [43,62,36,43,62,36,43,62]
 
     return (
       <>
         <div>test</div>
-          <Typography component="div">
-          <Grid component="label" container alignItems="center" spacing={1}>
-            <Grid item>AND</Grid>
-            <Grid item>
-              <Switch
-                defaultChecked
-                color="default"
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-                checked={filterTagsMethod}
-                onChange={handleChangeFilterTagsMethod}
-                name="filterTagsMethod"
-              />
-            </Grid>
-            <Grid item>OR</Grid>
-          </Grid>
-        </Typography>
-        <div style={{color: "#eee"}}>Przed: {xxx}</div>
-        <div style={{color: "#eee"}}>Po: {emoji(xxx)}</div>
+        <Button variant="outlined" onClick={handleClickOpenCardStats}>
+          odpal staty
+        </Button>
+        <CardStats
+                  {...props}
+                  openCardStats={openCardStats}
+                  handleCloseCardStats={handleCloseCardStats}
+                />
+        {/* <cardStats /> */}
+        {/* <div style={{width: 700}}>
+          <RarityChart />
+        </div>
+        <div style={{width: 350}}>
+          <ValueChart />
+        </div>
+        <div style={{width: 350}}>
+          <DereChart />
+        </div>
+        <div style={{width: 700}}>
+          <AffectionChart />
+        </div> */}
       </>
     )
 }
