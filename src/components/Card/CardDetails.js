@@ -145,7 +145,6 @@ const CardDetails = (props) => {
           <Grid container spacing={2}>
             <Grid item sm={6} xs={12}>
                 <div className={classes.dialogImage}>
-                  {console.log(card)}
                   <LazyCardMedia image={card.imageUrl} alt={card.id} {...props} ></LazyCardMedia>
                 </div>
             </Grid>

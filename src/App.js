@@ -18,6 +18,7 @@ function App() {
       <Route exact path="/user/:userID/Cards" render={(props) => <Cards {...props} />} />
       <Route exact path="/user/:userID/Profile" render={(props) => <Profile {...props} />} />
       <Route exact path="/user/:userID/Wishlist" render={(props) => <Wishlist {...props} />} />
+      <Route exact path="/user/:userID/Card/:cardID" render={(props) => <Cards {...props} haveCardID={true} />} />
     </Switch>
   );
 }

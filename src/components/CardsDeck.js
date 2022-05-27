@@ -352,13 +352,16 @@ const CardsDeck = (props) => {
 
     const { match, history } = props;
     const { params } = match;
-    const { userID } = params;
+    const { userID, cardID } = params;
 
     const classes = useStyles();
 
     const [pageVersion, setPageVersion] = useState("cards");
     const [profileData, setProfileData] = useState();
     const [cardsData, setCardsData] = useState();
+
+    const [openDetails, setOpenDetails] = React.useState(false);
+    const [detailsIndex, setDetailsIndex] = React.useState(-1);
 
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
@@ -453,6 +456,13 @@ const CardsDeck = (props) => {
                 const totalCards = res.data.totalCards;
                 setStatus(200);
                 setCardsData(newWaifuCardsData);
+                if (cardID) {
+                  let indexCa = newWaifuCardsData.findIndex((c)=> c.id == cardID)
+                  if (indexCa >= 0) {
+                    setOpenDetails(true)
+                    setDetailsIndex(indexCa)
+                  }
+                }
                 if(totalCards<cardsOnPage) {
                     setPageCount(1);
                 } else {
@@ -575,23 +585,28 @@ const CardsDeck = (props) => {
     )
   }
 
-  const [openDetails, setOpenDetails] = React.useState(false);
-  const [detailsIndex, setDetailsIndex] = React.useState(-1);
-
   const handleOpenCardDetails = (index) => () => {
+    window.location.href=`#/user/${userID}/card/${cardsData[index].id}`
     setDetailsIndex(index)
     setOpenDetails(true);
   }
 
   const handleCloseCardDetails = () => {
+    window.location.href=`#/user/${userID}/cards`
     setOpenDetails(false);
   }
 
   const handleIndexUp = () => {
+    if (detailsIndex+1 != cardsData.length+1) {
+      window.location.href=`#/user/${userID}/card/${cardsData[detailsIndex+1].id}`
+    }
     setDetailsIndex(detailsIndex+1);
   }
 
   const handleIndexDown = () => {
+    if (detailsIndex-1 != -1) {
+      window.location.href=`#/user/${userID}/card/${cardsData[detailsIndex-1].id}`
+    }
     setDetailsIndex(detailsIndex-1);
   }
 
