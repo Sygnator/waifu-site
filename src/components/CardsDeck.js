@@ -461,8 +461,10 @@ const CardsDeck = (props) => {
                   if (indexCa >= 0) {
                     setOpenDetails(true)
                     setDetailsIndex(indexCa)
+                  } else {
+                    window.location.href=`#/user/${userID}/cards`
                   }
-                }
+                } 
                 if(totalCards<cardsOnPage) {
                     setPageCount(1);
                 } else {
