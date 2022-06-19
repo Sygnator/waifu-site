@@ -22,6 +22,7 @@ import {
   TableRow,
   Snackbar,
 } from "@material-ui/core";
+import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
 import Footer from "./Module/Footer";
@@ -41,6 +42,7 @@ import CardDetails from "./Card/CardDetails.js";
 import CardIcons from "./Card/CardIcons.js";
 import { NonceProvider } from 'react-select';
 import emoji from "./emoji.js";
+import { ForkLeft } from '@mui/icons-material';
 
 // function Alert(props) {
 //   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -344,8 +346,25 @@ const useStyles = makeStyles((theme) => ({
 
     "&:hover": {
       color: "#f50057",
-    }
+    },
   },
+  kc_circle: {
+    borderRadius: "50%",
+    width: "30px",
+    height: "30px",
+    lineHeight: "30px",
+    border: "1px solid #30333a",
+    color: "rgb(32, 35, 42)",
+    fontWeight: "bold",
+    // color: "#c1c1c1",
+    fontSize: "14px",
+    textAlign: "center",
+    boxShadow: "0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%)",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 99
+  }
 }));
 
 const CardsDeck = (props) => {
@@ -478,10 +497,11 @@ const CardsDeck = (props) => {
   }, [page, cardsOnPage]);
 
   const getWaifuCard = (waifuCard, index) => {
-      const { id, imageUrl, name, animeTitle, characterUrl } = waifuCard
+      const { id, imageUrl, name, animeTitle, characterUrl, whoWantsCount } = waifuCard
       //console.log(tags)
       return (
-          <Grid item key={id} >
+          <Grid item key={id} style={{position: "relative"}}>
+              {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
               <Card className={classes.card_item} >
                 <CardActionArea onClick={handleOpenCardDetails(index)}>
                   <div className={classes.card_img}>

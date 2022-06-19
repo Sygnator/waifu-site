@@ -22,6 +22,7 @@ const CardIcons = (props) => {
     affection,
     isTradable,
     isUltimate,
+    whoWantsCount,
     isOnExpedition,
     hasCustomImage,
     hasCustomBorder,
@@ -46,6 +47,7 @@ const CardIcons = (props) => {
         <Tooltip title={`Wysoka wartość rynkowa`} arrow><a>{`${value==="high" ? "💰" : ""}`}</a></Tooltip>
         <Tooltip title={`Niska wartość rynkowa`} arrow><a>{`${value==="low" ? "♻️" : ""}`}</a></Tooltip>
         <Tooltip title={`Karta jest na wyprawie`} arrow><a>{`${isOnExpedition ? "✈️" : ""}`}</a></Tooltip>
+        {/* <Tooltip title={`Liczba KC`} arrow><a className={classes.kc}>{`${whoWantsCount > 0 ? `(${whoWantsCount})` : ""}`}</a></Tooltip> */}
       </p>
   );
 }

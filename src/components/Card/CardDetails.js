@@ -161,6 +161,7 @@ const CardDetails = (props) => {
               <p><b>Pochodzenie: </b>{card.source}</p>
               <p><b>Moc: </b>{Math.floor(card.cardPower*1000)/1000}</p>
               {card.isUltimate ? <p><b>Ultimate: </b>{card.ultimateQuality}</p> : ""}
+              {card.whoWantsCount > 0 ? <p><b>Liczba KC: </b>{card.whoWantsCount}</p> : ""}
             </Grid>
           </Grid>
         </DialogContent>
