@@ -364,7 +364,20 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     left: 0,
     zIndex: 99
-  }
+  },
+  // iconsSmallCards: {
+  //   //boxShadow: "0px 3px 5px -1px rgb(0 0 0 / 10%), 0px 6px 10px 0px rgb(0 0 0 / 6%), 0px 1px 18px 0px rgb(0 0 0 / 4%)",
+  //   position: "absolute",
+  //   borderRadius: "5px",
+  //   bottom: 55,
+  //   // left: 50,
+  //   width: "80%",
+  //   background: "rgb(0 0 0 / 5%)",
+  //   marginLeft: "12px",
+  //   marginRight: "10px",
+  //   textAlign: "center",
+  //   zIndex: 99
+  // }
 }));
 
 const CardsDeck = (props) => {
@@ -522,19 +535,27 @@ const CardsDeck = (props) => {
   }
 
   const getWaifuSmallCard = (waifuCard, index) => {
-    const { id, smallImageUrl, name, characterUrl } = waifuCard
+    const { id, smallImageUrl, name, characterUrl, whoWantsCount } = waifuCard
     //console.log(tags)
     return (
-        <Grid item key={id} >
+        <Grid item key={id} style={{position: "relative"}}>
+            {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
+            {/* <div className={classes.iconsSmallCards}>
+              <CardIcons
+                {...props}
+                card={waifuCard}
+                
+              />
+            </div> */}
             <Card className={classes.card_small_item} >
               <CardActionArea onClick={handleOpenCardDetails(index)}>
                 <div className={classes.card_small_img}>
                   <LazyCardMedia image={smallImageUrl} alt={id} {...props} ></LazyCardMedia>
                 </div>
               </CardActionArea>
-                <CardContent className={classes.card_content}>
-                  <a className={classes.card_id}>{id}</a><br /> <Link className={classes.card_name} style={{color: changeUserColor(profileData.foregroundColor)}} href={characterUrl} target="_blank">{name.split(" ")[0]}</Link>
-                </CardContent>
+              <CardContent className={classes.card_content}>
+                <a className={classes.card_id}>{id}</a><br /> <Link className={classes.card_name} style={{color: changeUserColor(profileData.foregroundColor)}} href={characterUrl} target="_blank">{name.split(" ")[0]}</Link>
+              </CardContent>
             </Card>
         </Grid>
     )
