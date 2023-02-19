@@ -189,6 +189,17 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setUpTag(!upTag);
   };
 
+  const [allTagState, setAllTagState] = React.useState({value: undefined, choice: null});
+  
+  const selectAllTags = (event, optionsTag) => {
+    setAllTagState(changeTag(allTagState))
+    console.log(allTagState);
+    for (let index = 0; index < optionsTag.length; index++) {
+      const newOptionTag = changeTag({value: optionsTag[index].value, choice: allTagState.choice})
+      optionsTag[index] = newOptionTag
+    }
+  };
+
   const handleToggleTag = () => {
     setOpenTag((prevOpen) => !prevOpen);
   };
@@ -587,11 +598,10 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                 <ClickAwayListener onClickAway={handleCloseTag}>
                   <MenuList style={{maxHeight: 600, height: "100%", overflowY: "auto",}} id="split-button-menu">
                   {/* (o,oo)=>o.value.length-oo.value.length */}{/* a.value.toLowerCase()==="ulubione" */}
-                      <MenuItem
+                    <MenuItem
                         key="FilterTagsMethod"
                         onChange={handleChangeFilterTagsMethod}
-                      >
-                    {/* chyba tutaj */}
+                    >
                     <Typography component="div">
                     <Grid component="label" container alignItems="center" spacing={1}>
                       <Grid item>AND</Grid>
@@ -606,9 +616,16 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                         />
                       </Grid>
                       <Grid item>OR</Grid>
-                    </Grid>
-                  </Typography>
-                  </MenuItem>
+                      </Grid>
+                    </Typography>
+                    </MenuItem>
+                    <MenuItem
+                        key="SelectAllTags"
+                        onClick={(event) => selectAllTags(event, optionsTag)}
+                        dense={true}
+                    >
+                      <a className={classes.tag_value} style={{borderBottom: "1px solid #5e636e", textAlign: "center"}}>Zaznacz wszystko</a>
+                    </MenuItem>
                     {optionsTag.sort((a,b) => {
                       return a.value < b.value ? -1 : 1
                     }).map((option, index) => (
