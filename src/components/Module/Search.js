@@ -306,7 +306,7 @@ export default function Asynchronous({props,userColor=false}) {
               setTimeout(() => {
                 setSearchData(event.target.value)
                 setKayupDelay(false)
-              }, 200);
+              }, 500);
             }
           }}
           className={userColor ? classes.Input2 : classes.Input}
