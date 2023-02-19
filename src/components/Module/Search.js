@@ -207,6 +207,7 @@ export default function Asynchronous({props,userColor=false}) {
 
   const [searchData, setSearchData] = useState("");
   const [open, setOpen] = useState(false);
+  const [kayupDelay, setKayupDelay] = useState(false);
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
 
@@ -299,7 +300,15 @@ export default function Asynchronous({props,userColor=false}) {
           {...params}
           label="Szukaj użytkownika"
           variant="standard"
-          onChange={(event)=>setSearchData(event.target.value)}
+          onChange={(event)=>{
+            if (!kayupDelay) {
+              setKayupDelay(true)
+              setTimeout(() => {
+                setSearchData(event.target.value)
+                setKayupDelay(false)
+              }, 200);
+            }
+          }}
           className={userColor ? classes.Input2 : classes.Input}
           InputProps={{
             ...params.InputProps,
