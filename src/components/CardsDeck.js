@@ -483,7 +483,8 @@ const CardsDeck = (props) => {
     setCardsData(undefined)
 
     if(profileData!=undefined) {
-        await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${page*cardsOnPage}`, localFilter).then((res)=> {
+        await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${cardsOnPage}`, localFilter).then((res)=> {
+                console.log(page,cardsOnPage);
                 const newWaifuCardsData = res.data.cards;
                 const totalCards = res.data.totalCards;
                 setStatus(200);
