@@ -574,11 +574,12 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           <IconButton
             edge="menu"
             className={classes.menuButton}
+            size='large'
             color="inherit"
             aria-label="open menu"
             onClick={toggleDrawer(true)}
           >
-            <MenuIcon />
+            <MenuIcon fontSize="inherit" />
           </IconButton>
 
           <SwipeableDrawer

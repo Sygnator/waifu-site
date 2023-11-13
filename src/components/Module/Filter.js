@@ -193,7 +193,6 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   
   const selectAllTags = (event, optionsTag) => {
     setAllTagState(changeTag(allTagState))
-    console.log(allTagState);
     for (let index = 0; index < optionsTag.length; index++) {
       const newOptionTag = changeTag({value: optionsTag[index].value, choice: allTagState.choice})
       optionsTag[index] = newOptionTag
