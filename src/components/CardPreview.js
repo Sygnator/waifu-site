@@ -296,7 +296,7 @@ const Wishlist = (props) => {
                 </div>
             </Grid>
             <Grid item sm={6} xs={12} className={classes.details}>
-              <p style={{fontSize: 22, marginBottom: 0,}}><a style={{color: "#f50057", textDecoration: "none"}} href={card.characterUrl} target="_blank">{card.name}</a></p>
+              <p style={{fontSize: 22, marginBottom: 0,}}><Link style={{color: "#f50057"}} href={card.characterUrl} target="_blank">{card.name}</Link></p>
               <p style={{fontSize: 20, marginTop: 0,}}>{card.animeTitle}</p>
               
               <Divider />
@@ -311,7 +311,7 @@ const Wishlist = (props) => {
               {card.isUltimate ? <p><b>Ultimate: </b>{card.ultimateQuality}</p> : ""}
               {card.whoWantsCount > 0 ? <p><b>Liczba KC: </b>{card.whoWantsCount}</p> : ""}
               <p><b>Stworzono: </b>{`${card.date.getDate()}.${card.date.getMonth()+1 <= 9 ? `0${card.date.getMonth()+1}` : card.date.getMonth()+1}.${card.date.getFullYear()} r. ${card.date.getHours()}:${card.date.getMinutes()}`}</p>
-              {card.username ? <p><b>Należy do: </b>{card.username}</p> : ""}
+              {card.username ? <p><b>Należy do: </b><Link href={`#/user/${card.shindenId}/profile`} style={{color: "#f50057"}}>{card.username}</Link></p> : ""}
               <Divider />
               <p><b>Tagi: </b>{card.tags.join(", ")}</p>
             </Grid>
