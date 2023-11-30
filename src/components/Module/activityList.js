@@ -110,7 +110,7 @@ export default function ActivityList() {
 
     useEffect(async () => {
         let lActivity = JSON.parse(localStorage.getItem("activityList"))
-        if (lActivity !== null && parseInt(lActivity.reqTime,10)+300000 > new Date().getTime()) {
+        if (lActivity !== null && parseInt(lActivity.reqTime,10)+600000 > new Date().getTime()) {
             setActivity(lActivity.totalActivity)
         } else if(activity===undefined) {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/activity/6`,[]).then((res)=> {

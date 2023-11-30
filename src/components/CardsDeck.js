@@ -466,7 +466,7 @@ const CardsDeck = (props) => {
 
   useEffect(async () => {
     let lProfile = JSON.parse(localStorage.getItem(`u${userID}profile`))
-        if (lProfile !== null && parseInt(lProfile.reqTime,10)+300000 > new Date().getTime()) {
+        if (lProfile !== null && parseInt(lProfile.reqTime,10)+600000 > new Date().getTime()) {
           setProfileData(lProfile.profil)
         }
     else if(profileData===undefined) {
