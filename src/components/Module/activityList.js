@@ -109,7 +109,10 @@ export default function ActivityList() {
     const [status, setStatus] = useState(0);
 
     useEffect(async () => {
-        if(activity===undefined) {
+        let lActivity = JSON.parse(localStorage.getItem("activityList"))
+        if (lActivity !== null && parseInt(lActivity.reqTime,10)+300000 > new Date().getTime()) {
+            setActivity(lActivity.totalActivity)
+        } else if(activity===undefined) {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/activity/6`,[]).then((res)=> {
                 const newActivity = res.data;
                 console.log(newActivity);
@@ -140,22 +143,14 @@ export default function ActivityList() {
                 });
 
                 setActivity(totalActivity);
-                setStatus(res.status)
+                localStorage.setItem(`activityList`, JSON.stringify({totalActivity: [...totalActivity], reqTime: new Date().getTime()}));
+                setStatus(res.status);
             }).catch((error)=>{
             console.log("eerr", error);
             setStatus(404)
             })
         }
     }, []);
-
-    const goToCard = (id) => {
-        window.location.href=`#/card/${id}`;
-        window.location.reload();
-    }
-    const goToCharacter = (id) => {
-      window.location.href=`https://shinden.pl/character/${id}`;
-      window.location.reload();
-  }
 
   return (
     <React.Fragment>
