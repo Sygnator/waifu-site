@@ -113,7 +113,7 @@ export default function ActivityList() {
         if (lActivity !== null && parseInt(lActivity.reqTime,10)+600000 > new Date().getTime()) {
             setActivity(lActivity.totalActivity)
         } else if(activity===undefined) {
-            await axios.post(`https://api.sanakan.pl/api/waifu/user/activity/6`,[]).then((res)=> {
+            await axios.post(`https://api.sanakan.pl/api/waifu/user/activity/12`,[]).then((res)=> {
                 const newActivity = res.data;
                 console.log(newActivity);
             
@@ -140,7 +140,7 @@ export default function ActivityList() {
                     }
 
                     return {...item, subText: subText, username: splitMisc.find(part => part.startsWith('u:')).substring(2)};
-                });
+                }).slice(0, 8);
 
                 setActivity(totalActivity);
                 localStorage.setItem(`activityList`, JSON.stringify({totalActivity: [...totalActivity], reqTime: new Date().getTime()}));
