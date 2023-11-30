@@ -19,6 +19,8 @@ import Footer from "./Module/Footer";
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 
+import ActivityList from './Module/activityList';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
@@ -157,7 +159,14 @@ const MainTest = (props) => {
             ) : (
               <div className={classes.divWhite}>Nikogo ostatnio nie odwiedzałeś...</div>
             )}
+
+            {/* ------------- */}
+            {/* Activity List */}
+
+            <ActivityList />
           </Grid>
+
+          
       <Footer />
     </>
     )
