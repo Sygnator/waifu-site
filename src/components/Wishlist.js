@@ -225,10 +225,14 @@ const Wishlist = (props) => {
     }, []);
 
     useEffect(async () => {
-      if(profileData===undefined) {
+      let lProfile = JSON.parse(localStorage.getItem(`u${userID}profile`))
+        if (lProfile !== null && parseInt(lProfile.reqTime,10)+300000 > new Date().getTime()) {
+          setProfileData(lProfile.profil)
+        } else if(profileData===undefined) {
           await axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
               const newProfilData = res.data;
               setProfileData(newProfilData);
+              localStorage.setItem(`u${userID}profile`, JSON.stringify({profil: newProfilData,reqTime: new Date().getTime()}));
           }).catch((error)=>{
             setStatus(404)
           })
