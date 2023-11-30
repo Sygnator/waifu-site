@@ -466,14 +466,20 @@ const Profile = (props) => {
     }
 
     useEffect(()=> {
-      setProfilData();
-      setStatus();
-      axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-          const newProfilData = res.data;
-          setProfilData(newProfilData)
-      }).catch((error)=>{
-        setStatus(404)
-      })
+        let lProfile = JSON.parse(localStorage.getItem(`u${userID}profile`))
+        if (lProfile !== null && parseInt(lProfile.reqTime,10)+300000 > new Date().getTime()) {
+          setProfilData(lProfile.profil)
+        } else {
+          setProfilData();
+          setStatus();
+          axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
+              const newProfilData = res.data;
+              setProfilData(newProfilData);
+              localStorage.setItem(`u${userID}profile`, JSON.stringify({profil: newProfilData,reqTime: new Date().getTime()}));
+          }).catch((error)=>{
+            setStatus(404)
+          })
+        }
     }, [userID])
 
 
