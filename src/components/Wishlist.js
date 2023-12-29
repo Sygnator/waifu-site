@@ -17,6 +17,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel
 } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
@@ -168,7 +169,12 @@ const useStyles = makeStyles((theme) => ({
       color: "#ab003c",
     }
   },
-
+  sortWL: {
+    "& .MuiSvgIcon-root": {
+      color: "inherit !important",
+    }
+  },
+  
 }));
 
 function type(cardType) {
@@ -200,6 +206,9 @@ const Wishlist = (props) => {
     const [status, setStatus] = useState();
     const [wlList, setWlList] = useState();
     const [profileData, setProfileData] = useState();
+    // sorting properties
+    const [orderBy, setOrderBy] = useState('');
+    const [order, setOrder] = useState('asc');
 
     const [nick, setNick] = useState();
 
@@ -249,6 +258,7 @@ const Wishlist = (props) => {
                   setWlList(newWlList);
                   setStatus(-1);
               }
+              console.log("wlLista",[...newWlList]);
           }).catch((err)=>{
               setStatus(err.response.status);
           })
@@ -279,6 +289,23 @@ const Wishlist = (props) => {
         }
         throw new Error('Bad Hex');
     }
+
+    const handleSortRequest = (property) => {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(property);
+
+      const sortedData = wlList.sort((a, b) => {
+        if (!isAsc) {
+          return a[property] > b[property] ? 1 : -1;
+        } else {
+          return a[property] < b[property] ? 1 : -1;
+        }
+      });
+
+      setWlList(sortedData);
+    };
+    
 
     return (
       <>
@@ -312,9 +339,39 @@ const Wishlist = (props) => {
               <Table className={classes.wishlist_table} aria-label="simple table">
                 <TableHead className={classes.wishlist_table_head}>
                   <TableRow >
-                    <TableCell className={classes.wishlist_table_th} style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Nazwa</TableCell>
-                    <TableCell className={classes.wishlist_table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Typ</TableCell>
-                    <TableCell className={classes.wishlist_table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >ID</TableCell>
+                    <TableCell className={classes.wishlist_table_th} style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >
+                      <TableSortLabel
+                        active={orderBy === 'objectName'}
+                        direction={orderBy === 'objectName' ? order : 'asc'}
+                        onClick={() => handleSortRequest('objectName')}
+                        style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}
+                        className={classes.sortWL}
+                      >
+                        Nazwa 
+                      </TableSortLabel>
+                      </TableCell>
+                    <TableCell className={classes.wishlist_table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >
+                      <TableSortLabel
+                        active={orderBy === 'type'}
+                        direction={orderBy === 'type' ? order : 'asc'}
+                        onClick={() => handleSortRequest('type')}
+                        style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}
+                        className={classes.sortWL}
+                      >
+                        Typ
+                      </TableSortLabel>
+                      </TableCell>
+                    <TableCell className={classes.wishlist_table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >
+                      <TableSortLabel
+                        active={orderBy === 'objectId'}
+                        direction={orderBy === 'objectId' ? order : 'asc'}
+                        onClick={() => handleSortRequest('objectId')}
+                        style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}
+                        className={classes.sortWL}
+                      >
+                        ID
+                      </TableSortLabel>
+                      </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
