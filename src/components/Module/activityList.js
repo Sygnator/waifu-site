@@ -128,7 +128,7 @@ export default function ActivityList() {
 
                     let splitMisc = item.misc.split(';');
                     let subText = item.text;
-                    const regex = /<(w|p|c|u|wp)@(\d+)>/gm;
+                    const regex = /<(t|w|p|c|u|wp)@(\d+)>/gm;
 
                     let match;
                     while ((match = regex.exec(item.text)) !== null) {
