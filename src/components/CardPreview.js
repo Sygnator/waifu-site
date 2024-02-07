@@ -237,7 +237,7 @@ const Wishlist = (props) => {
       if(card===undefined) {
           await axios.get(`https://api.sanakan.pl/api/waifu/card/${cardID}/view`).then((res)=> {
               const newCard = res.data;
-              setCard({...newCard, date: new Date(newCard.createdAt)});
+              setCard({...newCard, date: new Date(newCard.createdAt), scalpelDate: new Date(newCard.scalpelAt)});
               setStatus(res.status)
           }).catch((error)=>{
             console.log("eerr");
@@ -310,7 +310,10 @@ const Wishlist = (props) => {
               <p><b>Moc: </b>{Math.floor(card.cardPower*1000)/1000}</p>
               {card.isUltimate ? <p><b>Ultimate: </b>{card.ultimateQuality}</p> : ""}
               {card.whoWantsCount > 0 ? <p><b>Liczba KC: </b>{card.whoWantsCount}</p> : ""}
-              <p><b>Stworzono: </b>{`${card.date.getDate()}.${card.date.getMonth()+1 <= 9 ? `0${card.date.getMonth()+1}` : card.date.getMonth()+1}.${card.date.getFullYear()} r. ${card.date.getHours()}:${card.date.getMinutes()}`}</p>
+              <p><b>Stworzono: </b>{`${card.date.getDate()}.${card.date.getMonth()+1 <= 9 ? `0${card.date.getMonth()+1}` : card.date.getMonth()+1}.${card.date.getFullYear()} r. ${card.date.getHours()}:${card.date.getMinutes()<10 ? "0"+card.date.getMinutes() : card.date.getMinutes()}`}</p>
+              {card.scalpelDate.getTime() > 1682899200 && card.hasCustomImage ? (<p>
+                <b>Ustawiono obrazek: </b>{`${card.scalpelDate.getDate()}.${card.scalpelDate.getMonth() + 1 <= 9 ? `0${card.scalpelDate.getMonth() + 1}` : card.scalpelDate.getMonth() + 1}.${card.scalpelDate.getFullYear()} r. ${card.scalpelDate.getHours()}:${card.scalpelDate.getMinutes()<10 ? "0"+card.scalpelDate.getMinutes() : card.scalpelDate.getMinutes()}`}
+              </p>) : ""}
               {card.username ? <p><b>Należy do: </b><Link href={`#/user/${card.shindenId}/profile`} style={{color: "#f50057"}}>{card.username}</Link></p> : ""}
               <Divider />
               <p><b>Tagi: </b>{card.tags.join(", ")}</p>
