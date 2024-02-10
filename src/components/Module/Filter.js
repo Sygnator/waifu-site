@@ -189,12 +189,19 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setUpTag(!upTag);
   };
 
-  const [allTagState, setAllTagState] = React.useState({value: undefined, choice: null});
+  const [allTagState, setAllTagState] = React.useState({value: undefined, id: undefined, choice: null});
   
+  function checkChoice(allTagC) {
+    const choice = allTagC[0].choice
+    const allSameChoice = allTagC.every(tag => tag.choice === choice)
+    return allSameChoice ? choice : null
+}
+
   const selectAllTags = (event, optionsTag) => {
-    setAllTagState(changeTag(allTagState))
+    const choice = checkChoice(optionsTag)
+    setAllTagState(changeTag({value: undefined, id: undefined, choice: choice}))
     for (let index = 0; index < optionsTag.length; index++) {
-      const newOptionTag = changeTag({value: optionsTag[index].value, choice: allTagState.choice})
+      const newOptionTag = changeTag({value: optionsTag[index].value, id: optionsTag[index].id, choice: choice})
       optionsTag[index] = newOptionTag
     }
   };
