@@ -652,9 +652,8 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                             option.value.toLowerCase() == "ulubione" ? "💗" : <a style={{visibility: "hidden"}}>.....</a>
                           }
                           {emoji(option.value)=='️' ? "Zepsuty Tag" :
-                           emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value)}
+                           emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value.charAt(0).toUpperCase()+option.value.slice(1))}
                         </a>
-                        {/* option.value.replace(/[\uD83C-\uDBFF\uDC00-\uDFFF ]+/gm, "") */}
                         {option.choice==="assign" ? <CheckIcon className={classes.icon} /> :
                          option.choice==="reject" ? <CloseIcon className={classes.icon} /> : <a style={{marginLeft: 34}}></a>}
                       </MenuItem>
