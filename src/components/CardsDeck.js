@@ -742,12 +742,12 @@ const CardsDeck = (props) => {
                 <div className={classes.chip_container}>
                   {localFilter.includeTags.map((tag)=>{
                     // console.log(emoji(tag))
-                    return (<Chip className={classes.includeTags} clickable={false} label={emoji(tag)=='️' || ""? "Zepsuty Tag" :
-                    emoji(tag)=="" ? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
+                    return (<Chip className={classes.includeTags} clickable={false} label={emoji(tag.name)=='️' || ""? "Zepsuty Tag" :
+                    emoji(tag.name)=="" ? "Zepsuty Tag" : emoji(tag.name)}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
                   })}{/* icon={<CheckIcon className={classes.tag_icon} />} */}
                   {localFilter.excludeTags.map((tag)=>{
-                    return (<Chip className={classes.excludeTags} clickable={false} label={emoji(tag)=='️' || "" ? "Zepsuty Tag" :
-                    emoji(tag)=="" ? "Zepsuty Tag" : emoji(tag)}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
+                    return (<Chip className={classes.excludeTags} clickable={false} label={emoji(tag.name)=='️' || "" ? "Zepsuty Tag" :
+                    emoji(tag.name)=="" ? "Zepsuty Tag" : emoji(tag.name)}/>) /* onDelete={handleChipDeleteExclude(tag)} />) */
                   })}{/* icon={<CloseIcon className={classes.tag_icon} />} */}
                 </div>
             </>
@@ -756,7 +756,7 @@ const CardsDeck = (props) => {
             {cardsData&&profileData ? (
               <>
                 <Grid item xs={12} justify="center" spacing={1} className={classes.cards_container} container>
-                  {cardsData.length===0 ? <p className={classes.error404}>Nie znaleziono kart.<p className={classes.errorCliskSpan}>Prawdopodobnie jest to spowodowane przez tagi które oznaczyłeś, aby je zrestasować kliknij <span onClick={()=>clearData()}>tutaj</span>.</p></p>
+                  {cardsData.length===0 ? <p className={classes.error404}>Nie znaleziono kart.<p className={classes.errorCliskSpan}>Prawdopodobnie jest to spowodowane przez tagi, które oznaczyłeś <br /> lub nic tutaj się nie znajduje, aby je zrestasować kliknij <span onClick={()=>clearData()}>tutaj</span>.</p></p>
                    : (
                   <>
                     {pageVersion==="list" ? getWaifuCardList(cardsData) : pageVersion==="small" ? cardsData.map((card, index)=>getWaifuSmallCard(card, index)) : cardsData.map((card, index)=>getWaifuCard(card, index))}
@@ -778,7 +778,7 @@ const CardsDeck = (props) => {
             ) : (
               status===-1 ? <p className={classes.error404}><span>Error</span><br />Nieobsługiwany błąd strony.</p> :
               status===404 ? <p className={classes.error404}><span>404</span><br />Nie odnaleziono profilu użytkownika waifu.</p> :
-              status===415 ? <p className={classes.error404}><span>415</span><br />Nie pobrano kart użytkownika. <br /> Spróbuj odświeżyć stronę lub zgłoś błąd na discord.</p> :
+              status===415 ? <p className={classes.error404}><span>415</span><br />Nie pobrano kart użytkownika. <br /> Spróbuj odświeżyć stronę, klikając <span onClick={()=>clearData()}>tutaj</span><br /> lub zgłoś błąd na discord.</p> :
               <CircularProgress className={classes.CircularProgress} style={profileData ? {color: changeUserColor(profileData ? profileData.foregroundColor : undefined)} : {}} size={100}/>
             )}
           </Grid>

@@ -169,16 +169,16 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   const anchorRefTag = React.useRef(null);
 
   const [optionsTag, setOptionsTag] = React.useState(profileData.tagList.map((o)=>{
-    return {value: o, choice: null}
+    return {value: o.name, id: o.id, choice: null}
   }));
 
   const [upTag, setUpTag] = React.useState(false);
 
   const changeTag = (option) => {
-    if (option.choice===null) return {value: option.value, choice: "assign"}
-    if (option.choice==="assign") return {value: option.value, choice: "reject"}
-    if (option.choice==="reject") return {value: option.value, choice: null}
-    return {value: option.value, choice: null}
+    if (option.choice===null) return {value: option.value, id: option.id, choice: "assign"}
+    if (option.choice==="assign") return {value: option.value, id: option.id, choice: "reject"}
+    if (option.choice==="reject") return {value: option.value, id: option.id, choice: null}
+    return {value: option.value, id: option.id, choice: null}
   };
 
   const handleMenuItemClickTag = (event, index) => {
@@ -318,7 +318,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setSelectedIndexSort(0);
 
     setOptionsTag(profileData.tagList.map((o)=>{
-      return {value: o, choice: null}
+      return {value: o.name, id: o.id, choice: null}
     }))
 
     setSearchData("")
@@ -403,15 +403,15 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   const apply = () => {
     // sort data
     const orderBy = sortBy(optionsSort[selectedIndexSort]);
-    console.log((optionsSort[selectedIndexSort]));
+    //console.log((optionsSort[selectedIndexSort]));
     // tag data
     const includeTags = [];
 
     const excludeTags = [];
 
     optionsTag.map((e)=>{
-      if(e.choice==="assign") includeTags.push(e.value)
-      if(e.choice==="reject") excludeTags.push(e.value)
+      if(e.choice==="assign") includeTags.push({name: e.value, id: e.id})
+      if(e.choice==="reject") excludeTags.push({name: e.value, id: e.id})
     })
 
     // input data
@@ -462,9 +462,9 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       const newTagsR = profileData.tagList.map((o)=>{
         let choice = null
         newDataFilter.optionsTag.map((oo)=>{
-          if(oo.value === o) choice = oo.choice
+          if(oo.value === o.name) choice = oo.choice
         })
-        return {value: o, choice: choice}
+        return {value: o.name, id: o.id, choice: choice}
       })
       setOptionsTag(newTagsR);
 
@@ -638,10 +638,11 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                       >
                         <a className={classes.tag_value}>
                           {
-                            option.value.toLowerCase() == "wymiana" ? "🔃" :
-                            option.value.toLowerCase() == "ulubione" ? "💗" :
+                            option.value.toLowerCase() == "kosz" ? "🗑️" :
                             option.value.toLowerCase() == "rezerwacja" ? "📝" :
-                            option.value.toLowerCase() == "galeria" ? "📌" : <a style={{visibility: "hidden"}}>.....</a>
+                            option.value.toLowerCase() == "wymiana" ? "🔃" :
+                            option.value.toLowerCase() ==  "galeria" ? "📌":
+                            option.value.toLowerCase() == "ulubione" ? "💗" : <a style={{visibility: "hidden"}}>.....</a>
                           }
                           {emoji(option.value)=='️' ? "Zepsuty Tag" :
                            emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value)}
