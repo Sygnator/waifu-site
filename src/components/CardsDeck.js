@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
   Grid,
   Card,
-  CardMedia,
   CardContent,
   CardActionArea,
-  CardActions,
   CircularProgress,
   Link,
-  Container,
-  Divider,
   Paper,
   Typography,
   Avatar,
@@ -20,14 +16,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Snackbar,
+  Checkbox,
 } from "@material-ui/core";
 import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "./Module/BackToTop";
 import Footer from "./Module/Footer";
 
-import MuiAlert from '@material-ui/lab/Alert';
+// import MuiAlert from '@material-ui/lab/Alert';
 import Pagination from '@material-ui/lab/Pagination';
 
 // import CheckIcon from '@material-ui/icons/Check';
@@ -40,13 +36,11 @@ import LazyCardMedia from "./Module/LazyCardMedia.js";
 
 import CardDetails from "./Card/CardDetails.js";
 import CardIcons from "./Card/CardIcons.js";
-import { NonceProvider } from 'react-select';
+// import { NonceProvider } from 'react-select';
 import emoji from "./emoji.js";
-import { ForkLeft } from '@mui/icons-material';
+// import { ForkLeft } from '@mui/icons-material';
 
-// function Alert(props) {
-//   return <MuiAlert elevation={6} variant="filled" {...props} />;
-// }
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -365,6 +359,20 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     zIndex: 99
   },
+  checkbox: {
+    color: "#ffffff",
+    fontWeight: "bold",
+    position: "absolute",
+    top: -6,
+    right: -6,
+    zIndex: 99
+  },
+  checkboxDisplay: {
+    display: "none"
+  },
+  delete: {
+    color: "#ffffff",
+  },
   // iconsSmallCards: {
   //   //boxShadow: "0px 3px 5px -1px rgb(0 0 0 / 10%), 0px 6px 10px 0px rgb(0 0 0 / 6%), 0px 1px 18px 0px rgb(0 0 0 / 4%)",
   //   position: "absolute",
@@ -515,12 +523,34 @@ const CardsDeck = (props) => {
     }
   }, [page, cardsOnPage]);
 
+  // copy wids
+  const [arrayExportId, setArrayExportId] = useState([]);
+  // const arrayExportId = [];
+  
+  const handleCheckboxChange = (event) => {
+    const id = event.target.id
+    // const index = arrayExportId.indexOf(id)
+    if (event.target.checked) {
+    // if (index == -1) {
+      // setArrayExportId(...arrayExportId, id)
+      setArrayExportId(prevState => [...prevState, id])
+      // arrayExportId.push(id)
+    } else {
+      // arrayExportId.splice(index, 1)
+      // const newArr = arrayExportId.splice(index, 1)
+      // setArrayExportId(...arrayExportId, id)
+      setArrayExportId(prevState => prevState.filter(item => item !== id))
+    }
+  };
+
+
   const getWaifuCard = (waifuCard, index) => {
       const { id, imageUrl, name, animeTitle, characterUrl, whoWantsCount } = waifuCard
       //console.log(tags)
       return (
           <Grid item key={id} style={{position: "relative"}}>
               {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
+              <Tooltip title={`Zaznacz kartę`} arrow className={classes.checkboxDisplay}><div className={classes.checkbox}><Checkbox className={classes.delete} style={{background: "#30333a", color: changeUserColor(profileData.foregroundColor)}} id={id} onChange={handleCheckboxChange} /></div></Tooltip>
               <Card className={classes.card_item} >
                 <CardActionArea onClick={handleOpenCardDetails(index)}>
                   <div className={classes.card_img}>
@@ -711,6 +741,7 @@ const CardsDeck = (props) => {
     throw new Error('Bad Hex');
 }
 
+
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profileData)}>
@@ -720,8 +751,6 @@ const CardsDeck = (props) => {
           <div className={classes.shadow} ></div>
         </Paper>
 
-
-
           <Grid container justify="center" spacing={2} className={classes.mainPage}>
           <Grid item md={4} xs={12} className={classes.profile} container>
                 <Grid item xs={12}>
@@ -730,7 +759,7 @@ const CardsDeck = (props) => {
                       <Avatar src={userID==1 ? `https://sanakan.pl/sanakan.jpg` :  `https://cdn.shinden.eu/cdn1/avatars/225x350/${userID}.jpg`} alt="avatar.jpg" className={classes.profile_item_avatar} style={profileData ? profileData.foregroundColor ? {background: `linear-gradient(to bottom, ${profileData.foregroundColor}, ${hexToRgbA(profileData.foregroundColor,0.50)})`,} : {}  : {}} />
                     </Grid>
                     <Grid item xl={7} lg={6} md={5} sm={8} xs={7} className={classes.profile_item}>
-                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{userID==1 ? "Sanakan" : nick===undefined ? "????" : nick}</Typography>
+                      <Typography variant="h5" display="block" className={classes.profile_item_name} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}}>{userID==1 ? "Sanakan" : nick===undefined ? "????" : nick+"rrr"}</Typography>
                       <Typography variant="h7" className={classes.profile_item_rank} noWrap style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), opacity: 0.80}}>{userID==1 ? "Safeguard" : profileData ? profileData.userTitle : "???"}</Typography>
                     </Grid>
                   </Grid>
@@ -764,6 +793,7 @@ const CardsDeck = (props) => {
                   </>
                   )}
                 </Grid>
+                <input value={arrayExportId.join(" ")} hidden="true" id='arrayExportIdValues' />
                 <CardDetails
                   {...props}
                   index={detailsIndex}

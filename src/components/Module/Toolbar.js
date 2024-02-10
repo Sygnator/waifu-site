@@ -198,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchAppBar({props, pageValue=-1, showFilter=false, profileData=null, cardsData=null}) {
+export default function SearchAppBar({props, pageValue=-1, showFilter=false, profileData=null, cardsData=null, arrayExportId=[]}) {
   /*
     pageValue:
     -1 - null
@@ -591,7 +591,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
           {list()}
         </SwipeableDrawer>
         </Toolbar>
-        {openFilter ? <Filter props={props} profileData={profileData} cardsData={cardsData} ></Filter> : ""}
+        {openFilter ? <Filter props={props} profileData={profileData} cardsData={cardsData}></Filter> : ""}
       </AppBar>
 
       {dialogSettings()}

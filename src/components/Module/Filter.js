@@ -500,8 +500,17 @@ export default function FilterAppBar({props, profileData, cardsData}) {
     setOpenSnackbarSuccess(false);
   };
 
+  const [checkedSwitch, setCheckedSwitch] = React.useState(false);
+
   const copyWids = () => {
-    const wids = cardsData.map((card)=>card.id).join(" ");
+    let wids = []
+    if (checkedSwitch) {
+      wids = document.getElementById("arrayExportIdValues").value
+    } else {
+      wids = cardsData.map((card)=>card.id).join(" ")
+    }
+    
+
     navigator.clipboard.writeText(wids).then(function() {
       setOpenSnackbarSuccess(true);
     }, function(err) {
@@ -519,6 +528,23 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       apply()
     }
   }
+
+  
+
+  const handleChangeSwitch = (event) => {
+    const displayCheckbox = document.getElementsByClassName('makeStyles-checkboxDisplay-37')
+
+    for (var i = 0; i < displayCheckbox.length; i++) {
+      var element = displayCheckbox[i];
+      if (checkedSwitch) {
+        element.style.display = 'none';
+      } else {
+        element.style.display = 'block';
+      }
+    }
+
+    setCheckedSwitch(event.target.checked);
+  };
 
   return (
     <div className={classes.root}>
@@ -652,7 +678,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                             option.value.toLowerCase() == "ulubione" ? "💗" : <a style={{visibility: "hidden"}}>.....</a>
                           }
                           {emoji(option.value)=='️' ? "Zepsuty Tag" :
-                           emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value.charAt(0).toUpperCase()+option.value.slice(1))}
+                           emoji(option.value)=="" ? "Zepsuty Tag" : emoji(option.value)}
                         </a>
                         {option.choice==="assign" ? <CheckIcon className={classes.icon} /> :
                          option.choice==="reject" ? <CloseIcon className={classes.icon} /> : <a style={{marginLeft: 34}}></a>}
@@ -699,11 +725,20 @@ export default function FilterAppBar({props, profileData, cardsData}) {
               </IconButton>
             </Tooltip>
           </div>
+          
+          <div  style={{marginLeft: "auto",}}>
+          <Tooltip title={`Czy włączyć ręczne wybieranie kart`} arrow>
+            <Switch size="small" id="cardSwitch" style={profileData ? {color: changeUserColor(profileData.foregroundColor)} : {}} 
+              checked={checkedSwitch}
+              onChange={handleChangeSwitch}/>
+          </Tooltip>
+          
           <Tooltip title={`Kopiuj WID'y kart`} arrow>
             <IconButton aria-label="copyWID" className={classes.delete} style={{marginLeft: "auto",}} onClick={()=>copyWids()}>
               <FileCopyIcon />
             </IconButton>
           </Tooltip>
+          </div>
         </Toolbar>
       </AppBar>
     </div>
