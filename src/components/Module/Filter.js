@@ -532,7 +532,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   
 
   const handleChangeSwitch = (event) => {
-    const displayCheckbox = document.getElementsByClassName('makeStyles-checkboxDisplay-37')
+    const displayCheckbox = document.getElementsByClassName('checkboxDisplay')
 
     for (var i = 0; i < displayCheckbox.length; i++) {
       var element = displayCheckbox[i];
