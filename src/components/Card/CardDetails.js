@@ -100,6 +100,14 @@ const CardDetails = (props) => {
 
   const card = cardsData[index];
 
+  let cardDate 
+  let scalpelDate
+
+  if (card) {
+    cardDate = new Date(card.createdAt);
+    scalpelDate = new Date(card.scalpelAt);
+  }
+
   const onKeyPress = (key) => {
     //right
     if(key===39) {
@@ -162,6 +170,10 @@ const CardDetails = (props) => {
               <p><b>Moc: </b>{Math.floor(card.cardPower*1000)/1000}</p>
               {card.isUltimate ? <p><b>Ultimate: </b>{card.ultimateQuality}</p> : ""}
               {card.whoWantsCount > 0 ? <p><b>Liczba KC: </b>{card.whoWantsCount}</p> : ""}
+              <p><b>Stworzono: </b>{`${cardDate.getDate()}.${cardDate.getMonth()+1 <= 9 ? `0${cardDate.getMonth()+1}` : cardDate.getMonth()+1}.${cardDate.getFullYear()} r. ${cardDate.getHours()}:${cardDate.getMinutes()<10 ? "0"+cardDate.getMinutes() : cardDate.getMinutes()}`}</p>
+              {scalpelDate.getTime() > 1682892000000 && card.hasCustomImage ? (<p>
+                <b>Ustawiono obrazek: </b>{`${scalpelDate.getDate()}.${scalpelDate.getMonth() + 1 <= 9 ? `0${scalpelDate.getMonth() + 1}` : scalpelDate.getMonth() + 1}.${scalpelDate.getFullYear()} r. ${scalpelDate.getHours()}:${scalpelDate.getMinutes()<10 ? "0"+scalpelDate.getMinutes() : scalpelDate.getMinutes()}`}
+              </p>) : ""}
             </Grid>
           </Grid>
         </DialogContent>
