@@ -14,6 +14,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
   Tooltip,
   Snackbar,
   CardActionArea,
@@ -377,6 +378,11 @@ const useStyles = makeStyles((theme) => ({
       color: "#ab003c",
     }
   },
+  sortExpeditions: {
+    "& .MuiSvgIcon-root": {
+      color: "inherit !important",
+    }
+  },
 }));
 
 const Profile = (props) => {
@@ -390,6 +396,10 @@ const Profile = (props) => {
     const [openSnackbarSuccess, setOpenSnackbarSuccess] = useState(false);
     const [profilData, setProfilData] = useState();
     const [status, setStatus] = useState();
+
+    // sorting properties
+    const [orderBy, setOrderBy] = useState('');
+    const [order, setOrder] = useState('asc');
 
     const [nick, setNick] = useState();
 
@@ -569,6 +579,35 @@ const Profile = (props) => {
     setDetailsIndexExpeditions(detailsIndexExpeditions-1);
   }
 
+  const handleSortRequest = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+
+    console.log(profilData.expeditions, property);
+    let sortedData = []
+    if (property === "name" || property === "id") {
+      sortedData = profilData.expeditions.sort((a, b) => {
+        if (!isAsc) {
+          return a["card"][property] > b["card"][property] ? 1 : -1;
+        } else {
+          return a["card"][property] < b["card"][property] ? 1 : -1;
+        }
+      });
+    } else {
+      sortedData = profilData.expeditions.sort((a, b) => {
+        if (!isAsc) {
+          return a[property] > b[property] ? 1 : -1;
+        } else {
+          return a[property] < b[property] ? 1 : -1;
+        }
+      });
+    }
+    
+
+    setProfilData({...profilData, expeditions: sortedData});
+  };
+
     return (
       <>
         <Paper className={classes.root} style={backgroundImg(profilData)}>
@@ -712,10 +751,50 @@ const Profile = (props) => {
                 <Table className={classes.expeditions_table} size="small" aria-label="a dense table">
                   <TableHead className={classes.expeditions_table_head}>
                     <TableRow>
-                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>ID</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>Nazwa</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>Typ</TableCell>
-                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>Czas</TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>
+                      <TableSortLabel
+                        active={orderBy === 'id'}
+                        direction={orderBy === 'id' ? order : 'asc'}
+                        onClick={() => handleSortRequest('id')}
+                        style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}
+                        className={classes.sortExpeditions}
+                      >
+                        ID
+                      </TableSortLabel>
+                      </TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>
+                        <TableSortLabel
+                          active={orderBy === 'name'}
+                          direction={orderBy === 'name' ? order : 'asc'}
+                          onClick={() => handleSortRequest('name')}
+                          style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}
+                          className={classes.sortExpeditions}
+                        >
+                          Nazwa
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>
+                        <TableSortLabel
+                          active={orderBy === 'expedition'}
+                          direction={orderBy === 'expedition' ? order : 'asc'}
+                          onClick={() => handleSortRequest('expedition')}
+                          style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}
+                          className={classes.sortExpeditions}
+                        >
+                          Typ
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell className={classes.expeditions_table_th} align="center" style={{color: changeUserColor(profilData.foregroundColor), borderColor: changeUserColor(profilData.foregroundColor),}}>
+                        <TableSortLabel
+                          active={orderBy === 'startTime'}
+                          direction={orderBy === 'startTime' ? order : 'asc'}
+                          onClick={() => handleSortRequest('startTime')}
+                          style={{color: changeUserColor(profilData ? profilData.foregroundColor : undefined)}}
+                          className={classes.sortExpeditions}
+                        >
+                          Czas
+                        </TableSortLabel>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
