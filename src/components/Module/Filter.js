@@ -661,9 +661,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
                     >
                       <a className={classes.tag_value} style={{borderBottom: "1px solid #5e636e", textAlign: "center"}}>Zaznacz wszystko</a>
                     </MenuItem>
-                    {optionsTag.sort((a,b) => {
-                      return a.value < b.value ? -1 : 1
-                    }).map((option, index) => (
+                    {optionsTag.map((option, index) => (
                       <MenuItem
                         key={option.value}
                         onClick={(event) => handleMenuItemClickTag(event, index)}
