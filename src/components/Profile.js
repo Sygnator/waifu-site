@@ -475,6 +475,26 @@ const Profile = (props) => {
       setOpenSnackbarSuccess(true);
     }
 
+    const sortProfileGallery = (gallery, galleryOrder) => {
+      // Sort gallery by galleryOrder
+      let newGallery = [...gallery];
+
+      if (galleryOrder.length) {
+        galleryOrder.reverse().forEach(id => {
+            if (id !== 0) {
+                const index = newGallery.findIndex(card => card.id === id);
+                if (index !== -1) {
+                    newGallery.unshift(newGallery.splice(index, 1)[0]);
+                }
+            }
+        });
+
+        return newGallery
+      } else {
+        return gallery
+      }
+    }
+
     useEffect(()=> {
         let lProfile = JSON.parse(localStorage.getItem(`u${userID}profile`))
         if (lProfile !== null && parseInt(lProfile.reqTime,10)+600000 > new Date().getTime()) {
@@ -484,8 +504,9 @@ const Profile = (props) => {
           setStatus();
           axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
               const newProfilData = res.data;
-              setProfilData(newProfilData);
-              localStorage.setItem(`u${userID}profile`, JSON.stringify({profil: newProfilData,reqTime: new Date().getTime()}));
+              const newProfileGallery = sortProfileGallery(newProfilData.gallery, newProfilData.galleryOrder)
+              setProfilData({...newProfilData, gallery: newProfileGallery});
+              localStorage.setItem(`u${userID}profile`, JSON.stringify({profil: {...newProfilData, gallery: newProfileGallery},reqTime: new Date().getTime()}));
           }).catch((error)=>{
             setStatus(404)
           })
@@ -584,7 +605,6 @@ const Profile = (props) => {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
 
-    console.log(profilData.expeditions, property);
     let sortedData = []
     if (property === "name" || property === "id") {
       sortedData = profilData.expeditions.sort((a, b) => {
