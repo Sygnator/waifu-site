@@ -40,7 +40,8 @@ import CardIcons from "./Card/CardIcons.js";
 import emoji from "./emoji.js";
 // import { ForkLeft } from '@mui/icons-material';
 
-
+// galery sorting function
+import sortProfileGallery from './Utils/sortGallery.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -479,9 +480,10 @@ const CardsDeck = (props) => {
         }
     else if(profileData===undefined) {
         await axios.get(`https://api.sanakan.pl/api/waifu/user/${userID}/profile`).then((res)=> {
-            const newProfilData = res.data;
-            setProfileData(newProfilData);
-            localStorage.setItem(`u${userID}profile`, JSON.stringify({profil: newProfilData,reqTime: new Date().getTime()}));
+            const newProfileData = res.data;
+            const newProfileGallery = sortProfileGallery(newProfileData.gallery, newProfileData.galleryOrder)
+            setProfileData({...newProfileData, gallery: newProfileGallery});
+            localStorage.setItem(`u${userID}profile`, JSON.stringify({profil: {...newProfileData, gallery: newProfileGallery}, reqTime: new Date().getTime()}));
         }).catch((error)=>{
           setStatus(404)
         })
