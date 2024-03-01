@@ -167,7 +167,7 @@ export default function ActivityList() {
                   <ListItemAvatar>
                     <Avatar
                       alt={`Avatar ${value.shindenId}`}
-                      src={value.shindenId != 0 ? `https://cdn.shinden.eu/cdn1/avatars/225x350/${value.shindenId}.jpg?v5` : ""}
+                      src={value.shindenId != 0 ? `https://cdn.shinden.eu/cdn1/avatars/225x350/${value.shindenId}.jpg?` : ""}
                     />
                   </ListItemAvatar>
                   {/* typy w zaleznosci cos */}
