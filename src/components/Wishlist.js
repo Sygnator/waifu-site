@@ -216,17 +216,22 @@ const Wishlist = (props) => {
     const [nick, setNick] = useState();
 
     useEffect(() => {
-      axios.get(`https://api.sanakan.pl/api/user/shinden/${userID}/username`).then((res)=> {
+      let lUsername = JSON.parse(localStorage.getItem(`u${userID}username`))
+      if (lUsername !== null && parseInt(lUsername.reqTime,10)+72000000 > new Date().getTime()) {
+        setNick(lUsername.name)
+      } else if(nick===undefined) {
+        axios.get(`https://api.sanakan.pl/api/user/shinden/${userID}/username`).then((res) => {
           const newNick = res.data
           setNick(newNick)
-        }).catch((error)=>{
+          localStorage.setItem(`u${userID}username`, JSON.stringify({name: newNick, reqTime: new Date().getTime()}));
+        }).catch((error) => {
 
-          const lastVisited =JSON.parse(localStorage.getItem(`lastVisited`))
+          const lastVisited = JSON.parse(localStorage.getItem(`lastVisited`))
 
-          if (lastVisited!==null) {
+          if (lastVisited !== null) {
             lastVisited.forEach(element => {
-              if(element!==null) {
-                if (element.id==userID) {
+              if (element !== null) {
+                if (element.id == userID) {
                   setNick(element.name)
                 }
               }
@@ -234,6 +239,7 @@ const Wishlist = (props) => {
           }
 
         })
+      }
     }, []);
 
     useEffect(async () => {
@@ -262,7 +268,6 @@ const Wishlist = (props) => {
                   setWlList(newWlList);
                   setStatus(-1);
               }
-              console.log("wlLista",[...newWlList]);
           }).catch((err)=>{
               setStatus(err.response.status);
           })
