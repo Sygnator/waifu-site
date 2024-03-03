@@ -30,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiInputBase-root': {
       color: '#fff',
     },
-    '& .MuiFormLabel-root': {
-      color: '#fff',
-    },
     '& .MuiIconButton-root': {
       color: '#fff',
     },
@@ -72,9 +69,6 @@ const useStyles = makeStyles((theme) => ({
       color: '#fff',
     },
     '& .MuiInputBase-root': {
-      color: '#fff',
-    },
-    '& .MuiFormLabel-root': {
       color: '#fff',
     },
     '& .MuiIconButton-root': {
@@ -232,8 +226,6 @@ export default function Asynchronous({props,userColor=false}) {
               sleep(5000)
               return res.data;
         });
-
-        // console.log(data);
 
         setOptions(data)
 

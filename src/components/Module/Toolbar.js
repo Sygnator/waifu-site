@@ -134,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     marginLeft: 20,
     marginRight: "auto",
-    display: 'none',
+    // display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'block',
     },
@@ -353,7 +353,6 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
     }
 
     if(localCardsStyle!=null) {
-      // console.log(localCardsStyle, typeof(localCardsStyle));
       setCardsStyle(localCardsStyle);
     }
 

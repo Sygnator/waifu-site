@@ -505,7 +505,6 @@ const CardsDeck = (props) => {
 
     if(profileData!=undefined) {
         await axios.post(`https://api.sanakan.pl/api/waifu/user/${userID}/cards/${(page-1)*cardsOnPage}/${cardsOnPage}`, localFilter).then((res)=> {
-                console.log(page,cardsOnPage);
                 const newWaifuCardsData = res.data.cards;
                 const totalCards = res.data.totalCards;
                 setStatus(200);
@@ -554,7 +553,6 @@ const CardsDeck = (props) => {
 
   const getWaifuCard = (waifuCard, index) => {
       const { id, imageUrl, name, animeTitle, characterUrl, whoWantsCount } = waifuCard
-      //console.log(tags)
       return (
           <Grid item key={id} style={{position: "relative"}}>
               {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
@@ -582,7 +580,6 @@ const CardsDeck = (props) => {
 
   const getWaifuSmallCard = (waifuCard, index) => {
     const { id, smallImageUrl, name, characterUrl, whoWantsCount } = waifuCard
-    //console.log(tags)
     return (
         <Grid item key={id} style={{position: "relative"}}>
             {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
@@ -780,7 +777,6 @@ const CardsDeck = (props) => {
               <>
                 <div className={classes.chip_container}>
                   {localFilter.includeTags.map((tag)=>{
-                    // console.log(emoji(tag))
                     return (<Chip className={classes.includeTags} clickable={false} label={emoji(tag.name)=='️' || ""? "Zepsuty Tag" :
                     emoji(tag.name)=="" ? "Zepsuty Tag" : emoji(tag.name)}/>) /* onDelete={handleChipDeleteInclude(tag)} />) */
                   })}{/* icon={<CheckIcon className={classes.tag_icon} />} */}

@@ -240,7 +240,7 @@ const Wishlist = (props) => {
               setCard({...newCard, date: new Date(newCard.createdAt), scalpelDate: new Date(newCard.scalpelAt)});
               setStatus(res.status)
           }).catch((error)=>{
-            console.log("eerr");
+            console.log(error);
             setStatus(404)
           })
       }

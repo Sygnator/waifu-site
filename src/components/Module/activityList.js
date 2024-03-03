@@ -115,8 +115,7 @@ export default function ActivityList() {
         } else if(activity===undefined) {
             await axios.post(`https://api.sanakan.pl/api/waifu/user/activity/12`,[]).then((res)=> {
                 const newActivity = res.data;
-                console.log(newActivity);
-            
+
                 let totalActivity = newActivity.filter((item) => {
                       return !(item.shindenId === 0 
                         || item.type === 'wonLottery'
@@ -146,8 +145,8 @@ export default function ActivityList() {
                 localStorage.setItem(`activityList`, JSON.stringify({totalActivity: [...totalActivity], reqTime: new Date().getTime()}));
                 setStatus(res.status);
             }).catch((error)=>{
-            console.log("eerr", error);
-            setStatus(404)
+                console.log("ActivityListError: ", error);
+                setStatus(404)
             })
         }
     }, []);

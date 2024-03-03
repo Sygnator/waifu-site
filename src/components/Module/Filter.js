@@ -410,10 +410,9 @@ export default function FilterAppBar({props, profileData, cardsData}) {
   const apply = () => {
     // sort data
     const orderBy = sortBy(optionsSort[selectedIndexSort]);
-    //console.log((optionsSort[selectedIndexSort]));
+
     // tag data
     const includeTags = [];
-
     const excludeTags = [];
 
     optionsTag.map((e)=>{
@@ -440,7 +439,7 @@ export default function FilterAppBar({props, profileData, cardsData}) {
       filterTagsMethod: filterTagsMethod,
     }
 
-    // console.log("filter", filter);
+    // Set local filter
     localStorage.setItem(`u${userID}filter`, JSON.stringify(filter))
     localStorage.setItem(`u${userID}dataFilter`, JSON.stringify(dataFilter))
     refreshPage()
