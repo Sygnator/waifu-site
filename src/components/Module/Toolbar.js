@@ -1,12 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import clsx from "clsx";
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
   Button,
   BottomNavigation,
   BottomNavigationAction,
@@ -31,19 +30,19 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from "@material-ui/lab/Alert";
 
-import BarChartIcon from '@mui/icons-material/BarChart';
-import HomeIcon from '@material-ui/icons/Home';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MenuIcon from '@material-ui/icons/Menu';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ViewCarouselIcon from '@material-ui/icons/ViewCarousel';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import BarChartIcon from "@mui/icons-material/BarChart";
+import HomeIcon from "@material-ui/icons/Home";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SettingsIcon from "@material-ui/icons/Settings";
+import MenuIcon from "@material-ui/icons/Menu";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 
 import Search from "./Search.js";
 import Filter from "./Filter.js";
@@ -73,13 +72,13 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     marginRight: 100,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       marginRight: 50,
     },
   },
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -87,56 +86,56 @@ const useStyles = makeStyles((theme) => ({
   },
   startButton: {
     marginRight: theme.spacing(2),
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
     },
   },
   menuButton: {
     marginRight: theme.spacing(1),
     marginLeft: "auto",
-    display: 'none',
-    [theme.breakpoints.down('sm')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.down("sm")]: {
+      display: "block",
     },
   },
   settingsButton: {
     marginRight: theme.spacing(1),
     marginLeft: theme.spacing(1),
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
     },
   },
   title: {
     maxWidth: 150,
     flexGrow: 1,
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
     },
   },
   button: {
     flexGrow: 1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
   },
   card: {
     flexGrow: 1,
     // display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
   },
   a: {
-    display: "block",
+    // display: "block",
     marginLeft: 20,
     marginRight: "auto",
-    // display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
     },
   },
   b: {
@@ -155,20 +154,20 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 105,
   },
   list: {
-    width: 250
+    width: 250,
   },
   fullList: {
-    width: "auto"
+    width: "auto",
   },
   wrapper: {
     margin: theme.spacing(1),
-    position: 'relative',
+    position: "relative",
   },
   buttonProgress: {
     color: "#3f51b5",
-    position: 'absolute',
-    top: '40%',
-    left: '40%',
+    position: "absolute",
+    top: "40%",
+    left: "40%",
     marginTop: -12,
     marginLeft: -12,
   },
@@ -181,9 +180,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgba(100, 0, 0, 0)",
       color: "#fff",
     },
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
     },
   },
 
@@ -191,14 +190,21 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 80,
     marginRight: 15,
     visibility: "hidden",
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
     },
   },
 }));
 
-export default function SearchAppBar({props, pageValue=-1, showFilter=false, profileData=null, cardsData=null, arrayExportId=[]}) {
+export default function SearchAppBar({
+  props,
+  pageValue = -1,
+  showFilter = false,
+  profileData = null,
+  cardsData = null,
+  arrayExportId = [],
+}) {
   /*
     pageValue:
     -1 - null
@@ -238,14 +244,13 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
     setOpenCardStats(false);
   };
 
-
   const changeUserColor = (pageValue, userColor) => {
-      if((pageValue===0||pageValue===1||pageValue===2)&&userColor) {
-        return userColor
-      } else {
-        return "#f50057"
-      }
-   }
+    if ((pageValue === 0 || pageValue === 1 || pageValue === 2) && userColor) {
+      return userColor;
+    } else {
+      return "#f50057";
+    }
+  };
 
   const scroll = () => {
     if (typeof window !== "undefined") {
@@ -255,12 +260,11 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
 
         // && currentScrollPos <= maxScroll
         setBar(currentScrollPos > 0);
-
-      }
+      };
     }
-  }
+  };
 
-  scroll()
+  scroll();
 
   const handleToggleFilter = () => {
     setOpenFilter((prevOpenFilter) => !prevOpenFilter);
@@ -274,21 +278,20 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
         // setSuccess(true);
         setLoading(false);
 
-        if (!(cardOnPage<100||cardOnPage>4000)) {
-          localStorage.setItem(`cardsOnPage`, JSON.stringify(cardOnPage))
-          localStorage.setItem(`cardsStyle`, JSON.stringify(cardsStyle))
+        if (!(cardOnPage < 100 || cardOnPage > 4000)) {
+          localStorage.setItem(`cardsOnPage`, JSON.stringify(cardOnPage));
+          localStorage.setItem(`cardsStyle`, JSON.stringify(cardsStyle));
           setOpenSnackbarSuccess(true);
           setOpenSettings(false);
         } else {
           setOpenSnackbarError(true);
         }
-
       }, 350);
     }
   };
 
   const handleCloseSnackbarSuccess = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -296,7 +299,7 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   };
 
   const handleCloseSnackbarError = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -306,30 +309,30 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   const menuRoute = (key) => {
     switch (key) {
       case "mainPage":
-          window.location.href=`#/`;
-          window.location.reload();
+        window.location.href = `#/`;
+        window.location.reload();
         break;
       case "profile":
-          window.location.href=`#/user/${userID}/profile`;
-          window.location.reload();
+        window.location.href = `#/user/${userID}/profile`;
+        window.location.reload();
         break;
       case "cards":
-          window.location.href=`#/user/${userID}/cards`;
-          window.location.reload();
+        window.location.href = `#/user/${userID}/cards`;
+        window.location.reload();
         break;
       case "wishlist":
-          window.location.href=`#/user/${userID}/wishlist`;
-          window.location.reload();
+        window.location.href = `#/user/${userID}/wishlist`;
+        window.location.reload();
         break;
       case "wikiPW":
-          window.location.replace(`https://wiki.sanakan.pl/`);
-          // window.location.reload();
+        window.location.replace(`https://wiki.sanakan.pl/`);
+        // window.location.reload();
         break;
 
       default:
         break;
     }
-  }
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -344,88 +347,117 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   };
 
   useEffect(() => {
-
     const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
     const localCardsStyle = JSON.parse(localStorage.getItem(`cardsStyle`));
 
-    if(localCardsOnPage!=null) {
+    if (localCardsOnPage != null) {
       setCardOnPage(localCardsOnPage);
     }
 
-    if(localCardsStyle!=null) {
+    if (localCardsStyle != null) {
       setCardsStyle(localCardsStyle);
     }
-
   }, []);
 
   const list = () => (
     <div
       className={clsx(classes.list, {
-        [classes.fullList]: "bottom"
+        [classes.fullList]: "bottom",
       })}
       role="menu"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        <ListItem button key={"mainPage"} onClick={() => {menuRoute("mainPage")}} >
+        <ListItem
+          button
+          key={"mainPage"}
+          onClick={() => {
+            menuRoute("mainPage");
+          }}
+        >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary={"Strona Główna"} />
         </ListItem>
 
-        <ListItem button key={"wikiPW"} onClick={() => {menuRoute("wikiPW")}} >
+        <ListItem
+          button
+          key={"wikiPW"}
+          onClick={() => {
+            menuRoute("wikiPW");
+          }}
+        >
           <ListItemIcon>
             <ImportContactsIcon />
           </ListItemIcon>
           <ListItemText primary={"Wiki Pocket Waifu"} />
         </ListItem>
 
-        {pageValue>-1 ? (
-        <div>
-            <ListItem button key={"profile"} onClick={() => {menuRoute("profile")}} >
-            <ListItemIcon>
+        {pageValue > -1 ? (
+          <div>
+            <ListItem
+              button
+              key={"profile"}
+              onClick={() => {
+                menuRoute("profile");
+              }}
+            >
+              <ListItemIcon>
                 <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Profil"} />
+              </ListItemIcon>
+              <ListItemText primary={"Profil"} />
             </ListItem>
-            <ListItem button key={"cards"} onClick={() => {menuRoute("cards")}} >
-            <ListItemIcon>
+            <ListItem
+              button
+              key={"cards"}
+              onClick={() => {
+                menuRoute("cards");
+              }}
+            >
+              <ListItemIcon>
                 <ViewCarouselIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Karty"} />
+              </ListItemIcon>
+              <ListItemText primary={"Karty"} />
             </ListItem>
-            <ListItem button key={"wishlist"} onClick={() => {menuRoute("wishlist")}} >
-            <ListItemIcon>
+            <ListItem
+              button
+              key={"wishlist"}
+              onClick={() => {
+                menuRoute("wishlist");
+              }}
+            >
+              <ListItemIcon>
                 <FavoriteIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Lista życzeń"} />
+              </ListItemIcon>
+              <ListItemText primary={"Lista życzeń"} />
             </ListItem>
-        </div>
-        ) : ""}
-
+          </div>
+        ) : (
+          ""
+        )}
       </List>
 
       {showFilter ? (
         <div>
+          <Divider />
+          <List>
+            <ListItem button key={"filter"} onClick={handleToggleFilter}>
+              <ListItemIcon>
+                <FilterListIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Filtry kart"} />
+            </ListItem>
+          </List>
+        </div>
+      ) : (
+        ""
+      )}
+
       <Divider />
       <List>
-        <ListItem button key={"filter"} onClick={handleToggleFilter} >
-          <ListItemIcon>
-            <FilterListIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Filtry kart"} />
-        </ListItem>
-      </List>
-      </div>
-      ) : ""}
-
-
-
-      <Divider />
-      <List>
-        <ListItem button key={"settings"} onClick={()=>setOpenSettings(true)} >
+        <ListItem button key={"settings"} onClick={() => setOpenSettings(true)}>
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
@@ -436,144 +468,249 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
   );
 
   const onKeyPress = (key) => {
-    //enter
-    if(key===13) {
-      handleChangeSettings()
+    // enter
+    if (key === 13) {
+      handleChangeSettings();
     }
-    //esc
-    if(key===27) {
-      setOpenSettings(false)
+    // esc
+    if (key === 27) {
+      setOpenSettings(false);
     }
-  }
+  };
 
-  const errorSettings = cardOnPage<100||cardOnPage>4000||openSnackbarError===true;
+  const errorSettings =
+    cardOnPage < 100 || cardOnPage > 4000 || openSnackbarError === true;
 
   const dialogSettings = () => (
-    <Dialog disableBackdropClick disableEscapeKeyDown open={openSettings} onClose={()=>setOpenSettings(false)} onKeyDown={(e)=>onKeyPress(e.keyCode)}>
+    <Dialog
+      disableBackdropClick
+      disableEscapeKeyDown
+      open={openSettings}
+      onClose={() => setOpenSettings(false)}
+      onKeyDown={(e) => onKeyPress(e.keyCode)}
+    >
       <div className={classes.wrapper}>
-    <DialogTitle>Ustawienia</DialogTitle>
-    <DialogContent>
-      <form className={classes.container}>
-        <FormControl className={classes.formControl} error={errorSettings}>
-          <FormLabel>Kart na stronie: </FormLabel>
-          <Input
-          className={classes.input}
-          value={cardOnPage}
-          disabled={loading}
-          margin="dense"
-          onChange={(event)=>setCardOnPage(event.target.value)}
-          inputProps={{
-            step: 10,
-            min: 100,
-            max: 4000,
-            type: 'number',
-            'aria-labelledby': 'input-slider',
-          }}
-        />
-        <FormHelperText component="p" variant="standard">Kart nie może być mniej niż 100 <br />oraz więcej niż 4000.</FormHelperText>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <FormLabel component="legend">Styl listy kart</FormLabel>
-          <RadioGroup aria-label="style" name="style" value={cardsStyle} onChange={(event)=>setCardsStyle(event.target.value)} >
-            <FormControlLabel value={"cards"} control={<Radio />} label="Karty" />
-            <FormControlLabel value={"list"} control={<Radio />} label="Lista" />
-            <FormControlLabel value={"small"} control={<Radio />} label="Małe karty" />
-          </RadioGroup>
-        </FormControl>
-      </form>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={()=>setOpenSettings(false)} color="primary" disabled={loading}>
-        Anuluj
-      </Button>
+        <DialogTitle>Ustawienia</DialogTitle>
+        <DialogContent>
+          <form className={classes.container}>
+            <FormControl className={classes.formControl} error={errorSettings}>
+              <FormLabel>Kart na stronie: </FormLabel>
+              <Input
+                className={classes.input}
+                value={cardOnPage}
+                disabled={loading}
+                margin="dense"
+                onChange={(event) => setCardOnPage(event.target.value)}
+                inputProps={{
+                  step: 10,
+                  min: 100,
+                  max: 4000,
+                  type: "number",
+                  "aria-labelledby": "input-slider",
+                }}
+              />
+              <FormHelperText component="p" variant="standard">
+                Kart nie może być mniej niż 100 <br />
+                oraz więcej niż 4000.
+              </FormHelperText>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <FormLabel component="legend">Styl listy kart</FormLabel>
+              <RadioGroup
+                aria-label="style"
+                name="style"
+                value={cardsStyle}
+                onChange={(event) => setCardsStyle(event.target.value)}
+              >
+                <FormControlLabel
+                  value={"cards"}
+                  control={<Radio />}
+                  label="Karty"
+                />
+                <FormControlLabel
+                  value={"list"}
+                  control={<Radio />}
+                  label="Lista"
+                />
+                <FormControlLabel
+                  value={"small"}
+                  control={<Radio />}
+                  label="Małe karty"
+                />
+              </RadioGroup>
+            </FormControl>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setOpenSettings(false)}
+            color="primary"
+            disabled={loading}
+          >
+            Anuluj
+          </Button>
 
-      <Button onClick={()=>handleChangeSettings()} color="primary" disabled={loading}>
-        Zatwierdź
-      </Button>
-      {loading && <CircularProgress size={44} className={classes.buttonProgress} />}
-
-    </DialogActions>
-  </div>
-  </Dialog>
+          <Button
+            onClick={() => handleChangeSettings()}
+            color="primary"
+            disabled={loading}
+          >
+            Zatwierdź
+          </Button>
+          {loading && (
+            <CircularProgress size={44} className={classes.buttonProgress} />
+          )}
+        </DialogActions>
+      </div>
+    </Dialog>
   );
 
   return (
     <div className={classes.root}>
-
-      <Snackbar open={openSnackbarSuccess} autoHideDuration={4000} onClose={handleCloseSnackbarSuccess} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
-          <Alert onClose={handleCloseSnackbarSuccess} severity="success">
-            Poprawnie ustawiono karty na stronie.
-          </Alert>
+      <Snackbar
+        open={openSnackbarSuccess}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbarSuccess}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseSnackbarSuccess} severity="success">
+          Poprawnie ustawiono karty na stronie.
+        </Alert>
       </Snackbar>
 
-      <Snackbar open={openSnackbarError} autoHideDuration={4000} onClose={handleCloseSnackbarError} anchorOrigin={ { vertical: 'top', horizontal: 'center' } } >
-          <Alert onClose={handleCloseSnackbarError} severity="error">
-            Błąd! Nie ustawiono poprawnie kart na stronie.
-          </Alert>
+      <Snackbar
+        open={openSnackbarError}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbarError}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseSnackbarError} severity="error">
+          Błąd! Nie ustawiono poprawnie kart na stronie.
+        </Alert>
       </Snackbar>
 
-      <AppBar position="fixed" className={bar ? classes.AppBarE : classes.AppBar}>
-        <Toolbar className={classes.Toolbar} >
-
+      <AppBar
+        position="fixed"
+        className={bar ? classes.AppBarE : classes.AppBar}
+      >
+        <Toolbar className={classes.Toolbar}>
           <a href={`#/`} className={classes.logo}>
-            <Avatar variant="square" src={`${process.env.PUBLIC_URL}/Pictures/pwlogo.png`} />
+            <Avatar
+              variant="square"
+              src={`${process.env.PUBLIC_URL}/Pictures/pwlogo.png`}
+            />
           </a>
 
           <div className={classes.a}>
-
-            {pageValue>-1 ? (
-
+            {pageValue > -1 ? (
               <BottomNavigation
                 value={pageValue}
                 showLabels
                 className={classes.b}
               >
-                <BottomNavigationAction label="Profil" icon={<AccountCircleIcon />} href={`#/user/${userID}/profile`} style={{color: pageValue===0 ? changeUserColor(pageValue, profileData ? profileData.foregroundColor : undefined) : ""}} />
-                <BottomNavigationAction label="Karty" icon={<ViewCarouselIcon />}  href={`#/user/${userID}/cards`} style={{color:pageValue===1 ? changeUserColor(pageValue, profileData ? profileData.foregroundColor : undefined) : ""}} />
-                <BottomNavigationAction className={classes.c} label="Lista życzeń" icon={<FavoriteIcon />} href={`#/user/${userID}/wishlist`} style={{color: pageValue===2 ? changeUserColor(pageValue, profileData ? profileData.foregroundColor : undefined) : ""}} />
+                <BottomNavigationAction
+                  label="Profil"
+                  icon={<AccountCircleIcon />}
+                  href={`#/user/${userID}/profile`}
+                  style={{
+                    color:
+                      pageValue === 0
+                        ? changeUserColor(
+                            pageValue,
+                            profileData
+                              ? profileData.foregroundColor
+                              : undefined
+                          )
+                        : "",
+                  }}
+                />
+                <BottomNavigationAction
+                  label="Karty"
+                  icon={<ViewCarouselIcon />}
+                  href={`#/user/${userID}/cards`}
+                  style={{
+                    color:
+                      pageValue === 1
+                        ? changeUserColor(
+                            pageValue,
+                            profileData
+                              ? profileData.foregroundColor
+                              : undefined
+                          )
+                        : "",
+                  }}
+                />
+                <BottomNavigationAction
+                  className={classes.c}
+                  label="Lista życzeń"
+                  icon={<FavoriteIcon />}
+                  href={`#/user/${userID}/wishlist`}
+                  style={{
+                    color:
+                      pageValue === 2
+                        ? changeUserColor(
+                            pageValue,
+                            profileData
+                              ? profileData.foregroundColor
+                              : undefined
+                          )
+                        : "",
+                  }}
+                />
               </BottomNavigation>
-            ) : ("")}
-
+            ) : (
+              ""
+            )}
           </div>
 
-            <BottomNavigation
-                value={0}
-                showLabels
-                className={showFilter ? classes.filter : classes.filterHidden}
-                onClick={handleClickOpenCardStats}
-            >
-                <BottomNavigationAction label="Statystyki" icon={<BarChartIcon />} />
-            </BottomNavigation>
+          <BottomNavigation
+            value={0}
+            showLabels
+            className={showFilter ? classes.filter : classes.filterHidden}
+            onClick={handleClickOpenCardStats}
+          >
+            <BottomNavigationAction
+              label="Statystyki"
+              icon={<BarChartIcon />}
+            />
+          </BottomNavigation>
 
+          <BottomNavigation
+            value={0}
+            showLabels
+            className={showFilter ? classes.filter : classes.filterHidden}
+            onClick={handleToggleFilter}
+          >
+            <BottomNavigationAction label="Filtry" icon={<FilterListIcon />} />
+          </BottomNavigation>
 
-            <BottomNavigation
-                value={0}
-                showLabels
-                className={showFilter ? classes.filter : classes.filterHidden}
-                onClick={handleToggleFilter}
-            >
-                <BottomNavigationAction label="Filtry" icon={<FilterListIcon />} />
-            </BottomNavigation>
-
-
-          <Search props={props} userColor={pageValue<=-1 ? undefined : profileData ? profileData.foregroundColor : undefined} />
+          <Search
+            props={props}
+            userColor={
+              pageValue <= -1
+                ? undefined
+                : profileData
+                ? profileData.foregroundColor
+                : undefined
+            }
+          />
 
           <Tooltip title="Ustawienia strony" arrow>
-          <IconButton
-            edge="start"
-            className={classes.settingsButton}
-            color="inherit"
-            aria-label="open settings"
-            onClick={()=>setOpenSettings(true)}
-          >
-            <SettingsIcon />
-          </IconButton>
+            <IconButton
+              edge="start"
+              className={classes.settingsButton}
+              color="inherit"
+              aria-label="open settings"
+              onClick={() => setOpenSettings(true)}
+            >
+              <SettingsIcon />
+            </IconButton>
           </Tooltip>
 
           <IconButton
             edge="menu"
             className={classes.menuButton}
-            size='large'
+            size="large"
             color="inherit"
             aria-label="open menu"
             onClick={toggleDrawer(true)}
@@ -587,20 +724,32 @@ export default function SearchAppBar({props, pageValue=-1, showFilter=false, pro
             onClose={toggleDrawer(false)}
             onOpen={toggleDrawer(true)}
           >
-          {list()}
-        </SwipeableDrawer>
+            {list()}
+          </SwipeableDrawer>
         </Toolbar>
-        {openFilter ? <Filter props={props} profileData={profileData} cardsData={cardsData}></Filter> : ""}
+        {openFilter ? (
+          <Filter
+            props={props}
+            profileData={profileData}
+            cardsData={cardsData}
+          ></Filter>
+        ) : (
+          ""
+        )}
       </AppBar>
 
       {dialogSettings()}
-      {showFilter&&openCardStats ? (<CardStats
-              {...props}
-              openCardStats={openCardStats}
-              handleCloseCardStats={handleCloseCardStats}
-              cardsData={cardsData}
-              profileData={profileData}
-      />) : ""}
+      {showFilter && openCardStats ? (
+        <CardStats
+          {...props}
+          openCardStats={openCardStats}
+          handleCloseCardStats={handleCloseCardStats}
+          cardsData={cardsData}
+          profileData={profileData}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
