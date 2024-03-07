@@ -5,11 +5,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    card_icons: {
-        margin: 0,
-        padding: 0,
-        fontFamily: "Arial",
-    },
+  card_icons: {
+    margin: 0,
+    padding: 0,
+    fontFamily: "Arial",
+  },
 }));
 
 const CardIcons = (props) => {
@@ -41,7 +41,7 @@ const CardIcons = (props) => {
         <Tooltip title={`Karta ultimate`} arrow><a>{`${isUltimate ? "🎖️" : ""}`}</a></Tooltip>
         <Tooltip title={`Na karcie został użyty skalpel`} arrow><a>{`${hasCustomImage ? "🖼️" : ""}`}</a></Tooltip>
         <Tooltip title={`Na karcie zostały użyte nożyczki`} arrow><a>{`${hasCustomBorder ? "✂️" : ""}`}</a></Tooltip>
-        <Tooltip title={`Pogarda`} arrow><a>{`${affection==="Pogarda" ? "💔" : ""}`}</a></Tooltip>
+        <Tooltip title={`Pogarda`} arrow><a>{`${/Pogarda/i.test(affection) ? "💔" : ""}`}</a></Tooltip>
         <Tooltip title={`Zablokowana`} arrow><a>{`${isTradable ? "" : "⛔"}`}</a></Tooltip>
         <Tooltip title={`Karta w klatce`} arrow><a>{`${isInCage ? "🔒" : ""}`}</a></Tooltip>
         <Tooltip title={`Karta w talii`} arrow><a>{`${isActive ? "☑️" : ""}`}</a></Tooltip>
