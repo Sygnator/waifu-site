@@ -34,7 +34,7 @@ const CardIcons = (props) => {
       <p className={classes.card_icons}>
         <Tooltip title={`Otagowana jako wymiana`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ""}`}</a></Tooltip>
         <Tooltip title={`Otagowana jako ulubione`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("ulubione") > -1 ? "💗" : ""}`}</a></Tooltip>
-        <Tooltip title={`Otagowana jako rezerwowacja`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}</a></Tooltip>
+        <Tooltip title={`Otagowana jako rezerwacja`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("rezerwacja") > -1 ? "📝" : ""}`}</a></Tooltip>
         <Tooltip title={`Otagowana jako galeria`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("galeria") > -1 ? "📌" : ""}`}</a></Tooltip>
         <Tooltip title={`Otagowana jako kosz`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("kosz") > -1 ? "🗑️" : ""}`}</a></Tooltip>
         <Tooltip title={`Karta unikatowa`} arrow><a>{`${isUnique ? "💠" : ""}`}</a></Tooltip>
