@@ -629,6 +629,8 @@ const Profile = (props) => {
           <Alert onClose={handleCloseSnackbarSuccess} severity="success"> Skopiowano polecenie zakończenia wyprawy.</Alert>
         </Snackbar>
 
+      {console.log("Profile loaded")}
+
           <Grid container className={classes.mainPage}>
             {profilData ? (
               <>
