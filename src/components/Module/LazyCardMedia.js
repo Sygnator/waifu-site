@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
 cardMedia: {
     // width: "190px",
-    margin: "auto"
+    margin: "auto",
 },
 }));
 
@@ -34,6 +34,7 @@ export default (props) => {
             image={props.image}
             className={classes.cardMedia}
             alt={props.alt}
+            style={{pointerEvents: "none"}}
             // height={props.height}
         />
         :
