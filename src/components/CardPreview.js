@@ -265,7 +265,7 @@ const Wishlist = (props) => {
       <>
         <Paper className={classes.root} >
             <div className={classes.foreground}></div>
-            <Toolbar props={props} pageValue={-1}/>
+            <Toolbar props={props} pageValue={-2}/>
           <div className={classes.shadow} ></div>
         </Paper>
         <Grid container justify="center" spacing={2} className={classes.mainPage}>

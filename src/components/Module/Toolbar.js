@@ -43,6 +43,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
+import DiamondIcon from '@mui/icons-material/Diamond';
 
 import Search from "./Search.js";
 import Filter from "./Filter.js";
@@ -207,11 +208,12 @@ export default function SearchAppBar({
 }) {
   /*
     pageValue:
+    -3 - unique cards
+    -2 - card preview
     -1 - null
     0 - profile
     1 - cards
     2 - wishlist
-    3 - unique cards
   */
 
   const classes = useStyles();
@@ -325,6 +327,10 @@ export default function SearchAppBar({
         window.location.href = `#/user/${userID}/wishlist`;
         window.location.reload();
         break;
+      case "unique-cards":
+        window.location.href = `#/cards/unique`;
+        window.location.reload();
+        break;
       case "wikiPW":
         window.location.replace(`https://wiki.sanakan.pl/`);
         // window.location.reload();
@@ -395,6 +401,19 @@ export default function SearchAppBar({
           </ListItemIcon>
           <ListItemText primary={"Wiki Pocket Waifu"} />
         </ListItem>
+
+        {pageValue === -1 ? (<ListItem
+          button
+          key={"unique-cards"}
+          onClick={() => {
+            menuRoute("unique-cards");
+          }}
+        >
+          <ListItemIcon>
+            <DiamondIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Unikatowe Karty"} />
+        </ListItem>) : ""}
 
         {pageValue > -1 ? (
           <div>
@@ -601,6 +620,12 @@ export default function SearchAppBar({
               src={`${process.env.PUBLIC_URL}/Pictures/pwlogo.png`}
             />
           </a>
+
+          {pageValue === -1 ? (<a href={`#/cards/unique`}>
+            <Tooltip title="Unikatowe karty" arrow>
+              <DiamondIcon style={{fontSize: "40px", marginTop: "8px"}} />
+            </Tooltip>
+          </a>) : ""}
 
           <div className={classes.a}>
             {pageValue > -1 ? (
