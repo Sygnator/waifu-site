@@ -151,9 +151,32 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
 
   // search  input
   const [searchData, setSearchData] = useState("");
+  const [cardIds, setCardIds] = useState([]);
 
   function inputSearch(searchDataEvent) {
+    const widRegex = /wid:\s*([0-9\s]+)/gi;
+    const widMatches = searchDataEvent.match(widRegex);
+
+    // check wids in search input
+    if (widMatches) {
+      let widList = [];
+      widMatches.forEach((match) => {
+          const numbers = match.match(/\d+/g);
+          if (numbers) {
+              numbers.forEach((number) => {
+                widList.push(number);
+              });
+          }
+      });
+
+      widList = [...new Set(widList)];
+
+      setCardIds(widList);
+      setSearchData(searchDataEvent);
+  } else {
     setSearchData(searchDataEvent);
+  }
+
   }
 
   // *
@@ -369,12 +392,15 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
 
     setFilterTagsMethod(0);
 
+    setCardIds([]);
+
     const filter = {
       orderBy: "id",
       includeTags: [],
       excludeTags: [],
       searchText: null,
       filterTagsMethod: 0,
+      cardIds:[],
     };
 
     const dataFilter = {
@@ -387,7 +413,6 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
 
     localStorage.setItem(`u${userID}filter`, JSON.stringify(filter));
     localStorage.setItem(`u${userID}dataFilter`, JSON.stringify(dataFilter));
-    // localStorage.setItem(`u${userID}test`, true)
   };
 
   const sortBy = (sortOp) => {
@@ -458,7 +483,10 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
     });
 
     // input data
-    const searchText = searchData;
+    let searchText = ""
+    if (!cardIds.length) {
+      searchText = searchData;
+    }
 
     const filter = {
       orderBy: orderBy,
@@ -466,6 +494,7 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
       excludeTags: excludeTags,
       searchText: searchText,
       filterTagsMethod: filterTagsMethod,
+      cardIds: cardIds,
     };
 
     const dataFilter = {

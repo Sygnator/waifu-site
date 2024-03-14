@@ -420,6 +420,7 @@ const CardsDeck = (props) => {
       excludeTags: [],
       searchText: null,
       filterTagsMethod: 0,
+      cardIds:[],
     };
 
     const [nick, setNick] = useState();
