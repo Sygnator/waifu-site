@@ -392,12 +392,12 @@ const CardsDeck = (props) => {
 
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(1);
-    const [cardsOnPage, setCardsOnPage] = useState(1);
+    const [cardsOnPage, setCardsOnPage] = useState(100); // static 100 cards
 
     const [status, setStatus] = useState();
 
     // Local congfig
-    const [localFilter, setLocalFilter] = useState(JSON.parse(localStorage.getItem(`UniqueFilter`)));
+    const [localFilter, setLocalFilter] = useState(JSON.parse(localStorage.getItem(`uundefinedfilter`)));
     const localCardsOnPage = JSON.parse(localStorage.getItem(`cardsOnPage`));
     const localCardsStyle = JSON.parse(localStorage.getItem(`cardsStyle`));
 
@@ -415,25 +415,27 @@ const CardsDeck = (props) => {
     }
 
     const filterUpdate = (filterData) => {
-      localStorage.setItem(`UniqueFilter`, JSON.stringify(filterData))
+      localStorage.setItem(`uundefinedfilter`, JSON.stringify(filterData))
       setLocalFilter(filterData)
-      return JSON.parse(localStorage.getItem(`UniqueFilter`));
+      return JSON.parse(localStorage.getItem(`uundefinedfilter`));
     };
 
 
   // sets cards on page
   useEffect(async () => {
-    const cardsAmount = 100;
-    if(localCardsOnPage===null) {
-        setCardsOnPage(cardsAmount)
-    } else {
+    // const cardsAmount = 100;
+    // if(localCardsOnPage===null) {
+    //     setCardsOnPage(cardsAmount)
+    // } else {
+    //     setCardsOnPage(parseInt(localCardsOnPage))
+    //     setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
+    // }    
+    if(localCardsOnPage!==null) {
         setCardsOnPage(parseInt(localCardsOnPage))
-        setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
+        setPageCount(Math.ceil(cardsOnPage/localCardsOnPage));
     }
 
-    if(localCardsOnPage===null) {
-      setPageVersion("cards")
-    } else {
+    if(localCardsStyle===null) {
       setPageVersion(localCardsStyle)
     }
   }, []);
@@ -444,10 +446,10 @@ const CardsDeck = (props) => {
       filterUpdate(emptyFilter)
     }
 
-    setCardsData(undefined)
+    //setCardsData(undefined)
 
     if (cardsOnPage > 1) {
-      await axios.post(`https://api.sanakan.pl/api/waifu/unique/cards/${(page - 1) * cardsOnPage}/${cardsOnPage}`, localFilter)
+      await axios.post(`https://api.sanakan.pl/api/waifu/unique/cards/${(page-1) * cardsOnPage}/${cardsOnPage}`, localFilter)
       .then((res) => {
         const newWaifuCardsData = res.data.cards;
         const totalCards = res.data.totalCards;
@@ -579,8 +581,8 @@ const CardsDeck = (props) => {
   };
 
   const clearData = () => {
-    localStorage.removeItem(`UniqueFilter`)
-    localStorage.removeItem(`UniqueFilter`)
+    localStorage.removeItem(`uundefinedfilter`)
+    localStorage.removeItem(`uundefineddataFilter`)
     window.location.reload()
   };
 
@@ -653,7 +655,7 @@ const CardsDeck = (props) => {
       <>
         <Paper className={classes.root} style={backgroundImg()}>
             <div className={classes.foreground} style={foregroundImg()}></div>
-            <Toolbar props={props} pageValue={-1} />
+            <Toolbar props={props} pageValue={-3} showFilter={status===200 ? true : false} profileData={""} cardsData={cardsData}/>
 
           <div className={classes.shadow} ></div>
         </Paper>

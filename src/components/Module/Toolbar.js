@@ -211,6 +211,7 @@ export default function SearchAppBar({
     0 - profile
     1 - cards
     2 - wishlist
+    3 - unique cards
   */
 
   const classes = useStyles();
@@ -663,7 +664,7 @@ export default function SearchAppBar({
             )}
           </div>
 
-          <BottomNavigation
+          {pageValue == -3 ? "" : (<BottomNavigation
             value={0}
             showLabels
             className={showFilter ? classes.filter : classes.filterHidden}
@@ -673,7 +674,7 @@ export default function SearchAppBar({
               label="Statystyki"
               icon={<BarChartIcon />}
             />
-          </BottomNavigation>
+          </BottomNavigation>)}
 
           <BottomNavigation
             value={0}

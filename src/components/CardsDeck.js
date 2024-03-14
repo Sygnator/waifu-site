@@ -472,7 +472,7 @@ const CardsDeck = (props) => {
               setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
           }
 
-          if(localCardsOnPage===null) {
+          if(localCardsStyle===null) {
             setPageVersion("cards")
           } else {
             setPageVersion(localCardsStyle)

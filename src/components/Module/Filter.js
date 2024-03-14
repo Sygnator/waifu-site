@@ -191,9 +191,9 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
   const anchorRefTag = React.useRef(null);
 
   const [optionsTag, setOptionsTag] = React.useState(
-    profileData.tagList.map((o) => {
+    profileData ? profileData.tagList.map((o) => {
       return { value: o.name, id: o.id, choice: null };
-    })
+    }) : []
   );
 
   const [upTag, setUpTag] = React.useState(false);
@@ -383,9 +383,9 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
     setSelectedIndexSort(0);
 
     setOptionsTag(
-      profileData.tagList.map((o) => {
+      profileData ? profileData.tagList.map((o) => {
         return { value: o.name, id: o.id, choice: null };
-      })
+      }) : []
     );
 
     setSearchData("");
@@ -531,33 +531,35 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
 
       const newDataNameFilter = newDataFilter.optionsTag.map((o) => o.value);
 
-      if (
-        CryptoJS.MD5(newDataNameFilter.toString()).toString() ===
-        CryptoJS.MD5(profileData.tagList.toString()).toString()
-      ) {
-        setOptionsTag(newDataFilter.optionsTag);
-      } else {
-        const newTagsR = profileData.tagList.map((o) => {
-          let choice = null;
-          newDataFilter.optionsTag.map((oo) => {
-            if (oo.value === o.name) choice = oo.choice;
+      if (profileData) {
+        if (
+          CryptoJS.MD5(newDataNameFilter.toString()).toString() ===
+          CryptoJS.MD5(profileData.tagList.toString()).toString()
+        ) {
+          setOptionsTag(newDataFilter.optionsTag);
+        } else {
+          const newTagsR = profileData.tagList.map((o) => {
+            let choice = null;
+            newDataFilter.optionsTag.map((oo) => {
+              if (oo.value === o.name) choice = oo.choice;
+            });
+            return { value: o.name, id: o.id, choice: choice };
           });
-          return { value: o.name, id: o.id, choice: choice };
-        });
-        setOptionsTag(newTagsR);
+          setOptionsTag(newTagsR);
 
-        const dataFilterR = {
-          optionsTag: newTagsR,
-          optionsSort: newDataFilter.optionsSort,
-          searchData: newDataFilter.searchData,
-          index: newDataFilter.index,
-          filterTagsMethod: newDataFilter.filterTagsMethod,
-        };
+          const dataFilterR = {
+            optionsTag: newTagsR,
+            optionsSort: newDataFilter.optionsSort,
+            searchData: newDataFilter.searchData,
+            index: newDataFilter.index,
+            filterTagsMethod: newDataFilter.filterTagsMethod,
+          };
 
-        localStorage.setItem(
-          `u${userID}dataFilter`,
-          JSON.stringify(dataFilterR)
-        );
+          localStorage.setItem(
+            `u${userID}dataFilter`,
+            JSON.stringify(dataFilterR)
+          );
+        }
       }
     }
   }, []);
@@ -653,7 +655,7 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
                       ),
                       opacity: 0.8,
                     }
-                  : {}
+                  : {backgroundColor: "#0080d8", opacity: 0.8,}
               }
             >
               Sortuj
@@ -725,7 +727,7 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
                       ),
                       opacity: 0.8,
                     }
-                  : {}
+                  : {display: "none"}
               }
             >
               Tagi
@@ -880,7 +882,7 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
                       opacity: 0.85,
                       marginLeft: 14,
                     }
-                  : { marginLeft: 14 }
+                  : { backgroundColor: "#0080d8", opacity: 0.85, marginLeft: 14 }
               }
               startIcon={<SaveIcon />}
             >
@@ -905,7 +907,7 @@ export default function FilterAppBar({ props, profileData, cardsData }) {
                 style={
                   profileData
                     ? { color: changeUserColor(profileData.foregroundColor) }
-                    : {}
+                    : { color: "#0080d8" }
                 }
                 checked={checkedSwitch}
                 onChange={handleChangeSwitch}
