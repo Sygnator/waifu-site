@@ -10,6 +10,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Link,
 } from "@material-ui/core";
 
 /* Icons */
@@ -174,6 +175,7 @@ const CardDetails = (props) => {
               {scalpelDate.getTime() > 1682892000000 && card.hasCustomImage ? (<p>
                 <b>Ustawiono obrazek: </b>{`${scalpelDate.getDate()}.${scalpelDate.getMonth() + 1 <= 9 ? `0${scalpelDate.getMonth() + 1}` : scalpelDate.getMonth() + 1}.${scalpelDate.getFullYear()} r. ${scalpelDate.getHours()}:${scalpelDate.getMinutes()<10 ? "0"+scalpelDate.getMinutes() : scalpelDate.getMinutes()}`}
               </p>) : ""}
+              {card.username ? <p><b>Należy do: </b><Link href={`#/user/${card.shindenId}/profile`} style={{color: "#f50057"}}>{card.username}</Link></p> : ""}
               <Divider />
               <p><b>Tagi: </b>{card.tags.join(", ")}</p>
             </Grid>
