@@ -44,6 +44,7 @@ import ViewCarouselIcon from "@material-ui/icons/ViewCarousel";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import DiamondIcon from '@mui/icons-material/Diamond';
+import CompareIcon from '@mui/icons-material/Compare';
 
 import Search from "./Search.js";
 import Filter from "./Filter.js";
@@ -196,6 +197,12 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
   },
+  icons: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+    },
+  },
 }));
 
 export default function SearchAppBar({
@@ -222,6 +229,11 @@ export default function SearchAppBar({
   const { match, history } = props;
   const { params } = match;
   const { userID } = params;
+
+  // Icon Hover
+  const [isIconUHovered, setIsIconUHovered] = React.useState(false);
+  const [isIconWHovered, setIsIconWHovered] = React.useState(false);
+  const [isIconSHovered, setIsIconSHovered] = React.useState(false);
 
   const [openSettings, setOpenSettings] = useState(false);
   const [cardOnPage, setCardOnPage] = useState(200);
@@ -333,7 +345,9 @@ export default function SearchAppBar({
         break;
       case "wikiPW":
         window.location.replace(`https://wiki.sanakan.pl/`);
-        // window.location.reload();
+        break;
+      case "skalpel":
+        window.location.replace(`https://skalpel.sanakan.pl/`);
         break;
 
       default:
@@ -413,6 +427,19 @@ export default function SearchAppBar({
             <DiamondIcon />
           </ListItemIcon>
           <ListItemText primary={"Unikatowe Karty"} />
+        </ListItem>) : ""}
+
+        {pageValue === -1 ? (<ListItem
+          button
+          key={"skalpel"}
+          onClick={() => {
+            menuRoute("skalpel");
+          }}
+        >
+          <ListItemIcon>
+            <CompareIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Skalpelator"} />
         </ListItem>) : ""}
 
         {pageValue > -1 ? (
@@ -621,9 +648,29 @@ export default function SearchAppBar({
             />
           </a>
 
-          {pageValue === -1 ? (<a href={`#/cards/unique`}>
+          
+          {pageValue === -1 ? (<a href={`#/cards/unique`} className={classes.icons}>
             <Tooltip title="Unikatowe karty" arrow>
-              <DiamondIcon style={{fontSize: "40px", marginTop: "8px"}} />
+              <DiamondIcon 
+                onMouseEnter={() => setIsIconUHovered(true)} 
+                onMouseLeave={() => setIsIconUHovered(false)} 
+                style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "8px", marginRight: "10px", color: isIconUHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
+            </Tooltip>
+          </a>) : ""}
+          {pageValue === -1 ? (<a href={`https://wiki.sanakan.pl/`} target="_blank" className={classes.icons}>
+            <Tooltip title="Wiki Pocket Waifu" arrow>
+              <ImportContactsIcon 
+                onMouseEnter={() => setIsIconWHovered(true)} 
+                onMouseLeave={() => setIsIconWHovered(false)} 
+                style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "6px", marginRight: "10px", color: isIconWHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
+            </Tooltip>
+          </a>) : ""}
+          {pageValue === -1 ? (<a href={`https://skalpel.sanakan.pl/`} target="_blank" className={classes.icons}>
+            <Tooltip title="Skalpelator - edytuj obrazek pod swój skalepl" arrow>
+              <CompareIcon 
+                onMouseEnter={() => setIsIconSHovered(true)} 
+                onMouseLeave={() => setIsIconSHovered(false)} 
+                style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "8px", marginRight: "10px", color: isIconSHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
             </Tooltip>
           </a>) : ""}
 
