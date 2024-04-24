@@ -558,7 +558,7 @@ const CardsDeck = (props) => {
           <Grid item key={id} style={{position: "relative"}}>
               {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
               <div class="checkboxDisplay">
-              <Tooltip title={`Zaznacz kartę`} arrow ><div className={classes.checkbox}><Checkbox className={classes.delete} style={{background: "#30333a", color: changeUserColor(profileData.foregroundColor)}} id={id} onChange={handleCheckboxChange} /></div></Tooltip>
+                <Tooltip title={`Zaznacz kartę`} arrow ><div className={classes.checkbox}><Checkbox className={classes.delete} style={{background: "#30333a", color: changeUserColor(profileData.foregroundColor)}} id={id} onChange={handleCheckboxChange} /></div></Tooltip>
               </div>
               <Card className={classes.card_item} >
                 <CardActionArea onClick={handleOpenCardDetails(index)}>
@@ -584,13 +584,9 @@ const CardsDeck = (props) => {
     return (
         <Grid item key={id} style={{position: "relative"}}>
             {whoWantsCount > 0 ? (<Tooltip title={`Liczba KC`} arrow><div className={classes.kc_circle} style={{background: changeUserColor(profileData.foregroundColor)}}>{whoWantsCount}</div></Tooltip>) : ""}
-            {/* <div className={classes.iconsSmallCards}>
-              <CardIcons
-                {...props}
-                card={waifuCard}
-                
-              />
-            </div> */}
+            <div class="checkboxDisplay">
+              <Tooltip title={`Zaznacz kartę`} arrow ><div className={classes.checkbox}><Checkbox className={classes.delete} style={{background: "#30333a", color: changeUserColor(profileData.foregroundColor)}} id={id} onChange={handleCheckboxChange} /></div></Tooltip>
+            </div>
             <Card className={classes.card_small_item} >
               <CardActionArea onClick={handleOpenCardDetails(index)}>
                 <div className={classes.card_small_img}>
@@ -613,6 +609,7 @@ const CardsDeck = (props) => {
         <TableHead className={classes.table_head}>
           <TableRow >
             <TableCell className={classes.table_th} style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} ></TableCell>
+            <TableCell className={classes.table_th} style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} ></TableCell>
             <TableCell className={classes.table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >ID</TableCell>
             <TableCell className={classes.table_th} align="right" style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Nazwa</TableCell>
             <TableCell className={classes.table_th} align="right" style={{maxWidth: 20, color: changeUserColor(profileData ? profileData.foregroundColor : undefined), borderColor: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} >Statystyki</TableCell>
@@ -620,7 +617,13 @@ const CardsDeck = (props) => {
         </TableHead>
         <TableBody className={classes.table_body} >
           {cardsData.map((card, index) => (
+            <>
             <TableRow key={card.id} onClick={handleOpenCardDetails(index)}>
+              <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2} align="center" >
+              <div class="checkboxDisplay">
+                <Tooltip title={`Zaznacz kartę`} arrow ><Checkbox style={{color: changeUserColor(profileData ? profileData.foregroundColor : undefined)}} className={classes.delete} id={card.id} onChange={handleCheckboxChange} /></Tooltip>
+              </div>
+              </TableCell>
               <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2} align="center" >
                 <div className={classes.table_image}>
                   <LazyCardMedia image={card.smallImageUrl} alt={card.id} {...props} />
@@ -638,6 +641,7 @@ const CardsDeck = (props) => {
               </TableCell>
               <TableCell className={index%2===0 ? classes.table_td1 : classes.table_td2}  align="center">❤️ {card.finalHealth} ({card.baseHealth}) 🔥 {card.attack} 🛡️ {card.defence} </TableCell>
             </TableRow>
+            </>
           ))}
         </TableBody>
       </Table>
@@ -673,9 +677,22 @@ const CardsDeck = (props) => {
   }
 
   const handleOpenCardDetails = (index) => () => {
-    window.location.href=`#/user/${userID}/card/${cardsData[index].id}`
-    setDetailsIndex(index)
-    setOpenDetails(true);
+    if (pageVersion==="list") {
+      const displayCheckbox = document.getElementsByClassName("checkboxDisplay");
+
+      for (var i = 0; i < displayCheckbox.length; i++) {
+        var element = displayCheckbox[i];
+        if (element.style.display === "none") {
+          window.location.href=`#/user/${userID}/card/${cardsData[index].id}`
+          setDetailsIndex(index)
+          setOpenDetails(true);
+        } 
+      }
+    } else {
+      window.location.href=`#/user/${userID}/card/${cardsData[index].id}`
+      setDetailsIndex(index)
+      setOpenDetails(true);
+    }
   }
 
   const handleCloseCardDetails = () => {
