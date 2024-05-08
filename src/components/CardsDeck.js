@@ -469,7 +469,7 @@ const CardsDeck = (props) => {
               setCardsOnPage(cardsAmount)
           } else {
               setCardsOnPage(parseInt(localCardsOnPage))
-              setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
+              // setPageCount(Math.ceil(cardsAmount/localCardsOnPage));
           }
 
           if(localCardsStyle===null) {
@@ -660,7 +660,6 @@ const CardsDeck = (props) => {
   };
 
   const renderPagination = (page, pageCount) => {
-
     return (
         <Grid xs={12} item justify="center" key={"pagination"}>
           <div className={classes.pagination}>
@@ -713,32 +712,6 @@ const CardsDeck = (props) => {
     }
     setDetailsIndex(detailsIndex-1);
   }
-
-  // let xxx;
-
-  // const handleChipDeleteInclude = (tag) => () => {
-  //   let newArr = []
-
-  //   const upfilter = {
-  //     orderBy: localFilter.orderBy,
-  //     includeTags: newArr,
-  //     excludeTags: localFilter.excludeTags,
-  //     searchText: localFilter.searchText
-  //   };
-
-  //   localFilter.includeTags.map((t)=> t===tag ? undefined : newArr.push(t))
-  //   setLocalFilter(upfilter);
-
-  //   clearTimeout(xxx);//not work
-  //   xxx = setTimeout(function(){
-  //     console.log("x");
-
-  //   }, 3000);
-  // }
-
-  // const handleChipDeleteExclude = (tag) => () => {
-  //   console.log("x");
-  // }
 
   const backgroundImg = (profil) => {
     return (profil===undefined||profil.backgroundImageUrl===null) ?  {backgroundImage: `url(${process.env.PUBLIC_URL}/Pictures/banner.png)`,} :
@@ -812,6 +785,7 @@ const CardsDeck = (props) => {
                   {cardsData.length===0 ? <p className={classes.error404}>Nie znaleziono kart.<p className={classes.errorCliskSpan}>Prawdopodobnie jest to spowodowane przez tagi, które oznaczyłeś <br /> lub nic tutaj się nie znajduje, aby je zrestasować kliknij <span onClick={()=>clearData()}>tutaj</span>.</p></p>
                    : (
                   <>
+                    {pageCount>1 ? renderPagination(page, pageCount) : ""}
                     {pageVersion==="list" ? getWaifuCardList(cardsData) : pageVersion==="small" ? cardsData.map((card, index)=>getWaifuSmallCard(card, index)) : cardsData.map((card, index)=>getWaifuCard(card, index))}
                     {pageCount>1 ? renderPagination(page, pageCount) : ""}
                   </>
