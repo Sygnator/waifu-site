@@ -168,6 +168,7 @@ const CardDetails = (props) => {
               <p><b>Restarty: </b>{card.restartCnt}</p>
               <p><b>Doświadczenie: </b>{`${Math.floor(card.expCnt*1000)/1000}/${card.expCntForNextLevel}`}</p>
               <p><b>Pochodzenie: </b>{card.source}</p>
+              <p><b>Zmęczenie: </b>{card.fatigue}</p>
               <p><b>Moc: </b>{Math.floor(card.cardPower*1000)/1000}</p>
               {card.isUltimate ? <p><b>Ultimate: </b>{card.ultimateQuality}</p> : ""}
               {card.whoWantsCount > 0 ? <p><b>Liczba KC: </b>{card.whoWantsCount}</p> : ""}
