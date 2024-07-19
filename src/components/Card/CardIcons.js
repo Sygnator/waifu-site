@@ -19,17 +19,17 @@ const CardIcons = (props) => {
     isActive,
     isInCage,
     isUnique,
+    isCursed,
     affection,
     isTradable,
     isUltimate,
-    whoWantsCount,
     isOnExpedition,
     hasCustomImage,
     hasCustomBorder,
   } = props.card;
 
   const classes = useStyles();
-
+  
   return (
       <p className={classes.card_icons}>
         <Tooltip title={`Otagowana jako wymiana`} arrow><a>{`${tags.map((e)=> e.toLowerCase()).indexOf("wymiana") > -1 ? "🔃" : ""}`}</a></Tooltip>
@@ -43,6 +43,7 @@ const CardIcons = (props) => {
         <Tooltip title={`Na karcie zostały użyte nożyczki`} arrow><a>{`${hasCustomBorder ? "✂️" : ""}`}</a></Tooltip>
         <Tooltip title={`Pogarda`} arrow><a>{`${/Pogarda/i.test(affection) ? "💔" : ""}`}</a></Tooltip>
         <Tooltip title={`Zablokowana`} arrow><a>{`${isTradable ? "" : "⛔"}`}</a></Tooltip>
+        <Tooltip title={`Klątwa`} arrow><a>{`${isCursed ? "💀" : ""}`}</a></Tooltip>
         <Tooltip title={`Karta w klatce`} arrow><a>{`${isInCage ? "🔒" : ""}`}</a></Tooltip>
         <Tooltip title={`Karta w talii`} arrow><a>{`${isActive ? "☑️" : ""}`}</a></Tooltip>
         <Tooltip title={`Wysoka wartość rynkowa`} arrow><a>{`${value==="high" ? "💰" : ""}`}</a></Tooltip>
