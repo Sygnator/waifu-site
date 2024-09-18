@@ -216,7 +216,8 @@ export default function SearchAppBar({
 }) {
   /*
     pageValue:
-    -3 - unique cards / ultimate cards
+    -4 - ultimate cards
+    -3 - unique cards 
     -2 - card preview
     -1 - null
     0 - profile
@@ -233,6 +234,7 @@ export default function SearchAppBar({
 
   // Icon Hover
   const [isIconUHovered, setIsIconUHovered] = React.useState(false);
+  const [isIconUuHovered, setIsIconUuHovered] = React.useState(false);
   const [isIconWHovered, setIsIconWHovered] = React.useState(false);
   const [isIconSHovered, setIsIconSHovered] = React.useState(false);
 
@@ -678,9 +680,9 @@ export default function SearchAppBar({
           {pageValue === -1 ? (<a href={`#/cards/ultimate`} className={classes.icons}>
             <Tooltip title="Karty Ultimate" arrow>
               <MilitaryTechIcon 
-                onMouseEnter={() => setIsIconUHovered(true)} 
-                onMouseLeave={() => setIsIconUHovered(false)} 
-                style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "8px", marginRight: "10px", color: isIconUHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
+                onMouseEnter={() => setIsIconUuHovered(true)} 
+                onMouseLeave={() => setIsIconUuHovered(false)} 
+                style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "8px", marginRight: "10px", color: isIconUuHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
             </Tooltip>
           </a>) : ""}
           {pageValue === -1 ? (<a href={`https://wiki.sanakan.pl/`} target="_blank" className={classes.icons}>
