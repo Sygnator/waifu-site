@@ -45,6 +45,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import DiamondIcon from '@mui/icons-material/Diamond';
 import CompareIcon from '@mui/icons-material/Compare';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 
 import Search from "./Search.js";
 import Filter from "./Filter.js";
@@ -215,7 +216,7 @@ export default function SearchAppBar({
 }) {
   /*
     pageValue:
-    -3 - unique cards
+    -3 - unique cards / ultimate cards
     -2 - card preview
     -1 - null
     0 - profile
@@ -343,6 +344,10 @@ export default function SearchAppBar({
         window.location.href = `#/cards/unique`;
         window.location.reload();
         break;
+      case "ultimate-cards":
+        window.location.href = `#/cards/ultimate`;
+        window.location.reload();
+        break;
       case "wikiPW":
         window.location.replace(`https://wiki.sanakan.pl/`);
         break;
@@ -427,6 +432,19 @@ export default function SearchAppBar({
             <DiamondIcon />
           </ListItemIcon>
           <ListItemText primary={"Unikatowe Karty"} />
+        </ListItem>) : ""}
+        
+        {pageValue === -1 ? (<ListItem
+          button
+          key={"ultimate-cards"}
+          onClick={() => {
+            menuRoute("ultimate-cards");
+          }}
+        >
+          <ListItemIcon>
+            <MilitaryTechIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Karty Ultimate"} />
         </ListItem>) : ""}
 
         {pageValue === -1 ? (<ListItem
@@ -652,6 +670,14 @@ export default function SearchAppBar({
           {pageValue === -1 ? (<a href={`#/cards/unique`} className={classes.icons}>
             <Tooltip title="Unikatowe karty" arrow>
               <DiamondIcon 
+                onMouseEnter={() => setIsIconUHovered(true)} 
+                onMouseLeave={() => setIsIconUHovered(false)} 
+                style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "8px", marginRight: "10px", color: isIconUHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
+            </Tooltip>
+          </a>) : ""}
+          {pageValue === -1 ? (<a href={`#/cards/ultimate`} className={classes.icons}>
+            <Tooltip title="Karty Ultimate" arrow>
+              <MilitaryTechIcon 
                 onMouseEnter={() => setIsIconUHovered(true)} 
                 onMouseLeave={() => setIsIconUHovered(false)} 
                 style={{transition: 'color 0.3s ease-out', fontSize: "30px", marginTop: "8px", marginRight: "10px", color: isIconUHovered ? "rgb(245, 0, 87)" : "WHITE"}} />
